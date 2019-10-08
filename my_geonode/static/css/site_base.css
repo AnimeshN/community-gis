@@ -1,8 +1,8 @@
 .navbar-brand {
-    width: 350px;
-    height: 80px;
-    background: transparent url("../img/communityGIS.svg") no-repeat;
-    background-size: 300px 70px;
+    /* width: 300px; */
+    /* height: 90px; */
+    /* background: transparent url("../img/communityGIS.png") no-repeat; */
+    /* background-size: 300px 90px; */
     background-position-y: center;
 }
 
