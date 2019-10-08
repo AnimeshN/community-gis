@@ -1,0 +1,68 @@
+{% extends 'dashboard/base.html' %}
+{% load static%}
+{% block content %}
+<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- side-bar container -->
+    <button type="button" onclick="displayPolygon()" class="btn btn-danger">damoh</button>
+</div>
+
+<script>
+(function() {
+   const NANDURBAR_LAT_LONG = [23.8323, 79.4387]; 
+   mymap.setView(NANDURBAR_LAT_LONG,9);
+})();
+
+
+
+const domain = ['https://makerghat.urbansciences.in/','http://localhost/','http://localhost:8080/'];
+var rootUrl = domain[2] + 'geoserver/geonode/ows';
+var defaultParameters = {
+service: 'WFS',
+version: '1.0.0',
+request: 'GetFeature',
+outputFormat: 'application/json'
+};
+
+
+function displayPolygon(){
+
+var tempPera = defaultParameters;
+tempPera.typeName = 'geonode:damoh';
+var parameters = L.Util.extend(tempPera);
+layer_url = rootUrl + L.Util.getParamString(parameters)
+
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+
+fetch(layer_url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(geojsonData) {
+        console.log(geojsonData.features)
+    //     
+    geojson = L.geoJson(geojsonData.features).addTo(mymap);
+        
+    mymap.spin(false);
+    // LayerList.push(geojson);
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+
+    
+}
+
+
+</script>
+
+{% endblock %}
