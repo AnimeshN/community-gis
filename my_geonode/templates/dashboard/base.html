@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{% static 'front.css' %}">
 	
@@ -76,7 +75,16 @@
 <link rel="stylesheet" href="{% static 'leaflet_measure/leaflet.measure.css' %}">
 
 
-  </head>
+<!-- leaflet-search -->
+<script src = "{% static 'leaflet-search/leaflet-search.src.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-search/leaflet-search.src.css' %}">
+
+
+<!-- leaflet minimap -->
+<script src = "{% static 'leaflet-minimap/Control.MiniMap.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-minimap/Control.MiniMap.min.css' %}">
+ 
+</head>
 
   <body>
 <style>
@@ -111,8 +119,12 @@ var source = L.wms.source(
   mymap.messagebox.options.timeout = 5000;
   mymap.messagebox.setPosition("bottomright");
   lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
+  lyrOSM2 = L.tileLayer.provider('OpenStreetMap.Mapnik');
   lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
   mymap.addLayer(lyrOSM);
+  var miniMap = new L.Control.MiniMap(lyrOSM2, { toggleDisplay: true }).addTo(mymap);
+//  var miniMap = new L.Control.MiniMap(lyrOSM).addTo(mymap);
+
 function round(value, precision) {
     var multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;
@@ -177,7 +189,6 @@ $('.select').click(function () {
   var ctlZoomslider = L.control.zoomslider({position:'topright'}).addTo(mymap);
   
   ctlAttribute = L.control.attribution({position:'bottomleft'}).addTo(mymap);
-  ctlAttribute.addAttribution('OSM');
   ctlAttribute.addAttribution('&copy; <a href="http://www.makerghat.org">makerGHAT</a>');
 
       

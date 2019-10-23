@@ -1,297 +1,133 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'geonode_base.html'%}
+{% block body %}
 {% load static%}
-{% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<style>
-    
-/* .select {
-    background:rgb(255,255,255);
-}
-.select.highlight {
-    background:rgb(26, 255, 0);
-} */
+<link rel="stylesheet" href="{% static 'tdsc/css/main.css' %}" />
 
-.info {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: white;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-}
-.info h4 {
-    margin: 0 0 5px;
-    color: #777;
-}
+<!-- Banner -->
+<!--
+    To use a video as your background, set data-video to the name of your video without
+    its extension (eg. tdsc/images/banner). Your video must be available in both .mp4 and .webm
+    formats to work correctly.
+-->
+    <!-- <section id="banner" data-video="{% static 'tdsc/images/floater.jpg' %}"> -->
+    <!-- <section id="banner" data-video="{% static 'tdsc/images/floater.jpg' %}"> -->
+        <section id="banner" style="background-image: url('{% static 'tdsc/images/floater.jpeg' %}');">
+            <!-- <a href="#" class="image fit"><img src="{% static 'tdsc/images/floater.jpg' %}" alt="" /></a> -->
 
-.legend {
-    line-height: 18px;
-    color: #555;
-}
-.legend i {
-    width: 18px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.7;
-}
+        <div class="inner">
+            <header>
+                <h1>Technology and Development Solution Cell</h1>
+                <p>Active Projects</p>
+            </header>
+            <a href="#main" class="more">Learn More</a>
+        </div>
+    </section>
+<!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+        <!-- Boxes -->
+            <div class="thumbnails">
+
+                <div class="box">
+                    <!-- <a href="https://youtu.be/s6zR2T9vn2c" class="image fit"><img src="{% static 'tdsc/images/pic01.jpg' %}" alt="" /></a> -->
+                    <div class="inner">
+                        <h3>Thakkar Buppa Yojana</h3>
+                        <p>TDSC is conducting a third-party evaluation of the Thakkar Bappa Yojana in Palghar district, by Palghar District Collector through an agreement signed in November 2016.</p>
+                        <a href="thakkar_buppa_yojana" class="button fit">Visit</a>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <!-- <a href="https://youtu.be/s6zR2T9vn2c" class="image fit"><img src="{% static 'tdsc/images/pic02.jpg' %}" alt="" /></a> -->
+                    <div class="inner">
+                        <h3>Deonadi Project</h3>
+                        <p>Deonadi river watershed covers the majority part of Sinnar taluka which falls under scarcity zone.
+                            The project is being carried out to see the stream flow pattern over the years and aims to develop a decision support system for better water management using PoCRA.
+                        </p>
+                        <a href="deonadi" class="button fit">Visit</a>
+                        
+                        <!-- <a href="https://youtu.be/s6zR2T9vn2c" class="button style2 fit" data-poptrox="youtube,800x400' %}">Watch</a> -->
+                    </div>
+                </div>
 
 
-</style>
-<!-- <div id="mapdiv" class="col-md-12"></div> -->
+                <div class="box">
+                        <!-- <a href="https://youtu.be/s6zR2T9vn2c" class="image fit"><img src="{% static 'tdsc/images/pic02.jpg' %}" alt="" /></a> -->
+                        <div class="inner">
+                            <h3>Rural Water Supply Scheme</h3>
+                            <p>RWSS is implemented in different villages of Palghar and Thane. The scheme includes the construction MBR, ESR I, ESR II, transmission main,
+                                gravity main, pump house, rising main, pumping machinery, distribution network and MSEB connection
+                                for energy need. TDSC has been empaneled for assessing this scheme</p>
+                            <a href="pwss" class="button fit">Visit</a>
+                            
+                            <!-- <a href="https://youtu.be/s6zR2T9vn2c" class="button style2 fit" data-poptrox="youtube,800x400' %}">Watch</a> -->
+                        </div>
+                    </div>
 
-<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- Main container -->
+                <!-- <div class="box">
+                    <a href="https://youtu.be/s6zR2T9vn2c" class="image fit"><img src="{% static 'tdsc/images/pic03.jpg' %}" alt="" /></a>
+                    <div class="inner">
+                        <h3>Nascetur nunc varius commodo</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                        <a href="https://youtu.be/s6zR2T9vn2c" class="button style3 fit" data-poptrox="youtube,800x400">Watch</a>
+                    </div>
+                </div>
 
-  <h2>Rural Water Supply</h2>
-  <hr>
- 
-<ul class="list-group">
-    <li class="list-group-item list-group-item-info"><b>Palgarh</b></li>
-    <li class="list-group-item list-group-item-info"><button class="btn select selectedlayer" onclick="displayLayer()";>Water stress</button></li>
- </ul> 
- <div style="text-align: center"> 
-        <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="glyphicon glyphicon-off"></span></button> 
+                <div class="box">
+                    <a href="https://youtu.be/s6zR2T9vn2c" class="image fit"><img src="{% static 'tdsc/images/pic04.jpg' %}" alt="" /></a>
+                    <div class="inner">
+                        <h3>Nascetur nunc varius commodo</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                        <a href="https://youtu.be/s6zR2T9vn2c" class="button style2 fit" data-poptrox="youtube,800x400">Watch</a>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <a href="https://youtu.be/s6zR2T9vn2c" class="image fit"><img src="{% static 'tdsc/images/pic05.jpg' %}" alt="" /></a>
+                    <div class="inner">
+                        <h3>Nascetur nunc varius commodo</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                        <a href="https://youtu.be/s6zR2T9vn2c" class="button style3 fit" data-poptrox="youtube,800x400">Watch</a>
+                    </div>
+                </div> -->
+
+                <!-- <div class="box">
+                    <a href="https://youtu.be/s6zR2T9vn2c" class="image fit"><img src="{% static 'tdsc/images/pic06.jpg' %}" alt="" /></a>
+                    <div class="inner">
+                        <h3>Nascetur nunc varius commodo</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                        <a href="https://youtu.be/s6zR2T9vn2c" class="button fit" data-poptrox="youtube,800x400">Watch</a>
+                    </div>
+                </div> -->
+
+            </div>
+
+        </div>
     </div>
-</div>
 
+<!-- Footer -->
+    <!-- <footer id="footer">
+        <div class="inner">
+            <h2>Etiam veroeros lorem</h2>
+            <p>Pellentesque eleifend malesuada efficitur. Curabitur volutpat dui mi, ac imperdiet dolor tincidunt nec. Ut erat lectus, dictum sit amet lectus a, aliquet rutrum mauris. Etiam nec lectus hendrerit, consectetur risus viverra, iaculis orci. Phasellus eu nibh ut mi luctus auctor. Donec sit amet dolor in diam feugiat venenatis. </p>
 
-    <script>
-// $("#closebutton").click(function(){
-//     ctlSidebar.toggle();
-// });
-var myLayerList = [];
-    function putLayer(geonode_source){
-        console.log('jjj');
-        mymap.setView([19.9365, 73.3404], 11);
-        var index = myLayerList.indexOf(geonode_source);
-        if(index >= 0){
-            console.log('remove'+geonode_source)
-            source.getLayer(geonode_source).addTo(mymap).remove(mymap);
-            myLayerList.splice(index,1);
+            <ul class="icons">
+                <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+            </ul>
+            <p class="copyright">&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com/">Unsplash</a>. Videos: <a href="http://coverr.co/">Coverr</a>.</p>
+        </div>
+    </footer> -->
 
-        }else{
-            console.log('add:::::'+geonode_source);
-            // info.toFront(geonode_);
-            source.getLayer(geonode_source).addTo(mymap);
-            myLayerList.push(geonode_source);
-        }
-    }
-
-
-
-
-
-var mymap;
-var geojson;
-
-var url = "http://104.210.61.129/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astress&outputFormat=application/json";
-var info = L.control();
-// var source = L.wms.source(
-// "http://localhost/geoserver/wms",
-// {
-//     "format": "image/png",
-//     "transparent": "true"
-// }        
-// );
-
-// $('.select').click(function () {
-//         $(this).toggleClass('highlight');
-
-        
-//     });
-
-// mymap = L.map('mapdiv', {center:[19.9374, 73.5364], zoom:9, zoomControl:false, attributionControl:false});
-// lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
-// lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
-// mymap.addLayer(lyrOSM);
-
-
-// objBasemaps = {
-//     "Open Street Maps": lyrOSM,
-//     "Imagery":lyrImagery
-// };
-
-// objOverlays = {
-// };
-
-// var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
-// var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
-// ctlSidebar.show();
-// var ctlPan = L.control.pan().addTo(mymap);
-
-// var ctlEasybutton = L.easyButton('glyphicon-transfer', function(){
-//     ctlSidebar.toggle(); 
-// }).addTo(mymap);
-// var ctlZoomslider = L.control.zoomslider({position:'topright'}).addTo(mymap);
-
-function getColor(d) {
-    return d > 6 ? '#FF0000' :
-           d > 2  ? '#FFFF00' :
-           d > -1  ? '#008000' :
-                      '#FFEDA0';
-}
-
-function style(feature) {
-    return {
-        fillColor: getColor(feature.properties.S_Stress),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
-    };
-}
-
-
-
-
-
-// function displayLayer(){
-// mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
-// fetch(url)
-// .then(
-//     function(response) {
-//     if (response.status !== 200) {
-//         console.log('Looks like there was a problem. Status Code: ' +
-//         response.status);
-//         return;
-//     }
-
-//     // Examine the text in the response
-//     response.json().then(function(stressData) {
-//         console.log(stressData.features)
-//         geojson = L.geoJson(stressData.features,{style: style}).addTo(mymap);
-//         mymap.setView([19.9365, 73.3404], 11);
-//         geojson = L.geoJson(stressData.features, {
-//         style: style,
-//         onEachFeature: onEachFeature
-//     }).addTo(mymap);
-//     mymap.spin(false);
-
-//     });
-
-
-//     }
-// )
-// .catch(function(err) {
-//     console.log('Fetch Error :-S', err);
-// });
-    
-// }
-
-
-function displayLayer(){
-if(mymap.hasLayer(geojson)){
-mymap.removeLayer(geojson);
-}else{
-mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
-fetch(url)
-.then(
-    function(response) {
-    if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-        response.status);
-        return;
-    }
-
-    // Examine the text in the response
-    response.json().then(function(stressData) {
-        console.log(stressData.features);
-        mymap.setView([19.9365, 73.3404], 11);
-        geojson = L.geoJson(stressData.features, {
-        style: style,
-        onEachFeature: onEachFeature
-    }).addTo(mymap);
-    mymap.spin(false);
-
-    });
-
-
-    }
-)
-.catch(function(err) {
-    console.log('Fetch Error :-S', err);
-});
-}
-
-    
-}
-
-function zoomToFeature(e) {
-    mymap.fitBounds(e.target.getBounds());
-}
-
-
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
-    });
-}
-function highlightFeature(e) {
-    var layer = e.target;
-
-    layer.setStyle({
-        weight: 5,
-        color: '#666',
-        dashArray: '',
-        fillOpacity: 0.7
-        
-    });
-    info.update(layer.feature.properties);
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
-    }
-}
-
-function resetHighlight(e) {
-    geojson.resetStyle(e.target);
-    info.update();
-}
-
-
-//  custom control 
-
-info.onAdd = function (mymap) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    this.update();
-    return this._div;
-};
-
-info.update = function (props) {
-    this._div.innerHTML = '<h4>Drinking Water stress</h4>' +  (props ?
-        '<b>District Name:</b>'+props.D_NAME + '<br /></br>'+'<b>Taluka Name:</b>'+props.T_NAME + '<br><br>' + '<b>Village Name:</b>'+props.S_Village+'<br><br>' + '<b>Shape Area:</b>'+ props.Shape_Area+'<br><br>'+'<b>Shap Length:</b>'+ props.Shape_Leng + '<br><br>' + '<b>Stress:</b>'+props.S_Stress
-        : 'Hover over a VILLAGE');
-};
-
-info.addTo(mymap);
-
-
-
-var legend = L.control({position: 'bottomright'});
-
-legend.onAdd = function (mymap) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 3, 7,],
-        labels = [];
-
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-    }
-
-    return div;
-};
-
-legend.addTo(mymap);
-
-
-
-</script>
-
+<!-- Scripts -->
+<script src="{% static 'tdsc/js/jquery.min.js' %}"></script>
+<script src="{% static 'tdsc/js/jquery.scrolly.min.js' %}"></script>
+<!-- <script src="{% static 'tdsc/js/jquery.poptrox.min.js' %}"></script> -->
+<script src="{% static 'tdsc/js/skel.min.js' %}"></script>
+<script src="{% static 'tdsc/js/util.js' %}"></script>
+<script src="{% static 'tdsc/js/main.js' %}"></script>
 
 {% endblock %}

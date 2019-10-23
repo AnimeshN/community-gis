@@ -41,6 +41,12 @@
     font-weight: bold;
 }
 
+.leaflet-tooltip.my-labels {
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  }
+
 </style>
 
 <div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- side-bar container -->
@@ -82,6 +88,8 @@
 })();
 
 var geojson;
+var searchControl;
+
 const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
 var rootUrl = domain[0] + 'geoserver/geonode/ows';
 var defaultParameters = {
@@ -120,8 +128,6 @@ $('#block').change(function () {
         tempParameter.propertyName = 'the_geom,village_na,tot_popu,area_ha,net_area,forest,area_irri';
         displayPolygon(tempParameter);  
         delete tempParameter['propertyName'];
-    
-
     }
 });
 
@@ -179,10 +185,8 @@ var markerClusters = L.markerClusterGroup({"chunkedLoading": true});
 
 
 function displayPoints(param){
-console.log(param);
 mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
 var parameters = L.Util.extend(param);
-console.log(parameters);
 point_url = rootUrl + L.Util.getParamString(parameters)
 var geojsonMarkerOptions = {
 	radius: 8,
@@ -216,7 +220,6 @@ fetch(point_url)
     pointLayerList.push(geojson);
     mymap.spin(false);
     url = "";
-
     });
 
 
@@ -231,14 +234,45 @@ fetch(point_url)
 }
 
 
+    
+function addSearchControl(layer,propertyName){
+    var searchControl = new L.Control.Search({
+    layer: layer,
+    propertyName: 'village_na',
+    marker: false,
+    moveToLocation: function(latlng, title, mymap) {
+        //map.fitBounds( latlng.layer.getBounds() );
+        console.log(latlng);
+        var zoom = mymap.getBoundsZoom(latlng.layer.getBounds());
+        mymap.setView(latlng, zoom); // access the zoom
+    }
+});
+searchControl.on('search:locationfound', function(e) {
+    e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+    if(e.layer._popup)
+        e.layer.openPopup();
+
+}).on('search:collapsed', function(e) {
+
+    featuresLayer.eachLayer(function(layer) {	//restore feature color
+        featuresLayer.resetStyle(layer);
+    });	
+});
+
+return searchControl;
+}
+
+L.Map.include({
+    hasSearchControl: function () {
+        return (this.searchControl) ? true : false;
+    }
+});
+
 
 function displayPolygon(param){
 var parameters = L.Util.extend(param);
 layer_url = rootUrl + L.Util.getParamString(parameters)
 
-if(param.typeName === 'geonode:deonadi_villages'){
-    info.addTo(mymap); 
-} 
 mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
 
 fetch(layer_url)
@@ -252,21 +286,35 @@ fetch(layer_url)
 
     // Examine the text in the response
     response.json().then(function(geojsonData) {
-        console.log(geojsonData)
+        // console.log(geojsonData)
         mymap.setView([LAT, LONG], 11);
         if(param.typeName === 'geonode:deonadi_villages'){
-        geojson = L.geoJson(geojsonData.features, {
-        style : style,
-        onEachFeature: onEachFeature
-    }).addTo(mymap);
+            propertyName = '';
+            geojson = L.geoJson(geojsonData.features, {
+                style : style,
+                onEachFeature: onEachFeature
+            });
+
+            info.addTo(mymap);
+            if(typeof searchControl === 'undefined'){
+                searchControl = addSearchControl(geojson,'village_na');
+                mymap.addControl(searchControl);
+            }
+            
+            
+
+
         }else if(param.typeName === 'geonode:major_streams_dev'){
-        geojson = L.geoJson(geojsonData.features, {style : river_style}).addTo(mymap); 
+        geojson = L.geoJson(geojsonData.features, {style : river_style}); 
         }else{
         geojson = L.geoJson(geojsonData.features, {
         style : style,
-    }).addTo(mymap);
+    });
+          
         }
-        
+
+    mymap.addLayer(geojson);
+
     mymap.spin(false);
     LayerList.push(geojson);
 
@@ -293,6 +341,12 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight,
         click: zoomToFeature
     });
+
+    layer.bindTooltip("<div style = 'text-transform: capitalize'>"+feature.properties.village_na+"</div>",{permanent: true, 
+   direction: "center",
+   className: "my-labels"});
+   
+
 }
 function highlightFeature(e) {
     var layer = e.target;

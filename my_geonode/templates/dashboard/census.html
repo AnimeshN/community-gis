@@ -44,10 +44,12 @@ table, th, td
 <div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- Main container -->
 
     <div class="field_wrapper arrange">
-     <h4>Census 2011 <br></h4>
+     <h4 style="color: brown;font-family: monospace;">Census 2011 <br></h4>
         <hr>
-        <div>Select Themes:
+        <div>
             <select class='form-control' id="amenities" >
+              <option>Select Themes</option>
+
               <option>Village Amenities</option>
               <option>Household Amenities</option>
               <option>Town Amenities</option>
@@ -113,7 +115,7 @@ table, th, td
               </optgroup>
             </select> 
     
-    
+            <br>
     
             <a href="javascript:void(0);" class="add_button" title="Add field"><button style="float: right;"><span class="fa fa-plus"></button></a>
         </div>
@@ -256,7 +258,7 @@ var listOfDistrict = ['All','Akola','Amrawati','Buldana','Yavatmal','Washim','Au
 // var houseLayerCode = ['geonode:household','geonode:h_akola','geonode:h_amravati','geonode:h_buldhana','geonode:h_yavatmal','geonode:h_washim','geonode:h_aurangabad','geonode:h_beed','geonode:h_jalna','geonode:h_osmanabad','geonode:h_nanded','geonode:h_latur','geonode:h_parbhani','geonode:h_hingoli','geonode:h_mumbai_city','geonode:h_mumbai_suburban','geonode:h_thane','geonode:h_palghar','geonode:h_raigarh','geonode:h_ratnagiri','geonode:h_sindhudurg','geonode:h_bhandara','geonode:h_gadchiroli','geonode:h_chandrapur','geonode:h_gondia','geonode:h_nagpur','geonode:h_wardha','geonode:h_ahmadnagar','geonode:h_dhule','geonode:h_jalgaon','geonode:h_nandurbar','geonode:h_nashik','geonode:h_kolhapur','geonode:h_pune','geonode:h_sangli','geonode:h_satara','geonode:h_solapur'];
 // var townLayerCode= ['geonode:town','geonode:t_akola','geonode:t_amravati','geonode:t_buldana','geonode:t_yavatmal','geonode:t_washim','geonode:t_aurangabad','geonode:t_beed','geonode:t_jalna','geonode:t_osmanabad','geonode:t_nanded','geonode:t_latur','geonode:t_parbhani','geonode:t_hingoli','geonode:t_mumbai_city','geonode:t_mumbai_suburban','geonode:t_thane','geonode:t_palghar','geonode:t_raigarh','geonode:t_ratnagiri','geonode:t_sindhudurg','geonode:t_bhandara','geonode:t_gadchiroli','geonode:t_chandrapur','geonode:t_gondiya','geonode:t_nagpur','geonode:t_wardha','geonode:t_ahmadnagar','geonode:t_dhule','geonode:t_jalgoan','geonode:t_nandurbar','geonode:t_nashik','geonode:t_kolhapur','geonode:t_pune','geonode:t_sangli','geonode:t_satara','geonode:t_solapur'];
 //var demoLayerCode = ['geonode:demography','geonode:d_akola','geonode:d_amravati','geonode:d_buldhana','geonode:d_yavatmal','geonode:d_washim','geonode:d_aurangabad','geonode:d_beed','geonode:d_jalna','geonode:d_osmanabad','geonode:d_nanded','geonode:d_latur','geonode:d_parbhani','geonode:d_hingoli','geonode:d_mumbai_city','geonode:d_mumbai_suburban','geonode:d_thane','geonode:d_palghar','geonode:d_raigarh','geonode:d_ratnagiri','geonode:d_sindhudurg','geonode:d_bhandara','geonode:d_gadchiroli','geonode:d_chandrapur','geonode:d_gondia','geonode:d_nagpur','geonode:d_wardha','geonode:d_ahmadnagar','geonode:d_dhule','geonode:d_jalgaon','geonode:d_nandurbar','geonode:d_nashik','geonode:d_kolhapur','geonode:d_pune','geonode:d_sangli','geonode:d_satara','geonode:d_solapur'];
-var villageLayerCode = ['geonode:villagenumeric','Akola','Amravati','Buldana','Yavatmal','Washim','Aurangabad','Bid','Jalna','Osmanabad','Nanded','Latur','Parbhani','Hingoli','mumbai_city','mumbai_suburban','Thane','Palghar','Raigarh','Ratnagiri','Sindhudurg','Bhandara','Gadchiroli','Chandrapur','Gondia','Nagpur','Wardha','Ahmadnagar','Dhule','Jalgaon','Nandurbar','Nashik','Kolhapur','Pune','Sangli','Satara','Solapur'];
+var villageLayerCode = ['geonode:VillageCensus_maharashtra_1_0','Akola','Amravati','Buldana','Yavatmal','Washim','Aurangabad','Bid','Jalna','Osmanabad','Nanded','Latur','Parbhani','Hingoli','mumbai_city','mumbai_suburban','Thane','Palghar','Raigarh','Ratnagiri','Sindhudurg','Bhandara','Gadchiroli','Chandrapur','Gondia','Nagpur','Wardha','Ahmadnagar','Dhule','Jalgaon','Nandurbar','Nashik','Kolhapur','Pune','Sangli','Satara','Solapur'];
 
 var houseLayerCode = ['geonode:household','Akola','Amravati','Buldana','Yavatmal','Washim','Aurangabad','Bid','Jalna','Osmanabad','Nanded','Latur','Parbhani','Hingoli','mumbai_city','mumbai_suburban','Thane','Palghar','Raigarh','Ratnagiri','Sindhudurg','Bhandara','Gadchiroli','Chandrapur','Gondia','Nagpur','Wardha','Ahmadnagar','Dhule','Jalgaon','Nandurbar','Nashik','Kolhapur','Pune','Sangli','Satara','Solapur'];
 
@@ -272,6 +274,18 @@ var districtZoom = [7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
 
 var LayerList = [];
 
+const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+
+var rootUrl = domain[0] + 'geoserver/geonode/ows';
+
+var defaultParameters = {
+service: 'WFS',
+version: '1.0.0',
+request: 'GetFeature',
+outputFormat: 'application/json'
+};
+
+
 function clearAllLayers(){
     for (var i = myDistrictLayerList.length - 1; i >= 0; i--) {
         source.getLayer(myDistrictLayerList[i]).addTo(mymap).remove(mymap);;
@@ -285,63 +299,86 @@ function clearAllLayers(){
 function addMyNewLayers(amenity,dis){
    var index = listOfDistrict.indexOf(dis);
    mymap.setView([districtLat[index], districtLong[index]], districtZoom[index]);
-  
+   
+// var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
 
-  if(amenity == 'Village Amenities'){
+
+var tempParameter = defaultParameters;
+if(amenity === 'Village Amenities'){
     if(villageLayerCode[index] == ''){
         alert('layer of '+ dis + ' not found');
     }else{
-        var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
-    layer_url =base_url + "&typeName=geonode%3Avillagenumeric&cql_filter=district_n='"+villageLayerCode[index]+"'";
-    console.log(layer_url);
-    displayPolygon(layer_url,districtLat[index],districtLong[index]);
+        tempParameter.typeName = "geonode:VillageCensus_maharashtra_1_0";
+        tempParameter.cql_filter="district_n='"+villageLayerCode[index]+"'";
+        tempParameter.propertyName="fid,the_geom,census_201,village_na,taluka_nam,govt_pre_1,govt_pri_1,tot_popu";
 
-    //    console.log(layer_url);
+        displayPolygon(tempParameter,districtLat[index],districtLong[index]);
+        //  console.log(tempParameter);
+        legend.addTo(mymap);
+        info.addTo(mymap);
 
         myDistrictLayerList.push(villageLayerCode[index]);
         } 
     }
-    else if(amenity == 'Household Amenities'){
+else if(amenity === 'Household Amenities'){
     if(houseLayerCode[index] == ''){
         alert('layer of '+ dis + ' not found');
     }else{
-        var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
-    layer_url =base_url + "&typeName=geonode%3Ahousehold&cql_filter=district_n='"+houseLayerCode[index]+"'";
-    displayPolygon(layer_url,districtLat[index],districtLong[index]);
+        tempParameter.typeName = "geonode:household";
+        tempParameter.cql_filter="district_n='"+houseLayerCode[index]+"'";
+        tempParameter.propertyName="fid,the_geom,census_201,area_name,taluka_nam,district_n,msdw_taput,mroof_gra,plat_vent,nobathroom";
+        info.addTo(mymap);
+        mymap.removeControl(legend);
+        //tempParameter.propertyName="id,the_geom,district_n,area_name,tot_p,tot_f,tot_m,p_ill,p_lit";    
+    //     var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
+    // layer_url =base_url + "&typeName=geonode%3Ahousehold&cql_filter=district_n='"+houseLayerCode[index]+"'";
+    displayPolygon(tempParameter,districtLat[index],districtLong[index]);
 
-    //    console.log(layer_url);
+    //  console.log(tempParameter);
 
-        myDistrictLayerList.push(houseLayerCode[index]);
+     myDistrictLayerList.push(houseLayerCode[index]);
         } 
     }
     else if(amenity == 'Town Amenities'){
     if(townLayerCode[index] == ''){
         alert('layer of '+ dis + ' not found');
     }else{
-        var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
-    layer_url =base_url + "&typeName=geonode%3Atown&cql_filter=district_n='"+townLayerCode[index]+"'";
-    displayPolygon(layer_url,districtLat[index],districtLong[index]);
+        tempParameter.typeName = "geonode:town";
+        tempParameter.cql_filter="district_n='"+townLayerCode[index]+"'";
+        tempParameter.propertyName="fid,the_geom,census_201,district_n,town_name,civic_stat,sex_rati_2,tot_pop";
+        legend.addTo(mymap);
+        info.addTo(mymap);
 
-    //    console.log(layer_url);
+        //tempParameter.propertyName="id,the_geom,district_n,area_name,tot_p,tot_f,tot_m,p_ill,p_lit";    
+         
+    //var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
+    // layer_url =base_url + "&typeName=geonode%3Atown&cql_filter=district_n='"+townLayerCode[index]+"'";
+    displayPolygon(tempParameter,districtLat[index],districtLong[index]);
+
+    // //    console.log(layer_url);
 
         myDistrictLayerList.push(townLayerCode[index]);
         } 
     }
-    else if(amenity == 'Demographics'){
+    else if(amenity === 'Demographics'){
     if(demoLayerCode[index] == ''){
         alert('layer of '+ dis + ' not found');
     }else{
+        tempParameter.typeName = "geonode:maha_demography";
+        tempParameter.cql_filter="district_n='"+demoLayerCode[index]+"'";
+        tempParameter.propertyName="id,the_geom,district_n,area_name,tot_p,tot_f,tot_m,p_ill,p_lit";
+        legend.addTo(mymap);
+        info.addTo(mymap);
+
         // source.getLayer(demoLayerCode[index]).addTo(mymap);
-    var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
+    //var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
     //var base_url = "http://localhost/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
-    layer_url =base_url + "&typeName=geonode%3Amaha_demography&cql_filter=district_n='"+demoLayerCode[index]+"'";
-    console.log(layer_url);
+    //layer_url =base_url + "&typeName=geonode%3Amaha_demography&cql_filter=district_n='"+demoLayerCode[index]+"'";
+        //console.log(layer_url);
     
-    displayPolygon(layer_url,districtLat[index],districtLong[index]);
+     displayPolygon(tempParameter,districtLat[index],districtLong[index]);
 
-    //    console.log(layer_url);
-
-        myDistrictLayerList.push(demoLayerCode[index]);
+         myDistrictLayerList.push(demoLayerCode[index]);
         } 
     }
 
@@ -413,18 +450,55 @@ info.onAdd = function (mymap) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4 class= "text-center">Village Information</h4><hr>' +  (props ?
+    var amenity = document.getElementById('amenities').value;
+
+    // console.log(amenity);
+    if(amenity === 'Demographics'){
+        this._div.innerHTML = '<h4 class= "text-center">Demographics Information</h4><hr>' +  (props ?
         "<table><tr><td>District Name</td><td><b>"+props.district_n+"<b></td></tr>"+
-        "<tr><td>Village Name</td><td>"+props.village_na+"</td></tr>"+
-        "<tr><td>Total Population</td><td>"+props.tot_popu+"</td></tr>"+
-        "<tr><td>Total Female Population</td><td>"+props.tot_popu_f+"</td></tr>"+
-        "<tr><td>Total Male Population</td><td>"+props.tot_popu_m+"</td></tr>"+
+        "<tr><td>Village Name</td><td>"+props.area_name+"</td></tr>"+
+        "<tr><td>Total Population</td><td>"+props.tot_p+"</td></tr>"+
+        "<tr><td>Total Female Population</td><td>"+props.tot_f+"</td></tr>"+
+        "<tr><td>Total Male Population</td><td>"+props.tot_m+"</td></tr>"+
         "<tr><td>Illetrate population</td><td>"+props.p_ill+"</tr>"+
         "<tr><td>Literate: Population</td><td>"+props.p_lit+"</tr></table>"
-        : 'Please hover over a village');
+        : 'Please hover over the Area');
+    }else if (amenity === 'Town Amenities'){
+        this._div.innerHTML = '<h4 class= "text-center">Town Information</h4><hr>' +  (props ?
+        "<table><tr><td>Census Code</td><td><b>"+props.census_201+"<b></td></tr>"+
+        "<tr><td>District Name</td><td><b>"+props.district_n+"<b></td></tr>"+
+        "<tr><td>Town Name</td><td>"+props.town_name+"</td></tr>"+
+        "<tr><td>Civic Status</td><td>"+props.civic_stat+"</td></tr>"+
+        "<tr><td>Sex Ratio 2011</td><td>"+props.sex_rati_2+"</td></tr></table>"
+        // "<tr><td>Road distance to Railway Station</td><td>"+props.tot_mpop+"</td></tr>"
+        // "<tr><td>Road distance to Bus Stand</td><td>"+props.tot_mpop+"</td></tr>"
+            : 'Please hover over the Town');
+    }else if (amenity === 'Household Amenities'){
+        this._div.innerHTML = '<h4 class= "text-center">Household Information</h4><hr>' +  (props ?
+        "<table><tr><td>Census Code</td><td><b>"+props.census_201+"<b></td></tr>"+
+        "<tr><td>Area Name</td><td><b>"+props.area_name+"<b></td></tr>"+
+        "<tr><td>Taluka Name</td><td><b>"+props.taluka_nam+"<b></td></tr>"+
+        "<tr><td>District Name</td><td><b>"+props.district_n+"<b></td></tr>"+    
+        "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>"+props.msdw_taput+"<b></td></tr>"+    
+        "<tr><td>% of Thratched Roof type</td><td><b>"+props.mroof_gra+"<b></td></tr>"+    
+        "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>"+props.plat_vent+"<b></td></tr>"+    
+        "<tr><td>% sof Bathroom without Roof</td><td><b>"+props.nobathroom+"<b></td></tr></table>"
+            : 'Please hover over the Area');
+    }else if (amenity === 'Village Amenities'){
+        this._div.innerHTML = '<h4 class= "text-center">Village Information</h4><hr>' +  (props ?
+        "<table><tr><td>Census Code</td><td><b>"+props.census_201+"<b></td></tr>"+
+        "<tr><td>Village Name</td><td><b>"+props.village_na+"<b></td></tr>"+
+        "<tr><td>Taluka Name</td><td><b>"+props.taluka_nam+"<b></td></tr>"+
+        "<tr><td>Number of Govt Pre-Primary School</td><td><b>"+props.govt_pre_1+"<b></td></tr>"+
+        "<tr><td>Number of Govt Primary School</td><td><b>"+props.govt_pri_1+"<b></td></tr></table>"
+            : 'Please hover over a Village');
+    }
+    
+
+
+
 };
 
-info.addTo(mymap);
 
 function getColor(d) {
     return d > 5000 ? '#008080' :
@@ -435,13 +509,32 @@ function getColor(d) {
 }
 
 function style(feature) {
-    return {
+    if(feature.properties.tot_p){
+        return {
         fillColor: getColor(feature.properties.tot_p),
         weight: 3,
         opacity: 1,
         color: 'white',
         fillOpacity: 0.9
     };
+    }else if(feature.properties.tot_pop){
+        return {
+        fillColor: getColor(feature.properties.tot_pop),
+        weight: 3,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.9
+    };
+    }else if(feature.properties.tot_popu){
+        return {
+        fillColor: getColor(feature.properties.tot_popu),
+        weight: 3,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.9
+    };
+    }
+    
 }
 
 var legend = L.control({position: 'bottomright'});
@@ -463,14 +556,15 @@ legend.onAdd = function (mymap) {
     return div;
 };
 
-legend.addTo(mymap);
 
 
 
-function displayPolygon(layer_url,lat,long){
-// if(mymap.hasLayer(geojson)){
-// mymap.removeLayer(geojson);
-// }else{
+
+
+function displayPolygon(param_obj,lat,long){
+
+var parameters = L.Util.extend(param_obj);
+layer_url = rootUrl + L.Util.getParamString(parameters)
 LayerList.forEach(layer => mymap.removeLayer(layer));
 // console.log(layer_url);
 mymap.spin(true,{lines: 15, length: 1, width: 50, scale: 200,radius: 200, color: "grey"});
@@ -485,7 +579,7 @@ fetch(layer_url)
 
     // Examine the text in the response
     response.json().then(function(geojsonData) {
-        console.log(geojsonData.features);
+        // console.log(geojsonData.features);
         mymap.setView([lat, long], 11);
         geojson = L.geoJson(geojsonData.features, {
         style : style,
@@ -513,54 +607,7 @@ function removeMyNewLayers(amenity,dis){
 
 }
 
-// function downloadTheseLayers(anemity,dis){
-//   var index = listOfDistrict.indexOf(dis);
-//   var geonodecode = '';
-//   if (anemity == 'Village Amenities'){
-//     if(villageLayerCode[index] == ''){
-//         alert('layer of '+ dis + ' not found');
-//     }else{
-//     geonodecode = villageLayerCode[index];
-//     }
-// }
-  
-//   else if(anemity == 'Town Amenities'){
-//     if(townLayerCode[index] == ''){
-//         alert('layer of '+ dis + ' not found');
-//     }else{
-//     geonodecode = townLayerCode[index];
-//     }
-// }
-  
-//   else if(anemity == 'Demographies'){
-//     if(demoLayerCode[index] == ''){
-//         alert('layer of '+ dis + ' not found');
-//     }else{
-//     geonodecode = demoLayerCode[index];
-//     }
-// }
-    
-    
-// else if(anemity == 'Household Amenities'){
-//     if(houseLayerCode[index] == ''){
-//         alert('layer of '+ dis + ' not found');
-//     }else{
-//     geonodecode = houseLayerCode[index];
-//     }
-// }
 
-//     else{
-//     alert('Data for '+anemity+' not Populated');
-//     }
-//    if (geonodecode != ''){
-//     var code = geonodecode.substring(8, );
-//     console.log(code);
-//     url = "http://104.210.61.129/geoserver/wfs?format_options=charset%3AUTF-8&typename=geonode%3A"+code+"&outputFormat=SHAPE-ZIP&version=1.0.0&service=WFS&request=GetFeature&";
-//     window.open(url,code); 
-//    }
-   
-
-// }
 </script>
 
 
