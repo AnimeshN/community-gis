@@ -60,9 +60,12 @@
              <div class="tooltips" title="Please select the Block">
                 <select class = 'form-control' id="block" name="block">
                     <option>Select layer</option>
-                             <option> Deonadi Streams</option>
+                             <option> Drainage in deonadi basin</option>
                              <option> Deonadi Basin Villages</option>
                              <option> Wells in catchment area</option>
+                             <option> Deonadi basin landuse 2005-06</option>
+                             <option> Deonadi basin landuse 2011-12</option>
+                             <option> Deonadi catchment soil depth</option>
 
                 </select>
             </div>
@@ -82,10 +85,8 @@
 
 
 <script>
-(function() {
-   const SINNER_LAT_LONG = [19.8427, 74.0770]; 
-   mymap.setView(SINNER_LAT_LONG,11);
-})();
+const SINNER_LAT_LONG = [19.8427, 74.0770]; 
+mymap.setView(SINNER_LAT_LONG,11);
 
 var geojson;
 var searchControl;
@@ -107,13 +108,20 @@ var layer_name;
 var LayerList = [];
 var pointLayerList = [];
 const LAT = 19.8427, LONG = 74.0770;
-const TYPENAME = {'Deonadi Basin Villages':'geonode:deonadi_villages','Deonadi Streams':'geonode:major_streams_dev','Wells in catchment area':'geonode:deonadi_wells'};
+const TYPENAME = {'Deonadi Basin Villages':'geonode:deonadi_villages',
+'Drainage in deonadi basin':'geonode:deonadi_drainage',
+'Wells in catchment area':'geonode:deonadi_wells',
+'Deonadi basin landuse 2005-06':'geonode:deonadi_landuse_2005_06',
+'Deonadi basin landuse 2011-12':'geonode:deonadi_landuse_2011_12',
+'Deonadi catchment soil depth':'geonode:deonadi_soil'
+};
 var tempParameter;
+var soil_legend;
 $('#block').change(function () {
     clear_layer();        
     var deo = document.getElementById('block').value;
     var tempParameter = defaultParameters;
-    if(deo === 'Deonadi Streams'){
+    if(deo === 'Drainage in deonadi basin'){
         tempParameter.typeName = TYPENAME[deo]; 
         displayPolygon(tempParameter);
         tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
@@ -128,6 +136,11 @@ $('#block').change(function () {
         tempParameter.propertyName = 'the_geom,village_na,tot_popu,area_ha,net_area,forest,area_irri';
         displayPolygon(tempParameter);  
         delete tempParameter['propertyName'];
+    }else if (deo ==='Deonadi catchment soil depth'){
+        putWMSLayer(TYPENAME[deo]);
+    }else{
+        tempParameter.typeName = TYPENAME[deo]; 
+        displayPolygon(tempParameter);
     }
 });
 
@@ -272,7 +285,9 @@ L.Map.include({
 function displayPolygon(param){
 var parameters = L.Util.extend(param);
 layer_url = rootUrl + L.Util.getParamString(parameters)
-
+if(soil_legend){
+    mymap.removeControl(soil_legend);
+}
 mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
 
 fetch(layer_url)
@@ -334,6 +349,37 @@ function zoomToFeature(e) {
     mymap.fitBounds(e.target.getBounds());
 }
 
+function putWMSLayer(geonode_source){
+        // var index = myLayerList.indexOf(geonode_source);
+        // if(index >= 0){
+        //     source.getLayer(geonode_source).addTo(mymap).remove(mymap);
+        //     myLayerList.splice(index,1);
+
+        // }else{
+            var options = {format: 'image/png','transparent': true};
+            // source.getLayer(geonode_source,options).addTo(mymap);
+            // var soil = L.WMS.layer("http://104.210.61.129/geoserver/wms", "geonode:deonadi_soil", options);
+            // soil.addTo(mymap);
+
+
+   
+
+
+
+            var deonadi_soil = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+            layers: 'geonode:deonadi_soil',
+            format: 'image/png',
+            transparent: true,
+            });
+            deonadi_soil.addTo(mymap);
+            LayerList.push(deonadi_soil);
+            
+            lagendGraphic = "https://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=geonode:deonadi_soil"
+            soil_legend = L.wmsLegend(lagendGraphic);
+            
+
+
+    }
 
 function onEachFeature(feature, layer) {
     layer.on({

@@ -4,8 +4,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <style>
     
-.select {
-    background:rgb(255,255,255);
+.btn {
+    /* background:rgb(255, 255, 255); */
+    margin-bottom: 5px;
 }
 .select.highlight {
     background:rgb(26, 255, 0);
@@ -25,8 +26,8 @@
 
 }
 
-.active, .collapsible:hover {
-  background-color: #000;
+.active, .select:hover {
+  background-color: #777;
 }
 
 .content {
@@ -38,563 +39,261 @@
 }
 
 
+.popupimage{
+  width: 500px;
+}
+
+.leaflet-popup-content-wrapper {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+}
+
+.heading{
+    font-size: 20px;
+    background-color: rgba(192, 211, 192, 0.315);
+    text-align: center;
+    font-weight: 500;
+
+    border: 2px solid rgba(255, 0, 0, 0);
+    border-radius: 15px;
+    
+
+}
 </style>
 
 <div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- Main container -->
 
-  <h2>SWM</h2>
+  <h2 style="text-align: center;">Solid Waste Management</h2>
   <hr>
  
-<ul class="list-group">
-    <button class="collapsible" onclick="putLayer('geonode:mmrda')">MMRDA Boundary</button>
-    <button class="collapsible">Mumbai</button>
-        <div class="content">
-                <button class="collapsible">Mumbai Census Boundary</button>
-                <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:mumbai_sub_census')";>Suburban</button></li>
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:mumbai_city_census')";>City</button></li>
-                </div>
-                <button class="collapsible" onclick="putLayer('geonode:corporator_ward_boundaries')">Corporator Ward Boundary</button>
-                <div class="content">
-                        <!--li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:constituency_ward_boundary')";>Update in Progress....</button></li-->
-                </div>
-                <!-- <button class="collapsible" onclick="putLayer('geonode:mmrda')">MMRDA Boundary</button> -->
-                <div class="content">
-                        <!--li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:constituency_ward_boundary')";>Update in Progress....</button></li-->
-                </div>
-                <button class="collapsible" onclick="putLayer('geonode:mumbai_road_network1')">Mumbai OSM Roads</button>
-                <div class="content">
-                        <!--li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:constituency_ward_boundary')";>Update in Progress....</button></li-->
-                </div>
 
-                <button class="collapsible"  onclick="putLayer('geonode:mumbai_ward_boundary_10jun')" >Mumbai Ward Boundary</button>
-                <div class="content">
-                        <!--li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li-->
-                </div>
-    <!--L-ward start here-->
-            <button class="collapsible">L-ward</button>
-                <div class = "content">
-                        
 
-                        <button class="collapsible">Residence</button>
-                        <div class="content">
-                        <button class="collapsible">Surveyed buildings/Complexes/Colonies</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:rajeha')";>Raheja</button></li>
-                            </div>
-                            <button class="collapsible">OSM buildings</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:osm_building_L_ward')";>L-Ward</button></li>
-                            </div>
-                            <button class="collapsible">Chawls</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">Slums</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">Sourced from Voterlist</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                             
-                    </div>
-                    <button class="collapsible">Commercial</button>
-                        <div class="content">
-                        <button class="collapsible">Markets</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Hotels</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Malls</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Shopping Complexes</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Others</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    <button class="collapsible">Religious</button>
-                        <div class="content">
-                        <button class="collapsible">Churches</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Gurudwaras</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Temples</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Masjids</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    <button class="collapsible">Roads</button>
-                        <div class="content">
-                        <button class="collapsible">OSM Roads</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:mumbai_road_network1')";>Mumbai OSM Roads</button></li>
-                        </div>
-                        <button class="collapsible">National Higways</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">State High Ways</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">BMC Roads</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Lanes</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    
-                    <button class="collapsible">DP Polygons</button>
-                        <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:l_ward_15may')";>DP Polygons</button></li>
-                            </div> 
-                    <button class="collapsible">Bin Collection Centres</button>
-                        <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">Dry waste MRF</button>
-                        <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">Others</button>
-                        <div class="content">
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:l_ward_village_boundary_20may19')";>Village Boundary</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:planning_sector_l_ward')";>Planning Sector</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:l_ward_rivers_poly')";>River</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:railway_tracks_l_ward')";>Railway Track-Station</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:metro_line_1_l_ward')";>Metro Rail Line-1</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:metro_line_2_3_l_ward')";>Metro Rail Line-2,3</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:high_voltage_lines_l_ward')";>High Voltage Line</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:buffer_for_railway_l_ward')";>Buffer For Railway</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:buffer_for_high_voltage_lines_l_ward')";>Buffer For High Voltage Line</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>High Tide Line (Update in progress)</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:crz_buffer')";>CRZ Buffer</button></li>
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                
-                </div>
-    <!--S-ward start here-->
-    <button class="collapsible">S-ward</button>
-        <div class="content">
-                <button class="collapsible">Residence</button>
-                <div class="content">
-                <button class="collapsible">Surveyed buildings/Complexes/Colonies</button>
-                    <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">OSM buildings</button>
-                    <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_osm_buildings')";>S-Ward</button></li>
-                    </div>
-                    <button class="collapsible">Chawls</button>
-                    <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">Slums</button>
-                    <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_slum_baundry_3july_kajal')";>S-Ward</button></li>
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">Sourced from Voterlist</button>
-                    <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                     
-            </div>
-            <button class="collapsible">Commercial</button>
-                <div class="content">
-                <button class="collapsible">Markets</button>
-                    <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">Hotels</button>
-                    <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">Malls</button>
-                    <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">Shopping Complexes</button>
-                    <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">Others</button>
-                    <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-            </div>
-            <button class="collapsible">Religious</button>
-                <div class="content">
-                <button class="collapsible">Churches</button>
-                <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">Gurudwaras</button>
-                <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">Temples</button>
-                <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">Masjids</button>
-                <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-            </div>
-            <button class="collapsible">Roads</button>
-                <div class="content">
-                <button class="collapsible">OSM Roads</button>
-                <div class="content">
-                         <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:mumbai_road_network1')";>Mumbai OSM Roads</button></li>
-                </di     v>
-                <but     ton class="collapsible">National Higways</button>
-                <div      class="content">
-                         <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </di     v>
-                <button class="collapsible">State High Ways</button>
-                <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">BMC Roads</button>
-                <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-                <button class="collapsible">Lanes</button>
-                <div class="content">
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                </div>
-            </div>
-        </div>
-            </div>
-            
-            <button class="collapsible">DP Polygons</button>
-                <div class="content">
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_all_polygone_1')";>DP Polygons</button></li>
-            </div>
-            <button class="collapsible">Bin Collection Centres</button>
-                <div class="content">
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-            </div>
-            <button class="collapsible">Dry waste MRF</button>
-                <div class="content">
-                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-            </div>
-            <button class="collapsible">Others</button>
-                <div class="content">
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_village_boundary_15jan_dhiraj')";>Village Boundary</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_wrad_planningsector_15jan_dhiraj')";>Planning Sector</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_river_kajal')";>River</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_railwaytrack_station_15jan_dhiraj')";>Railway Track-Station</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_pond_18th_jan_digvijay')";>Ponds</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_metrorailline1_station_15jan_dhiraj')";>Metro Rail Line-Station</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_high_voltage_line_16jan_kajal')";>High Voltage Line</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_flyover_bridge_17jan_kajal')";>Flyover Bridge</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_bufferforrailway_15jan_dhiraj')";>Buffer For Railway</button></li>
-            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:s_ward_buffer_for_high_voltage_line_17jan_kaj')";>Buffer For High Voltage Line</button></li>
-            </div>
-        </div>
+    <section class = 'heading'>Mumbai</section><br>
+    <button class="btn select" onclick="putLayer('geonode:mmrda','mumbai')">MMRDA Boundary</button>
+    <button class="btn select" onclick="putLayer('geonode:mumbai_sub_census','mumbai')">Suburban</button>
+    <button class="btn select" onclick="putLayer('geonode:mumbai_city_census','mumbai')">Mumbai City</button>
+    <!-- <button class="btn select" onclick="putLayer('geonode:mmrda')">Corporator Ward Boundary</button> -->
+    <!-- <button class="btn select" onclick="putLayer('geonode:mmrda')">Road Network</button> -->
+    <button class="btn select" onclick="putLayer('geonode:mumbai_ward_boundary_10jun','mumbai')">Ward</button><br><br>
+
+    <section class = 'heading'>L-ward</section><br>
+    <button class="btn select" onclick="putLayer('geonode:l_ward_15may','lward')">DP polygon</button>
+    <button class="btn select" onclick="putLayer('geonode:railway_tracks_l_ward','lward')">Railway Track Station</button>
+    <button class="btn select" onclick="putLayer('geonode:railway_tracks_l_ward','lward')">Railway buffer</button>
     
-        
-    <!--HWest-ward start here-->
-    <button class="collapsible">HWest-ward</button>
-        <div class="content">
-            <button class="collapsible">Residence</button>
-                        <div class="content">
-                        <button class="collapsible">Surveyed buildings/Complexes/Colonies</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:hw_building_seggregation_wise')";>Seggregation Wise</button></li>
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Composting Wise(update in progress)</button></li>
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Weight Wise(update in progress)</button></li>
+    <button class="btn select" onclick="putLayer('geonode:rajeha','lward')">Surveyed Building</button>
+    <button class="btn select" onclick="putLayer('geonode:metro_line_1_l_ward','lward')">Metro Rail Line 1</button>
+    <button class="btn select" onclick="putLayer('geonode:metro_line_2_3_l_ward','lward')">Metro Rail Line 2 and 3</button>
+    <button class="btn select" onclick="putLayer('geonode:high_voltage_lines_l_ward','lward')">High voltage Line</button>
+    <button class="btn select" onclick="putLayer('geonode:buffer_for_high_voltage_lines_l_ward','lward')">HVL buffer</button>
+    <button class="btn select" onclick="putLayer('geonode:crz_buffer','lward')">CRZ buffer</button><br><br>
 
 
-                            </div>
-                            <button class="collapsible">OSM buildings</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">Chawls</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">Slums</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">Sourced from Voterlist</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                             
-                    </div>
-                    <button class="collapsible">Commercial</button>
-                        <div class="content">
-                        <button class="collapsible">Markets</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Hotels</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Malls</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Shopping Complexes</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Others</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    <button class="collapsible">Religious</button>
-                        <div class="content">
-                        <button class="collapsible">Churches</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Gurudwaras</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Temples</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Masjids</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    <button class="collapsible">Roads</button>
-                        <div class="content">
-                        <button class="collapsible">OSM Roads</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:mumbai_road_network1')";>Mumbai OSM Roads</button></li>
-                        </div>
-                        <button class="collapsible">National Higways</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">State High Ways</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">BMC Roads</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Lanes</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    
-                    <button class="collapsible">DP Polygons</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:hw_ward_workinprogress')";>DP Polygons In Progress....</button></li>
-                        </div>
-                    <button class="collapsible">Bin Collection Centres</button>
-                        <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">Dry waste MRF</button>
-                        <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">Others</button>
-                        <div class="content">
-                            <button class="collapsible">Railway Lines</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Metro Lines</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">etc</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-        </div>
 
 
-    <!--MWest-ward start here-->        
-    <button class="collapsible">MWest-ward</button>
-        <div class="content">
-            <button class="collapsible">Residence</button>
-                        <div class="content">
-                        <button class="collapsible">Surveyed buildings/Complexes/Colonies</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">OSM buildings</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">Chawls</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">Slums</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                            <button class="collapsible">Sourced from Voterlist</button>
-                            <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                            </div>
-                             
-                    </div>
-                    <button class="collapsible">Commercial</button>
-                        <div class="content">
-                        <button class="collapsible">Markets</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Hotels</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Malls</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Shopping Complexes</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Others</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    <button class="collapsible">Religious</button>
-                        <div class="content">
-                        <button class="collapsible">Churches</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Gurudwaras</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Temples</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Masjids</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    <button class="collapsible">Roads</button>
-                        <div class="content">
-                        <button class="collapsible">OSM Roads</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:mumbai_road_network1')";>Mumbai OSM Roads</button></li>
-                        </div>
-                        <button class="collapsible">National Higways</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">State High Ways</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">BMC Roads</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Lanes</button>
-                        <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-                    
-                    <button class="collapsible">DP Polygons</button>
-                        <div class="content">
-                                <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:ward_polygon_mw')";>DP Polygons</button></li>
-                            </div>
-                    <button class="collapsible">Bin Collection Centres</button>
-                        <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">Dry waste MRF</button>
-                        <div class="content">
-                        <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                    </div>
-                    <button class="collapsible">Others</button>
-                        <div class="content">
-                            <button class="collapsible">Railway Lines</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">Metro Lines</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                        <button class="collapsible">etc</button>
-                            <div class="content">
-                            <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:')";>Update in Progress....</button></li>
-                        </div>
-                    </div>
-        </div>
+    <section class = 'heading'>S-ward</section><br>
+    <button class="btn select" onclick="putLayer('geonode:s_ward_all_polygone_1','sward')">DP polygon</button>
+    <button class="btn select" onclick="putLayer('geonode:s_ward_railwaytrack_station_15jan_dhiraj','sward')">Railway Track Station</button>
+    <button class="btn select" onclick="putLayer('geonode:s_ward_bufferforrailway_15jan_dhiraj','sward')">Railway buffer</button>
+    <button class="btn select" onclick="putLayer('geonode:s_ward_metrorailline1_station_15jan_dhiraj','sward')">Metro Rail Line-Station</button>
+    <button class="btn select" onclick="putLayer('geonode:s_ward_pond_18th_jan_digvijay','sward')">Ponds</button>
+    <button class="btn select" onclick="putLayer('geonode:s_ward_high_voltage_line_16jan_kajal','sward')">High voltage Line</button>
+    <button class="btn select" onclick="putLayer('geonode:s_ward_bufferforrailway_15jan_dhiraj','sward')">HVL buffer</button>
+    <button class="btn select" onclick="putLayer('geonode:s_ward_flyover_bridge_17jan_kajal','sward')">Flyover Bridge</button><br><br>
 
-    </div>
-        
-</ul> 
+    <section class = 'heading'>H west-ward</section><br>
+    <button class="btn select" onclick="putLayer('geonode:hwest_osm_buildings','hwestward')">Buildings</button><br><br>
+
+
+
+    <section class = 'heading'>Pune</section><br>
+    <button class="btn btn-primary" onclick="displayPolygon('building_footprint')">Building Footprint</button>
+    <button class="btn btn-primary" onclick="displayPolygon('road_Network')">Road Network</button>
+    <button class="btn btn-primary" onclick="displayPoint()">Waste Collection Points</button>
+    <button class="btn btn-danger" onclick="clearLayer()">Clear Layer</button>
+
+    
 <div style="text-align: center"> 
         <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="glyphicon glyphicon-off"></span></button> 
     </div> 
-    </div>
+</div>
 
 
     <script>
        
      var myLayerList = [];
-    function putLayer(geonode_source){
-        mymap.setView([19.1056518,72.7815566], 11.75);
+     var LayerList = [];
+     function setmap(area){
+        if(area === 'mumbai'){
+            mymap.setView([19.1056518,72.7815566], 11);
+        }else if(area === 'lward'){
+            mymap.setView([19.0790, 72.9080], 13);
+        }else if(area === 'sward'){
+            mymap.setView([19.1334, 72.9133], 13);
+        }else if(area === 'hwestward'){
+            mymap.setView([19.06251,72.8276],16);
+        }
+
+     }
+    function putLayer(geonode_source,area){
+        setmap(area);
         var index = myLayerList.indexOf(geonode_source);
         if(index >= 0){
-            console.log('remove'+geonode_source)
+            // console.log('remove'+geonode_source)
             source.getLayer(geonode_source).addTo(mymap).remove(mymap);
             myLayerList.splice(index,1);
 
         }else{
-            console.log('add'+geonode_source);
+            // console.log('add'+geonode_source);
             // info.toFront(geonode_);
             source.getLayer(geonode_source).addTo(mymap);
             myLayerList.push(geonode_source);
         }
     }
+
+
+const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+
+var rootUrl = domain[0] + 'geoserver/geonode/ows';
+
+var defaultParameters = {
+service: 'WFS',
+version: '1.0.0',
+request: 'GetFeature',
+outputFormat: 'application/json'
+};
+
+
+function clearLayer(){
+    LayerList.forEach(layer => mymap.removeLayer(layer));
+    
+}
+
+function style(feature) {
+    if(feature.properties.highway){
+        return{
+        fillColor: "#fff",
+        weight: 2,
+        opacity: 1,
+        color: 'black',
+        fillOpacity: 0
+        }
+    }else{
+        return {
+        fillColor: '#f00',
+		weight: 2,
+		opacity: 1,
+		color: 'white',
+		fillOpacity: 0.7
+    };
+    }
+    
+}
+
+
+function displayPolygon(option){
+tempURL = defaultParameters;
+if(option==='building_footprint'){
+tempURL.typeName = 'geonode:pune_buildings';
+}else if(option ==='road_Network'){
+    tempURL.typeName = 'geonode:pune_roads_geo';
+}
+
+var parameters = L.Util.extend(tempURL);
+layer_url = rootUrl + L.Util.getParamString(parameters);
+// LayerList.forEach(layer => mymap.removeLayer(layer));
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+
+fetch(layer_url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(geojsonData) {
+        mymap.setView([18.59414,73.79907], 16);
+        geojson = L.geoJson(geojsonData.features, {
+        style : style
+    }).addTo(mymap);
+    LayerList.push(geojson);
+    mymap.spin(false);
+
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+
+    
+}
+
+function onEachFeaturePoint(feature, layer) {
+	// does this feature have a property named popupContent?
+    var str1 = "<img class = 'popupimage' src='/static/swm/swm_pune_pics/".concat(feature.properties.Name);
+    var str2 = str1.concat("' alt='talian Trulli'>");
+    layer.bindPopup(str2);
+
+	
+}
+function displayPoint(){
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+tempURL = defaultParameters;
+tempURL.typeName = 'geonode:pune_photo_loc';
+var parameters = L.Util.extend(tempURL);
+point_url = rootUrl + L.Util.getParamString(parameters)
+var geojsonMarkerOptions = {
+	radius: 8,
+	fillColor: "#ff7800",
+	color: "#000",
+	weight: 1,
+	opacity: 1,
+	fillOpacity: 0.8
+};
+
+fetch(point_url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(stressData) {
+        mymap.setView([18.59376,73.79308],16);
+        geojson = L.geoJson(stressData.features,{
+	    pointToLayer: function (feature, latlng) {
+		return L.circleMarker(latlng, geojsonMarkerOptions);
+	},onEachFeature: onEachFeaturePoint
+});
+    LayerList.push(geojson);
+    mymap.addLayer(geojson);
+    mymap.spin(false);
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+
+    
+}
+
+
+
+
 
     $('.select').click(function () {
         $(this).toggleClass('highlight')
@@ -617,45 +316,6 @@ for (i = 0; i < coll.length; i++) {
 }
     </script>
 
-<!-- <div id="mapdiv" class="col-md-12"></div>
-<script>
-var mymap;
-            
-            var source = L.wms.source(
-                "http://makerghat.urbansciences.in/geoserver/wfs",
-                {
-                    "format": "image/png",
-                    "transparent": "true"
-                }        
-                );
-            
-        
-                mymap = L.map('mapdiv', {center:[19.1056518,72.7815566], zoom:11.75, zoomControl:false, attributionControl:false});
-                lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
-                lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
-                mymap.addLayer(lyrOSM);
-                
-                
-                objBasemaps = {
-                    "Open Street Maps": lyrOSM,
-                    "Imagery":lyrImagery
-                };
-                
-                objOverlays = {
-                };
-                
-                var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
-                
 
-               
-                var ctlPan = L.control.pan().addTo(mymap);
-                var ctlZoomslider = L.control.zoomslider({position:'topright'}).addTo(mymap);
-                
-                var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
-                var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
-                 var ctlEasybutton = L.easyButton('glyphicon-transfer', function(){
-                   ctlSidebar.toggle(); 
-                }).addTo(mymap);          
-</script> -->
 
 {% endblock %}

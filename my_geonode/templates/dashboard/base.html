@@ -84,6 +84,16 @@
 <script src = "{% static 'leaflet-minimap/Control.MiniMap.min.js' %}"></script>
 <link rel="stylesheet" href="{% static 'leaflet-minimap/Control.MiniMap.min.css' %}">
  
+
+
+<!-- leaflet lagend graphic -->
+
+<script src = "{% static 'leaflet-legend-graphics/leaflet.wmslegend.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-legend-graphics/leaflet.wmslegend.css' %}">
+
+<!-- <link rel="stylesheet" href=""/>
+<script src="leaflet-legend-graphics/leaflet.wmslegend.js"></script> -->
+
 </head>
 
   <body>
@@ -100,6 +110,7 @@
 
 <script>
 var mymap;
+
 var source = L.wms.source(
       "http://104.210.61.129/geoserver/wms",
       {
