@@ -289,6 +289,7 @@ function style(feature) {
 
 function display_layer(assessment){
     var name_and_icons = fetch_layer_name();
+    console.log(name_and_icons);
     if(typeof name_and_icons[1] === 'undefined'){
         mymap.messagebox.show('Please select block and structure');
 
@@ -351,9 +352,9 @@ var geticon = function(){
 }
 
 
-function displayPoints(layer_name,assessment){
-pointLayerList.forEach(layer => mymap.removeLayer(layer));
-mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+function displayPoints(layer_name,assessment){ // displayPoints('geonode:Rahejavihar')
+pointLayerList.forEach(layer => mymap.removeLayer(layer));//for removeing layer
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});//add spin
 url = base_url + "&typeName=geonode%3A" + layer_name;
 fetch(url)
 .then(
@@ -366,7 +367,7 @@ fetch(url)
 
     // Examine the text in the response
     response.json().then(function(stressData) {
-
+        console.log(stressData.features);
         geojson = L.geoJson(stressData.features, {
             pointToLayer: function (feature, latlng) {
                 if(feature.properties.Final_Asse === 'OK'){
