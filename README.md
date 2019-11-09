@@ -12,3 +12,21 @@ This is inspired by ideas as in 'p2p governance' of Bowens ( https://blog.p2pfou
 * Django 1.11.22
 * PostgreSQL 11.5
 * Leaflet 1.5
+
+# How to setup for development
+
+* Go through the link to setup geonode
+http://docs.geonode.org/en/2.10.x/install/project/index.html
+
+* clone this repository 
+
+* rename it to my_geonode
+
+* stop paver 
+
+* replace /opt/geonode_custom/my_geonode with community-gis(my_geonode)
+
+* download following folder and copy geoserver and downloaded folder inside my_geonode folder
+https://drive.google.com/open?id=1tEgBTgk3ovWdrfecLAbMVRIPDxeHpmm1
+
+* start paver
