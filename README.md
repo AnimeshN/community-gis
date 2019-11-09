@@ -6,7 +6,6 @@ This is inspired by ideas as in 'p2p governance' of Bowens ( https://blog.p2pfou
 
 
 # Build using
-
 * Geonode 2.10
 * Python 2.7
 * Django 1.11.22
