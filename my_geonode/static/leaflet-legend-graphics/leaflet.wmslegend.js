@@ -56,6 +56,6 @@ L.Control.WMSLegend = L.Control.extend({
 L.wmsLegend = function (uri) {
     var wmsLegendControl = new L.Control.WMSLegend;
     wmsLegendControl.options.uri = uri;
-    map.addControl(wmsLegendControl);
+    mymap.addControl(wmsLegendControl);
     return wmsLegendControl;
 };

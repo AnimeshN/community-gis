@@ -61,31 +61,17 @@ def tdsc(request):
     return render(request,'dashboard/tdsc.html')
 
 def test_animesh(request):
-    theme_name = "Deonadi Project Dashboard"
-    options = {'1':'Deonadi Basin Villages',
-                '2':'Drainage in deonadi basin',
-                '3':'Wells in catchment area',
-                '4':'Deonadi basin landuse 2005-06',
-                '5':'Deonadi basin landuse 2011-12',
-                '6':'Deonadi catchment soil depth'
-               }
-    return render(request,'dashboard/test.html',{'title': theme_name,'options':options})
+    return render(request,'dashboard/test.html')
 
 def tby(request):
     return render(request,'dashboard/tby.html')
 
 
 def deonadi(request):
-    theme_name = "Deonadi Project Dashboard"
-    options = {'1':'Deonadi Basin Villages',
-                '2':'Drainage in deonadi basin',
-                '3':'Wells in catchment area',
-                '4':'Deonadi basin landuse 2005-06',
-                '5':'Deonadi basin landuse 2011-12',
-                '6':'Deonadi catchment soil depth'
-               }
-    return render(request,'dashboard/tnc.html',{'title': theme_name,'options':options})
+    return render(request,'dashboard/tnc.html')
 
+def pwss(request):
+    return render(request,'dashboard/pwss.html')
 
 # def front(request):
 # 	return render(request,'map/front.html')
