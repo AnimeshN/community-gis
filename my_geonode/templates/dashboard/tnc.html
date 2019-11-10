@@ -1,432 +1,84 @@
-{% extends 'dashboard/base.html' %}
 {% load static%}
-{% block content %}
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-<script src="{% static 'js/indexdb.js' %}"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}}</title>
+    <link rel="stylesheet" href="{% static 'tdsc/deonadi/deonadi.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet-legend-graphics/leaflet.wmslegend.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet.css' %}" >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'leaflet-search/leaflet-search.src.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+</head>
+<div class="wrapper">
+    <!-- div1 -->
+    <div class="header">
+        <div class="logo">
+                <img src="{% static 'images/logo.png' %}" alt="Smiley face" height="40" width="220"> 
+        </div>
+        <div class="project-title">{{ title }}</div>
 
-<!-- <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" /> -->
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
- 
-<!-- <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script> -->
-<!-- <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script> -->
-<script type='text/javascript' src='https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js'></script>
-
-
-<style>
-
-.info {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-}
-.info h4 {
-    margin: 0 0 5px;
-    color: #777;
-}
-
-
-
-/* css to customize Leaflet default styles  */
-.leaflet-popup-content-wrapper {
-    background: rgba(0, 0, 0, 0.9);
-    color: #ffffff;
-}
-
-.leaflet-popup-content{
-    font-weight: bold;
-}
-
-.leaflet-tooltip.my-labels {
-  background-color: transparent;
-  border: transparent;
-  box-shadow: none;
-  }
-
-</style>
-
-<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- side-bar container -->
-
-  <h2 class="text-center">Deonadi Project<br></h2>
-  <hr>
- <!-- Tab for Report , Dashboard , Query Builder -->
-
-           
-
-             <div class="tooltips" title="Please select the Block">
-                <select class = 'form-control' id="block" name="block">
-                    <option>Select layer</option>
-                             <option> Drainage in deonadi basin</option>
-                             <option> Deonadi Basin Villages</option>
-                             <option> Wells in catchment area</option>
-                             <option> Deonadi basin landuse 2005-06</option>
-                             <option> Deonadi basin landuse 2011-12</option>
-                             <option> Deonadi catchment soil depth</option>
-
-                </select>
-            </div>
-
-
-
-       
-            <div style="text-align: center"> 
-                <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="fa fa-power-off"></span></button> 
-            </div>
+        <div class="header-right">
+                <a class = 'btn btn-secondary' class="active" href="/">Home</a>
+                <a class = 'btn btn-secondary' href="/dashboard">Themes</a>
+                <a class = 'btn btn-secondary' href="tdsc">TDSC</a>
         </div>
 
+        
+        
+    </div>
+    <!-- div2 -->
+    <div class="map-div" id="map"></div>
+    <!-- div3 -->
+    <div class="side-bar" id="side-bar">
+            <div id="selector" class="btn-group-vertical mb-2">
+                <button type="button" class="btn btn-info disabled">{{ options.8}}</button>
+                <button type="button" class="btn btn-light">{{ options.2}}</button>
+                <button type="button" class="btn btn-light">{{ options.1}}</button>
+                <button type="button" class="btn btn-light">{{ options.3}}</button>
+                <button type="button" class="btn btn-light">{{ options.4}}</button>
+                <button type="button" class="btn btn-light">{{ options.5}}</button>
+                <button type="button" class="btn btn-light">{{ options.6}}</button>
+                <button type="button" class="btn btn-light">{{ options.7}}</button>
 
+            </div>
+    </div>
 </div>
+<script src="{% static 'leaflet-src.js' %}" ></script>
 
-<!-- Tab ends here -->
-
-
-<script>
-const SINNER_LAT_LONG = [19.8427, 74.0770]; 
-mymap.setView(SINNER_LAT_LONG,11);
-
-var geojson;
-var searchControl;
-
-const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
-var rootUrl = domain[0] + 'geoserver/geonode/ows';
-var defaultParameters = {
-service: 'WFS',
-version: '1.0.0',
-request: 'GetFeature',
-outputFormat: 'application/json'
-};
-
-var info = L.control();
-var attribute_table = L.control({position: 'bottomright'});
-var layer_name;
+<script src = "{% static 'leaflet-legend-graphics/leaflet.wmslegend.js' %}"></script>
+<script type='text/javascript' src='https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js'></script>
+<script src="{% static 'tdsc/js/jquery.min.js' %}"></script>
+<script src="{% static 'spin/dist/spin.min.js'%}" ></script>
+<script src="{% static 'leaflet.spin.min.js' %}"></script>
+<script src = "{% static 'leaflet-search/leaflet-search.src.js' %}"></script>
 
 
-var LayerList = [];
-var pointLayerList = [];
-const LAT = 19.8427, LONG = 74.0770;
-const TYPENAME = {'Deonadi Basin Villages':'geonode:deonadi_villages',
-'Drainage in deonadi basin':'geonode:deonadi_drainage',
-'Wells in catchment area':'geonode:deonadi_wells',
-'Deonadi basin landuse 2005-06':'geonode:deonadi_landuse_2005_06',
-'Deonadi basin landuse 2011-12':'geonode:deonadi_landuse_2011_12',
-'Deonadi catchment soil depth':'geonode:deonadi_soil'
-};
-var tempParameter;
-var soil_legend;
-$('#block').change(function () {
-    clear_layer();
-    if(soil_legend){
-    mymap.removeControl(soil_legend);
-    }        
-    var deo = document.getElementById('block').value;
-    var tempParameter = defaultParameters;
-    if(deo === 'Drainage in deonadi basin'){
-        // tempParameter.typeName = TYPENAME[deo]; 
-        // displayPolygon(tempParameter);
-        putWMSLayer(TYPENAME[deo]);
-        tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
-        displayPolygon(tempParameter);      
-    }else if(deo === 'Wells in catchment area'){
-        tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
-        displayPolygon(tempParameter);
-        tempParameter.typeName = TYPENAME[deo]; 
-        displayPoints(tempParameter);
-    }else if(deo === 'Deonadi Basin Villages'){
-        tempParameter.typeName = TYPENAME[deo]; 
-        tempParameter.propertyName = 'the_geom,village_na,tot_popu,area_ha,net_area,forest,area_irri';
-        displayPolygon(tempParameter);  
-        delete tempParameter['propertyName'];
-    }else{
-        putWMSLayer(TYPENAME[deo]);
+<!-- leaflet-messagebox-->
+<script src = "{% static 'leaflet-messagebox.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-messagebox.css' %}">
 
-    }
-});
+<script src="{% static 'plugins/leaflet-providers.js' %}"></script>
+<!-- leaflet minimap -->
+<script src = "{% static 'leaflet-minimap/Control.MiniMap.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-minimap/Control.MiniMap.min.css' %}">
+
+<!-- leaflet-controlpan -->
+<link rel="stylesheet" href="{% static 'plugins/L.Control.Pan.css' %}">
+<script src="{% static 'plugins/L.Control.Pan.js' %}" ></script>
+
+<!-- leaflet-zoomslider -->
+<link rel="stylesheet" href="{% static 'plugins/L.Control.Zoomslider.css' %}">
+<script src="{% static 'plugins/L.Control.Zoomslider.js' %}" ></script>
 
 
-
-function getColor(d) {
-    return d > 6 ? '#FF0000' :
-           d > 2  ? '#FFFF00' :
-           d > -1  ? '#008000' :
-                      '#FFEDA0';
-}
-
-
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-function style(feature) {
-    return {
-        weight: 2,
-        opacity: 1,
-        color: "black",
-        fillOpacity: 0
-    };
-}
-
-function river_style(feature) {
-    return {
-        weight: 2,
-        opacity: 1,
-        color: 'blue',
-        fillOpacity: 1
-    };
-}
-
-
-
-
-function clear_layer(){
-    LayerList.forEach(layer => mymap.removeLayer(layer));
-}
-
-function onEachFeaturePoint(feature, layer) {
-	// does this feature have a property named popupContent?
-		layer.bindPopup(feature.properties.Name);
-	
-}
-var markerClusters = L.markerClusterGroup({"chunkedLoading": true});
-
-
-
-function displayPoints(param){
-mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
-var parameters = L.Util.extend(param);
-point_url = rootUrl + L.Util.getParamString(parameters)
-var geojsonMarkerOptions = {
-	radius: 8,
-	fillColor: "#ff7800",
-	color: "#000",
-	weight: 1,
-	opacity: 1,
-	fillOpacity: 0.8
-};
-
-fetch(point_url)
-.then(
-    function(response) {
-    if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-        response.status);
-        return;
-    }
-
-    // Examine the text in the response
-    response.json().then(function(stressData) {
-        geojson = L.geoJson(stressData.features,{
-	    pointToLayer: function (feature, latlng) {
-		return L.circleMarker(latlng, geojsonMarkerOptions);
-	},onEachFeature: onEachFeaturePoint
-});
-
-    markerClusters.addLayer(geojson);
-    mymap.addLayer(markerClusters);
-    LayerList.push(markerClusters);
-    pointLayerList.push(geojson);
-    mymap.spin(false);
-    url = "";
-    });
-
-
-    }
-)
-.catch(function(err) {
-    console.log('Fetch Error :-S', err);
-});
-// }
-
+<!-- basic scrits -->
+<script src="{% static 'tdsc/js/tdsc_leaflet_plugin.js' %}"></script>
+<script src="{% static 'tdsc/deonadi/deonadi.js' %}"></script>
+<body>
     
-}
-
-
-    
-function addSearchControl(layer,propertyName){
-    var searchControl = new L.Control.Search({
-    layer: layer,
-    propertyName: 'village_na',
-    marker: false,
-    moveToLocation: function(latlng, title, mymap) {
-        //map.fitBounds( latlng.layer.getBounds() );
-        console.log(latlng);
-        var zoom = mymap.getBoundsZoom(latlng.layer.getBounds());
-        mymap.setView(latlng, zoom); // access the zoom
-    }
-});
-searchControl.on('search:locationfound', function(e) {
-    e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
-    if(e.layer._popup)
-        e.layer.openPopup();
-
-}).on('search:collapsed', function(e) {
-
-    featuresLayer.eachLayer(function(layer) {	//restore feature color
-        featuresLayer.resetStyle(layer);
-    });	
-});
-
-return searchControl;
-}
-
-L.Map.include({
-    hasSearchControl: function () {
-        return (this.searchControl) ? true : false;
-    }
-});
-
-
-function displayPolygon(param){
-var parameters = L.Util.extend(param);
-layer_url = rootUrl + L.Util.getParamString(parameters)
-
-mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
-
-fetch(layer_url)
-.then(
-    function(response) {
-    if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-        response.status);
-        return;
-    }
-
-    // Examine the text in the response
-    response.json().then(function(geojsonData) {
-        // console.log(geojsonData)
-        mymap.setView([LAT, LONG], 11);
-        if(param.typeName === 'geonode:deonadi_villages'){
-            propertyName = '';
-            geojson = L.geoJson(geojsonData.features, {
-                style : style,
-                onEachFeature: onEachFeature
-            });
-
-            info.addTo(mymap);
-            if(typeof searchControl === 'undefined'){
-                searchControl = addSearchControl(geojson,'village_na');
-                mymap.addControl(searchControl);
-            }
-            
-            
-
-
-        }else if(param.typeName === 'geonode:major_streams_dev'){
-        geojson = L.geoJson(geojsonData.features, {style : river_style}); 
-        }else{
-        geojson = L.geoJson(geojsonData.features, {
-        style : style,
-    });
-          
-        }
-
-    mymap.addLayer(geojson);
-
-    mymap.spin(false);
-    LayerList.push(geojson);
-
-    });
-
-
-    }
-)
-.catch(function(err) {
-    console.log('Fetch Error :-S', err);
-});
-
-    
-}
-
-function zoomToFeature(e) {
-    mymap.fitBounds(e.target.getBounds());
-}
-
-
-function addWMSLegend(layer){
-    lagendGraphic = "https://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+layer;
-    soil_legend = L.wmsLegend(lagendGraphic);
-}
-function putWMSLayer(layer){
-      
-            var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
-            layers: layer,
-            format: 'image/png',
-            transparent: true,
-            style:""
-            });
-            wms_layer.addTo(mymap);
-            LayerList.push(wms_layer);
-            console.log(wms_layer);
-            addWMSLegend(layer);
-            
-            
-
-
-    }
-
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
-    });
-
-    layer.bindTooltip("<div style = 'text-transform: capitalize'>"+feature.properties.village_na+"</div>",{permanent: true, 
-   direction: "center",
-   className: "my-labels"});
-   
-
-}
-function highlightFeature(e) {
-    var layer = e.target;
-
-    layer.setStyle({
-        weight: 5        
-    });
-    info.update(layer.feature.properties);
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
-    }
-}
-
-function resetHighlight(e) {
-    geojson.resetStyle(e.target);
-    info.update();
-}
-
-
-
-var info = L.control({position: 'bottomright'});
-
-info.onAdd = function (mymap) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    this.update();
-    return this._div;
-};
-
-
-info.update = function (props) {
-    this._div.innerHTML = '' +  (props ?
-    "<table class = 'info-class' ><tr><td>Village Name</td><td style = 'text-transform: capitalize'><b>"+props.village_na+"<b></td></tr>"+
-        "<tr><td>Total Population</td><td>"+props.tot_popu+"</td></tr>"+
-        "<tr><td>Area:</td><td>"+props.area_ha+"</td></tr>"+
-        "<tr><td>Net Area Sown (in Hectares)</td><td>"+props.net_area+"</td></tr>"+
-        "<tr><td>Forest Area (in Hectares)</td><td>"+props.forest+"</tr>"+
-        "<tr><td>Area Irrigated by Source (in Hectares)<b></td><td>"+props.area_irri+"</td></tr></table>"
-        : 'Hover over a village');
-};
-
-</script>
-
-{% endblock %}
-
-
-
+</body>
+</html>

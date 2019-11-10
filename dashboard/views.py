@@ -61,7 +61,17 @@ def tdsc(request):
     return render(request,'dashboard/tdsc.html')
 
 def test_animesh(request):
-    return render(request,'dashboard/test.html')
+    theme_name = "Deonadi Project Dashboard"
+    options = {'1':'Deonadi Basin Villages',
+                '2':'Drainage in deonadi basin',
+                '3':'Wells in catchment area',
+                '4':'Deonadi basin landuse 2005-06',
+                '5':'Deonadi basin landuse 2011-12',
+                '6':'Deonadi catchment soil depth',
+                '7':'Deonadi catchment contour line',
+                '8':'Please Select layers'
+               }
+    return render(request,'dashboard/test.html',{'title': theme_name,'options':options})
 
 def tby(request):
     return render(request,'dashboard/tby.html')
