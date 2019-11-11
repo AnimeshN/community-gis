@@ -88,8 +88,8 @@ var myLayerList = [];
 var mymap;
 var geojson;
 
-var url = "http://104.43.197.79/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astress&outputFormat=application/json";
-var info = L.control();
+var url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astress&outputFormat=application/json";
+var info = L.control({position: 'bottomright'});
 var source = L.wms.source(
 "http://localhost/geoserver/wms",
 {
@@ -100,10 +100,10 @@ var source = L.wms.source(
 
 
 
-mymap = L.map('mapdiv', {center:[19.9374, 73.5364], zoom:9, zoomControl:false, attributionControl:false});
-lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
-lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
-mymap.addLayer(lyrOSM);
+// mymap = L.map('mapdiv', {center:[19.9374, 73.5364], zoom:9, zoomControl:false, attributionControl:false});
+// lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
+// lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
+// mymap.addLayer(lyrOSM);
 
 
 objBasemaps = {
@@ -114,15 +114,15 @@ objBasemaps = {
 objOverlays = {
 };
 
-var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
-var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
-ctlSidebar.show();
-var ctlPan = L.control.pan().addTo(mymap);
+// var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
+// var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
+// ctlSidebar.show();
+// var ctlPan = L.control.pan().addTo(mymap);
 
-var ctlEasybutton = L.easyButton('glyphicon-transfer', function(){
-    ctlSidebar.toggle(); 
-}).addTo(mymap);
-var ctlZoomslider = L.control.zoomslider({position:'topright'}).addTo(mymap);
+// var ctlEasybutton = L.easyButton('glyphicon-transfer', function(){
+//     ctlSidebar.toggle(); 
+// }).addTo(mymap);
+// var ctlZoomslider = L.control.zoomslider({position:'topright'}).addTo(mymap);
 
 function getColor(d) {
     return d > 6 ? '#FF0000' :
@@ -147,6 +147,7 @@ function style(feature) {
 
 
 function displayLayer(){
+// console.log(url);
 fetch(url)
 .then(
     function(response) {
@@ -158,7 +159,6 @@ fetch(url)
 
     // Examine the text in the response
     response.json().then(function(stressData) {
-        console.log(stressData.features)
         geojson = L.geoJson(stressData.features,{style: style}).addTo(mymap);
         mymap.setView([19.9365, 73.3404], 11);
         geojson = L.geoJson(stressData.features, {
@@ -174,7 +174,11 @@ fetch(url)
 .catch(function(err) {
     console.log('Fetch Error :-S', err);
 });
-    
+
+info.addTo(mymap);
+legend.addTo(mymap);
+
+  
 }
 
 function zoomToFeature(e) {
@@ -225,7 +229,6 @@ info.update = function (props) {
         : 'Hover over a VILLAGE');
 };
 
-info.addTo(mymap);
 
 
 
@@ -247,7 +250,6 @@ legend.onAdd = function (mymap) {
     return div;
 };
 
-legend.addTo(mymap);
 
 
 
