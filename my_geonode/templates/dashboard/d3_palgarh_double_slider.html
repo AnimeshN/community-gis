@@ -17,7 +17,7 @@
             values: [ 100, 10000 ],
             slide: function( event, ui ) {
                 $( "#amount" ).val( "Population " + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-                console.log(ui.values[0]);
+                // console.log(ui.values[0]);
                 svg.selectAll("svg path").each(function(d) {
                             if(d.properties.tot_p > ui.values[0] && d.properties.tot_p < ui.values[1]){
                                 this.style.opacity = 1;

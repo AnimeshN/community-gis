@@ -17,7 +17,9 @@ urlpatterns = [
     url(r'test_animesh',views.test_animesh),
     url(r'thakkar_buppa_yojana',views.tby),
     url(r'deonadi',views.deonadi),
-    url(r'pwss',views.pwss)
+    url(r'pwss',views.pwss),
+    url(r'palgarh',views.palgarh),
+
     
 
 ]

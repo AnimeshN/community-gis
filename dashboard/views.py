@@ -30,6 +30,8 @@ def DP_2014_34(request):
 def SWM(request):
     return render(request,'dashboard/solidwastemanagement.html')
 
+def palgarh(request):
+    return render(request,'dashboard/d3_palgarh_double_slider.html')
 	
 
 def Goadashboards(request):
