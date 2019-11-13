@@ -54,6 +54,7 @@ table, th, td
               <option>Household Amenities</option>
               <option>Town Amenities</option>
               <option >Demographics</option>
+              <option>Admin Boundaries</option>
               <!-- <option >Ground water recharge priorities(GSDA)</option> -->
               <!-- <option >Waterbodies</option> -->
             </select>
@@ -266,7 +267,7 @@ var townLayerCode = ['geonode:town','AKOLA','AMRAVATI','BULDANA','YAVATMAL','WAS
 
 var demoLayerCode = ['geonode:maha_demography','akola','amravati','buldhana','yavatmal','washim','aurangabad','beed','jalna','osmanabad','nanded','latur','parbhani','hingoli','mumbai_city','mumbai_suburban','thane','palghar','raigarh','ratnagiri','sindhudurg','bhandara','gadchiroli','chandrapur','gondia','nagpur','wardha','ahmadnagar','dhule','jalgaon','nandurbar','nashik','kolhapur','pune','sangli','satara','solapur'];
 
-
+var adminLayerCode = ['geonode:maha_rural_plus_urban','akola','amravati','buldhana','yavatmal','washim','aurangabad','beed','jalna','osmanabad','nanded','latur','parbhani','hingoli','mumbai_city','mumbai_suburban','thane','palghar','raigad','ratnagiri','sindhudurg','bhandara','gadchiroli','chandrapur','gondia','nagpur','wardha','ahmednagar','dhule','jalgaon','nandurbar','nashik','kolhapur','pune','sangli','satara','solapur'];
 var districtLat = [19.076,20.7002,20.9374,20.4561,20.3888,20.139,19.8762,18.9891,19.8297,18.207,19.1383,18.4088,19.2644,19.5781,19.0176,19.1538,19.2183,19.6936,18.5158,16.9902,16.3492,21.0736,19.4969,19.9615,21.4624,21.1458,20.7453,19.0948,20.9042,21.0077,21.7469,19.9975,16.705,18.5204,16.8524,17.6805,17.6599];
 var districtLong = [72.8777,77.0082,77.7796,76.3637,78.1204,77.1025,75.3433,75.7601,75.88,76.1784,77.321,76.5604,76.6413,77.1025,72.8561,72.8752,72.9781,72.7655,73.1822,73.312,73.5594,79.8297,80.2767,79.2961,80.221,79.0882,78.6022,74.748,74.7749,75.5626,74.124,73.7898,74.2433,73.8567,74.5815,74.0183,74.9064];
 var districtZoom = [7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8];
@@ -340,20 +341,16 @@ else if(amenity === 'Household Amenities'){
         } 
     }
     else if(amenity == 'Town Amenities'){
-    if(townLayerCode[index] == ''){
-        alert('layer of '+ dis + ' not found');
-    }else{
-        tempParameter.typeName = "geonode:town";
-        tempParameter.cql_filter="district_n='"+townLayerCode[index]+"'";
-        tempParameter.propertyName="fid,the_geom,census_201,district_n,town_name,civic_stat,sex_rati_2,tot_pop";
-        legend.addTo(mymap);
-        info.addTo(mymap);
+         if(townLayerCode[index] == ''){
+            alert('layer of '+ dis + ' not found');
+        }else{
+            tempParameter.typeName = "geonode:town";
+            tempParameter.cql_filter="district_n='"+townLayerCode[index]+"'";
+            tempParameter.propertyName="fid,the_geom,census_201,district_n,town_name,civic_stat,sex_rati_2,tot_pop";
+            legend.addTo(mymap);
+            info.addTo(mymap);
 
-        //tempParameter.propertyName="id,the_geom,district_n,area_name,tot_p,tot_f,tot_m,p_ill,p_lit";    
-         
-    //var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
-    // layer_url =base_url + "&typeName=geonode%3Atown&cql_filter=district_n='"+townLayerCode[index]+"'";
-    displayPolygon(tempParameter,districtLat[index],districtLong[index]);
+            displayPolygon(tempParameter,districtLat[index],districtLong[index]);
 
     // //    console.log(layer_url);
 
@@ -361,27 +358,31 @@ else if(amenity === 'Household Amenities'){
         } 
     }
     else if(amenity === 'Demographics'){
-    if(demoLayerCode[index] == ''){
-        alert('layer of '+ dis + ' not found');
-    }else{
-        tempParameter.typeName = "geonode:maha_demography";
-        tempParameter.cql_filter="district_n='"+demoLayerCode[index]+"'";
-        tempParameter.propertyName="id,the_geom,district_n,area_name,tot_p,tot_f,tot_m,p_ill,p_lit";
-        legend.addTo(mymap);
-        info.addTo(mymap);
-
-        // source.getLayer(demoLayerCode[index]).addTo(mymap);
-    //var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
-    //var base_url = "http://localhost/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
-    //layer_url =base_url + "&typeName=geonode%3Amaha_demography&cql_filter=district_n='"+demoLayerCode[index]+"'";
-        //console.log(layer_url);
-    
-     displayPolygon(tempParameter,districtLat[index],districtLong[index]);
-
-         myDistrictLayerList.push(demoLayerCode[index]);
+        if(demoLayerCode[index] == ''){
+            alert('layer of '+ dis + ' not found');
+        }else{
+            tempParameter.typeName = "geonode:maha_demography";
+            tempParameter.cql_filter="district_n='"+demoLayerCode[index]+"'";
+            tempParameter.propertyName="id,the_geom,district_n,area_name,tot_p,tot_f,tot_m,p_ill,p_lit";
+            legend.addTo(mymap);
+            info.addTo(mymap);
+            displayPolygon(tempParameter,districtLat[index],districtLong[index]);
+            myDistrictLayerList.push(demoLayerCode[index]);
         } 
-    }
-
+     }
+    else if(amenity === 'Admin Boundaries'){
+        if(adminLayerCode[index] == ''){
+            alert('layer of '+ dis + ' not found');
+        }else{
+            tempParameter.typeName = "geonode:maha_rural_plus_urban";
+            tempParameter.cql_filter="district_n='"+adminLayerCode[index]+"'";
+            tempParameter.propertyName="the_geom,state_name,district_n,taluka_n,village_n,area_type";
+            legend.addTo(mymap);
+            info.addTo(mymap);
+            displayPolygon(tempParameter,districtLat[index],districtLong[index]);
+            myDistrictLayerList.push(adminLayerCode[index]);
+        } 
+    }    
     else{
     alert('Data for '+amenity+' not Populated');
     }
@@ -492,8 +493,20 @@ info.update = function (props) {
         "<tr><td>Number of Govt Pre-Primary School</td><td><b>"+props.govt_pre_1+"<b></td></tr>"+
         "<tr><td>Number of Govt Primary School</td><td><b>"+props.govt_pri_1+"<b></td></tr></table>"
             : 'Please hover over a Village');
+    }else if (amenity === 'Admin Boundaries'){
+        this._div.innerHTML = '<h4 class= "text-center">Area Information</h4><hr>' +  (props ?
+        "<table><tr><td>State Name</td><td><b>"+props.state_name+"<b></td></tr>"+
+        "<tr><td>District Name</td><td><b>"+props.district_n+"<b></td></tr>"+
+        "<tr><td>Village Name</td><td><b>"+props.village_n+"<b></td></tr>"+
+        "<tr><td>Taluka Name</td><td><b>"+props.taluka_n+"<b></td></tr>"+
+        "<tr><td>Area Type</td><td><b>"+props.area_type+"<b></td></tr>"
+        
+            : 'Please hover over any area');
     }
-    
+    else
+    {
+        alert("No information Available");
+    }
 
 
 
@@ -579,7 +592,7 @@ fetch(layer_url)
 
     // Examine the text in the response
     response.json().then(function(geojsonData) {
-        // console.log(geojsonData.features);
+        console.log(geojsonData.features);
         mymap.setView([lat, long], 11);
         geojson = L.geoJson(geojsonData.features, {
         style : style,
