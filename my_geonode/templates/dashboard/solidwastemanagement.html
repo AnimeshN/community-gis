@@ -1,0 +1,642 @@
+{% extends 'dashboard/base.html' %}
+{% load static%}
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<style>
+    
+.btn {
+    /* background:rgb(255, 255, 255); */
+    margin-bottom: 5px;
+}
+.select.highlight {
+    background:rgb(26, 255, 0);
+}
+
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+
+}
+
+.active, .select:hover {
+  background-color: #777;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  transition: height 200ms;
+}
+
+
+
+.heading{
+    font-size: 20px;
+    background-color: rgba(192, 211, 192, 0.315);
+    text-align: center;
+    font-weight: 500;
+
+    border: 2px solid rgba(255, 0, 0, 0);
+    border-radius: 15px;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}  
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+</style>
+
+<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- Main container -->
+
+  <h2 style="text-align: center;">Solid Waste Management</h2>
+  <hr>
+ 
+
+
+    <section class = 'heading'>Mumbai</section><br>
+    <button class="btn select" onclick="putLayer('geonode:mmrda','mumbai')">MMRDA Boundary</button>
+    <button class="btn select" onclick="putLayer('geonode:mumbai_sub_census','mumbai')">Suburban</button>
+    <button class="btn select" onclick="putLayer('geonode:mumbai_city_census','mumbai')">Mumbai City</button>
+    <!-- <button class="btn select" onclick="putLayer('geonode:mmrda')">Corporator Ward Boundary</button> -->
+    <!-- <button class="btn select" onclick="putLayer('geonode:mmrda')">Road Network</button> -->
+    <!--<button class="btn select" onclick="putLayer('geonode:mumbai_ward_boundary_10jun','mumbai')">Ward</button>-->   
+    <h5>Wards</h5>
+             <div class="tooltips" title="Please select the ward">
+                <select class = 'form-control' id="ward" name="ward">
+                    <option>Select ward type</option>
+                            <option>Admin Ward</option>
+                            <option>Census Ward</option>
+                            <option>Corporator Ward</option>
+                             
+                </select>
+            </div> <br><br>
+
+    <section class = 'heading'>L-ward</section><br>
+    <!-- <button class="btn select" onclick="putLayer('')">Buildings</button> -->
+    <button class="btn select" onclick="putLayer('geonode:l_ward_15may','lward')">DP polygon</button>
+    <button class="btn select" onclick="putLayer('')">Roads</button>
+
+    <h5>Residential Buildings</h5>
+            <div class="tooltips">
+                <select class="form-control" id="lwbuildings" name="lwbuildings">
+                    <option>Select building type</option>
+                    <option>All</option>
+                    <option>Composting</option> 
+                    <option>Seggregation</option> 
+                   <!-- <div class="dropdown-content">
+                            <a href="#">Seggregation</a>
+                            <a href="#">Composting 2</a>
+                           
+                        </div> -->
+                    <!--<option>Select</option>
+                    
+                    <option>Educational</option>
+                    <option>Hotels</option>
+                    <option>Markets</option>
+                    <option>Hospitals</option>
+                    <option>Slums</option>
+                    <option>Public/Govt Buildings</option>-->
+                </select>
+
+            </div>    
+        
+            
+    <h5>Others</h5>
+            <div class="tooltips">
+                <select class="form-control" id="lwothers" name="lwothers">
+                    <option>Select layers</option>
+                    <option>Railway Track Station</option>
+                    <option>Railway Buffer</option>
+                    <option>Surveyed Buildings</option>
+                    <option>Metro Rail Line 1</option>
+                    <option>Metro Rail Line 2 and 3</option>
+                    <option>Rivers</option>
+                    <option>High Voltage Lines</option>
+                    <option>HVL Buffer</option>
+                    <option>CRZ Buffer</option>
+
+                </select>
+
+            </div>    
+
+    
+    <br><br>
+    
+    
+    <section class = 'heading'>S-ward</section><br>
+    <!-- <button class="btn select" onclick="putLayer('geonode:','sward')">Buildings</button> -->
+    <button class="btn select" onclick="putLayer('geonode:s_ward_all_polygone_2','sward')">DP polygon</button>
+    <button class="btn select" onclick="putLayer('geonode:','sward')">Roads</button>
+
+    <h5>Buildings</h5>
+            <div class="tooltips">
+                <select class="form-control" id="swbuildings" name="swbuildings">
+                    <option>Select Building type</option>    
+                    <option>Residential</option>
+                   <!-- <option>Educational</option>
+                    <option>Hotels</option>
+                    <option>Markets</option>
+                    <option>Hospitals</option>
+                    <option>Slums</option>
+                    <option>Govt Buildings</option>-->
+                </select>
+
+            </div>    
+
+    
+    <h5>Others</h5>
+        <div class="tooltips">
+            <select class="form-control" id="swothers" name="swothers">
+                <option>Select layers</option>
+                <option>Railway Track Station</option>
+                <option>Railway Buffer</option>
+                <option>Metro Rail Line-Station</option>
+                <option>Ponds</option>
+                <option>High Voltage Line</option>
+                <option>HVL Buffer</option>
+                <option>Flyover Bridge</option>
+            </select>
+        </div>
+
+    
+    <br><br>
+
+    <section class = 'heading'>H west-ward</section><br>
+    <!-- <button class="btn select" onclick="putLayer('geonode:hwest_osm_buildings','hwestward')">Buildings</button> -->
+    <button class="btn select" onclick="putLayer('geonode:hwest_osm_buildings','hwestward')">DP Polygon</button>
+    <!-- <button class="btn select" onclick="putLayer('geonode:','hwestward')">Roads</button> -->
+
+    <h5>Buildings</h5>
+            <div class="tooltips">
+                <select class="form-control" id="hwbuildings" name="hwbuildings">
+                   <option>Select building types</option>
+                    <option>Residential</option>
+                   <!-- <option>Educational</option>
+                    <option>Hotels</option>
+                    <option>Markets</option>
+                    <option>Hospitals</option>
+                    <option>Slums</option>
+                    <option>Govt Buildings</option>-->
+                </select>
+
+            </div>        
+    
+    <h5>Others</h5>
+        <div class="tooltips">
+            <select class="form-control" id="hwestwothers" name="hwestwothers">
+                <option>Select layers</option>
+                <option>Railway Track Station</option>
+                <option>Railway Buffer</option>
+            </select>
+        </div>
+    <br><br>
+
+
+
+    <section class = 'heading'>Pune</section><br>
+    <button class="btn btn-primary" onclick="displayPolygon('building_footprint')">Building Footprint</button>
+    <button class="btn btn-primary" onclick="displayPolygon('road_Network')">Road Network</button>
+    <button class="btn btn-primary" onclick="displayPoint()">Waste Collection Points</button>
+    <button class="btn btn-danger" onclick="clearLayer()">Clear Layer</button>
+
+    
+<div style="text-align: center"> 
+        <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="glyphicon glyphicon-off"></span></button> 
+    </div> 
+</div>
+
+
+    <script>
+       
+     var myLayerList = [];
+     var LayerList = [];
+     
+     function setmap(area){
+        if(area === 'mumbai'){
+            mymap.setView([19.1056518,72.7815566], 11);
+        }else if(area === 'lward'){
+            mymap.setView([19.0790, 72.9080], 13);
+        }else if(area === 'sward'){
+            mymap.setView([19.1334, 72.9133], 13);
+        }else if(area === 'hwestward'){
+            mymap.setView([19.06251,72.8276],16);
+        }
+
+     }
+    function putLayer(geonode_source,area){
+        setmap(area);
+        var index = myLayerList.indexOf(geonode_source);
+        if(index >= 0){
+            // console.log('remove'+geonode_source)
+            source.getLayer(geonode_source).addTo(mymap).remove(mymap);
+            myLayerList.splice(index,1);
+
+        }else{
+            // console.log('add'+geonode_source);
+            // info.toFront(geonode_);
+            source.getLayer(geonode_source).addTo(mymap);
+            myLayerList.push(geonode_source);
+        }
+    }
+
+
+const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+
+var rootUrl = domain[0] + 'geoserver/geonode/ows';
+
+var defaultParameters = {
+service: 'WFS',
+version: '1.0.0',
+request: 'GetFeature',
+outputFormat: 'application/json'
+};
+
+
+$('#ward').change(function(){
+
+    var wardLayer = document.getElementById('ward').value;
+    if(wardLayer === "Admin Ward"){
+        my = source.getLayer('geonode:mumbai_ward_boundary_10jun').addTo(mymap);
+        myLayerList.push(my);
+    }
+    else if(wardLayer === "Census Ward"){
+        source.getLayer('geonode:mumbai_city_census').addTo(mymap);
+    }
+    else if(wardLayer === "Corporator Ward"){
+        source.getLayer('geonode:mmrda').addTo(mymap);
+    }
+    
+});
+$('#lwbuildings').change(function(){
+
+var lwbuilding = document.getElementById('lwbuildings').value;
+if(lwbuilding === "All"){
+        source.getLayer('geonode:raheja_lward_swm_5nov19').addTo(mymap);
+    }
+else if(lwbuilding === "Composting"){
+    // source.getLayer('geonode:rajeha').addTo(mymap);
+    // const
+    displayPoints('raheja_lward_swm_5nov19','composting');
+    RAHEJA_LATLONG=[19.12,72.90];
+    mymap.setView(RAHEJA_LATLONG,16);
+}
+else if(lwbuilding === "Seggregation"){
+    // source.getLayer('geonode:rajeha').addTo(mymap);
+    // const
+    displayPoints('raheja_lward_swm_5nov19','seggregati');
+    RAHEJA_LATLONG=[19.12,72.90];
+    mymap.setView(RAHEJA_LATLONG,16);
+}
+/*else if(lwbuilding === "Educational"){
+    source.getLayer('geonode:mumbai_city_census').addTo(mymap);
+}
+else if(lwbuilding === "Hotels"){
+    source.getLayer('geonode:mmrda').addTo(mymap);
+}
+else if(lwbuilding === "Markets"){
+    source.getLayer('geonode:mmrda').addTo(mymap);
+}
+else if(lwbuilding === "Hospitals"){
+    source.getLayer('geonode:mmrda').addTo(mymap);
+}
+else if(lwbuilding === "Slums"){
+    source.getLayer('geonode:mmrda').addTo(mymap);
+}
+else if(lwbuilding === "Public/Govt Buildings"){
+    source.getLayer('geonode:mmrda').addTo(mymap);
+}*/
+
+});
+
+//L-ward Others 
+    $('#lwothers').change(function () {
+
+        var lwardLayer = document.getElementById('lwothers').value;
+        if(lwardLayer === "Railway Track Station"){
+            source.getLayer('geonode:railway_tracks_l_ward').addTo(mymap);
+        }
+        else if(lwardLayer === "Railway Buffer"){
+            source.getLayer('geonode:buffer_for_railway_l_ward').addTo(mymap);
+        }
+        else if(lwardLayer === "Surveyed Buildings"){
+            source.getLayer('geonode:rajeha').addTo(mymap);
+        }
+        else if(lwardLayer === "Metro Rail Line 1"){
+            source.getLayer('geonode:metro_line_1_l_ward').addTo(mymap);
+        }
+        else if(lwardLayer === "Metro Rail Line 2 and 3"){
+            source.getLayer('geonode:metro_line_2_3_l_ward').addTo(mymap);
+        }
+        else if(lwardLayer === "Rivers"){
+            source.getLayer('geonode:l_ward_rivers_poly').addTo(mymap);
+        }
+        else if(lwardLayer === "High Voltage Lines"){
+            source.getLayer('geonode:high_voltage_lines_l_ward').addTo(mymap);
+        }
+        else if(lwardLayer === "HVL Buffer"){
+            source.getLayer('geonode:buffer_for_high_voltage_lines_l_ward').addTo(mymap);
+        }
+        else if(lwardLayer === "CRZ Buffer"){
+            source.getLayer('geonode:crz_buffer').addTo(mymap);
+        }
+
+    });
+
+//Buildings S-ward
+    $('#swbuildings').change(function(){
+        var swbuildingsLayer = document.getElementById('swbuildings').value;
+        if(swbuildingsLayer === "Residential"){
+
+            source.getLayer('').addTo(mymap);
+        }
+        else if(swbuildingsLayer === "Educational"){
+            source.getLayer('').addTo(mymap);
+        }
+        else if(swbuildingsLayer === "Hotels"){
+            source.getLayer('').addTo(mymap);
+        }
+        else if(swbuildingsLayer === "Markets"){
+            source.getLayer('').addTo(mymap);
+        }
+        else if(swbuildingsLayer === "Hospitals"){
+            source.getLayer('').addTo(mymap);
+        }
+        else if(swbuildingsLayer === "Slums"){
+            source.getLayer('geonode:s_ward_slum_baundry_3july_kajal').addTo(mymap);
+        }
+        else if(swbuildingsLayer === "Govt Buildings"){
+            source.getLayer('').addTo(mymap);
+        }
+    });
+
+
+//S-ward Others 
+    $('#swothers').change(function () {
+
+        var swardLayer = document.getElementById('swothers').value;
+        if(swardLayer === "Railway Track Station"){
+            source.getLayer('geonode:s_ward_railwaytrack_station_15jan_dhiraj').addTo(mymap);
+        }
+        else if(swardLayer === "Railway Buffer"){
+            source.getLayer('geonode:s_ward_bufferforrailway_15jan_dhiraj').addTo(mymap);
+        }
+        else if(swardLayer === "Metro Rail Line-Station"){
+            source.getLayer('geonode:s_ward_metrorailline1_station_15jan_dhiraj').addTo(mymap);
+        }
+        else if(swardLayer === "Ponds"){
+            source.getLayer('geonode:s_ward_pond_18th_jan_digvijay').addTo(mymap);
+        }
+        else if(swardLayer === "High Voltage Line"){
+            source.getLayer('geonode:s_ward_high_voltage_line_16jan_kajal').addTo(mymap);
+        }
+        else if(swardLayer === "HVL Buffer"){
+            source.getLayer('geonode:s_ward_bufferforrailway_15jan_dhiraj').addTo(mymap);
+        }
+        else if(swardLayer === "Flyover Bridge"){
+            source.getLayer('geonode:s_ward_flyover_bridge_17jan_kajal').addTo(mymap);
+        }
+
+    });
+
+
+function clearLayer(){
+    LayerList.forEach(layer => mymap.removeLayer(layer));
+    myLayerList.forEach(l => mymap.removeLayer(layer));
+    
+}
+
+function style(feature) {
+    if(feature.properties.highway){
+        return{
+        fillColor: "#fff",
+        weight: 2,
+        opacity: 1,
+        color: 'black',
+        fillOpacity: 0
+        }
+    }else{
+        return {
+        fillColor: '#f00',
+		weight: 2,
+		opacity: 1,
+		color: 'white',
+		fillOpacity: 0.7
+    };
+    }
+    
+}
+
+
+function displayPolygon(option){
+tempURL = defaultParameters;
+if(option==='building_footprint'){
+tempURL.typeName = 'geonode:pune_buildings';
+}else if(option ==='road_Network'){
+    tempURL.typeName = 'geonode:pune_roads_geo';
+}
+
+var parameters = L.Util.extend(tempURL);
+layer_url = rootUrl + L.Util.getParamString(parameters);
+// LayerList.forEach(layer => mymap.removeLayer(layer));
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+
+fetch(layer_url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(geojsonData) {
+        mymap.setView([18.59414,73.79907], 16);
+        geojson = L.geoJson(geojsonData.features, {
+        style : style
+    }).addTo(mymap);
+    LayerList.push(geojson);
+    mymap.spin(false);
+
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+
+    
+}
+
+function onEachFeaturePoint(feature, layer) {
+	// does this feature have a property named popupContent?
+    var str1 = "<img class = 'popupimage' src='/static/swm/swm_pune_pics/".concat(feature.properties.Name);
+    var str2 = str1.concat("' alt='talian Trulli'>");
+    layer.bindPopup(str2);
+
+	
+}
+var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
+
+pointLayerList = []
+function displayPoints(layer_name,type){
+pointLayerList.forEach(layer => mymap.removeLayer(layer));
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+url = base_url + "&typeName=geonode%3A" + layer_name;
+fetch(url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(stressData) {
+
+        geojson = L.geoJson(stressData.features, {
+            pointToLayer: function (feature, latlng) {
+                    console.log(feature.properties.seggregati);
+                    if(type === 'composting'){
+                        if(feature.properties.composting)
+                            return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-up', markerColor: 'green', prefix: 'fa' }) });
+                        else
+                            return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-down', markerColor: 'red', prefix: 'fa' }) });
+                    }
+                    else if(type === 'seggregati'){
+                        if(feature.properties.seggregati)
+                            return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-up', markerColor: 'blue', prefix: 'fa' }) });
+                        else 
+                              return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-down', markerColor: 'pink', prefix: 'fa' }) });
+                    }
+                    
+                    
+
+	},
+    onEachFeature: onEachFeatureForPoint,
+    
+    }).addTo(mymap);
+    LayerList.push(geojson);
+    pointLayerList.push(geojson);
+    mymap.spin(false);
+    url = "";
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+// }
+
+    
+}
+
+
+function onEachFeatureForPoint(feature, layer) {
+
+		layer.bindPopup("Building Name :<b>"+ feature.properties.building_n+"<b>");
+    }
+         
+
+function displayPoint(){
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+tempURL = defaultParameters;
+tempURL.typeName = 'geonode:pune_photo_loc';
+var parameters = L.Util.extend(tempURL);
+point_url = rootUrl + L.Util.getParamString(parameters)
+var geojsonMarkerOptions = {
+	radius: 8,
+	fillColor: "#ff7800",
+	color: "#000",
+	weight: 1,
+	opacity: 1,
+	fillOpacity: 0.8
+};
+
+fetch(point_url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(stressData) {
+        mymap.setView([18.59376,73.79308],16);
+        geojson = L.geoJson(stressData.features,{
+	    pointToLayer: function (feature, latlng) {
+		return L.circleMarker(latlng, geojsonMarkerOptions);
+	},onEachFeature: onEachFeaturePoint
+});
+    LayerList.push(geojson);
+    mymap.addLayer(geojson);
+    mymap.spin(false);
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+
+    
+}
+
+
+
+
+
+    $('.select').click(function () {
+        $(this).toggleClass('highlight')
+    })
+
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+    </script>
+
+
+
+{% endblock %}

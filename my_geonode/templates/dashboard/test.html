@@ -1,0 +1,84 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}}</title>
+    <link rel="stylesheet" href="{% static 'tdsc/deonadi/deonadi.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet-legend-graphics/leaflet.wmslegend.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet.css' %}" >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'leaflet-search/leaflet-search.src.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+</head>
+<div class="wrapper">
+    <!-- div1 -->
+    <div class="header">
+        <div class="logo">
+                <img src="{% static 'images/logo.png' %}" alt="Smiley face" height="40" width="220"> 
+        </div>
+        <div class="project-title">{{ title }}</div>
+
+        <div class="header-right">
+                <a class = 'btn btn-secondary' class="active" href="/">Home</a>
+                <a class = 'btn btn-secondary' href="/dashboard">Themes</a>
+                <a class = 'btn btn-secondary' href="tdsc">TDSC</a>
+        </div>
+
+        
+        
+    </div>
+    <!-- div2 -->
+    <div class="map-div" id="map"></div>
+    <!-- div3 -->
+    <div class="side-bar" id="side-bar">
+            <div id="selector" class="btn-group-vertical mb-2">
+                <button type="button" class="btn btn-info disabled">{{ options.8}}</button>
+                <button type="button" class="btn btn-light">{{ options.2}}</button>
+                <button type="button" class="btn btn-light">{{ options.1}}</button>
+                <button type="button" class="btn btn-light">{{ options.3}}</button>
+                <button type="button" class="btn btn-light">{{ options.4}}</button>
+                <button type="button" class="btn btn-light">{{ options.5}}</button>
+                <button type="button" class="btn btn-light">{{ options.6}}</button>
+                <button type="button" class="btn btn-light">{{ options.7}}</button>
+
+            </div>
+    </div>
+</div>
+<script src="{% static 'leaflet-src.js' %}" ></script>
+
+<script src = "{% static 'leaflet-legend-graphics/leaflet.wmslegend.js' %}"></script>
+<script type='text/javascript' src='https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js'></script>
+<script src="{% static 'tdsc/js/jquery.min.js' %}"></script>
+<script src="{% static 'spin/dist/spin.min.js'%}" ></script>
+<script src="{% static 'leaflet.spin.min.js' %}"></script>
+<script src = "{% static 'leaflet-search/leaflet-search.src.js' %}"></script>
+
+
+<!-- leaflet-messagebox-->
+<script src = "{% static 'leaflet-messagebox.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-messagebox.css' %}">
+
+<script src="{% static 'plugins/leaflet-providers.js' %}"></script>
+<!-- leaflet minimap -->
+<script src = "{% static 'leaflet-minimap/Control.MiniMap.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-minimap/Control.MiniMap.min.css' %}">
+
+<!-- leaflet-controlpan -->
+<link rel="stylesheet" href="{% static 'plugins/L.Control.Pan.css' %}">
+<script src="{% static 'plugins/L.Control.Pan.js' %}" ></script>
+
+<!-- leaflet-zoomslider -->
+<link rel="stylesheet" href="{% static 'plugins/L.Control.Zoomslider.css' %}">
+<script src="{% static 'plugins/L.Control.Zoomslider.js' %}" ></script>
+
+
+<!-- basic scrits -->
+<script src="{% static 'tdsc/js/tdsc_leaflet_plugin.js' %}"></script>
+<script src="{% static 'tdsc/deonadi/deonadi.js' %}"></script>
+<body>
+    
+</body>
+</html>
