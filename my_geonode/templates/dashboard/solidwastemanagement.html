@@ -74,7 +74,7 @@
 
 
     <section class = 'heading'>Mumbai</section><br>
-    <button class="btn select" onclick="putLayer('geonode:mmrda','mumbai')">MMRDA Boundary</button>
+    <button class="btn select" onclick="putLayer('geonode:mmrda1','mumbai')">MMRDA Boundary</button>
     <button class="btn select" onclick="putLayer('geonode:mumbai_sub_census','mumbai')">Suburban</button>
     <button class="btn select" onclick="putLayer('geonode:mumbai_city_census','mumbai')">Mumbai City</button>
     <!-- <button class="btn select" onclick="putLayer('geonode:mmrda')">Corporator Ward Boundary</button> -->
@@ -260,7 +260,7 @@
     }
 
 
-const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+const domain = ['http://makerghat.urbansciences.in/','http://localhost/'];
 
 var rootUrl = domain[0] + 'geoserver/geonode/ows';
 
@@ -283,7 +283,7 @@ $('#ward').change(function(){
         source.getLayer('geonode:mumbai_city_census').addTo(mymap);
     }
     else if(wardLayer === "Corporator Ward"){
-        source.getLayer('geonode:mmrda').addTo(mymap);
+        source.getLayer('geonode:mmrda1').addTo(mymap);
     }
     
 });
@@ -292,6 +292,8 @@ $('#lwbuildings').change(function(){
 var lwbuilding = document.getElementById('lwbuildings').value;
 if(lwbuilding === "All"){
         source.getLayer('geonode:raheja_lward_swm_5nov19').addTo(mymap);
+        RAHEJA_LATLONG=[19.12,72.90];
+        mymap.setView(RAHEJA_LATLONG,16);
     }
 else if(lwbuilding === "Composting"){
     // source.getLayer('geonode:rajeha').addTo(mymap);
@@ -499,7 +501,7 @@ function onEachFeaturePoint(feature, layer) {
 
 	
 }
-var base_url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
+var base_url = "http://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
 
 pointLayerList = []
 function displayPoints(layer_name,type){
@@ -520,7 +522,7 @@ fetch(url)
 
         geojson = L.geoJson(stressData.features, {
             pointToLayer: function (feature, latlng) {
-                    console.log(feature.properties.seggregati);
+                    // console.log(feature.properties.seggregati);
                     if(type === 'composting'){
                         if(feature.properties.composting)
                             return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-up', markerColor: 'green', prefix: 'fa' }) });

@@ -240,7 +240,7 @@ var structures = {
 });
     
 var geojson;
-const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+const domain = ['http://makerghat.urbansciences.in/','http://localhost/'];
 var base_url = domain[0] + "geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
 var info = L.control();
 var attribute_table = L.control({position: 'bottomright'});
@@ -311,27 +311,27 @@ function fetch_layer_name(){
     var structure = document.getElementById('structure').value;
     switch(structure){
         case "Culvert":
-            layer_name = "ThakkarBappaYojana_Mokhada_Culvert_1_00";
+            layer_name = "thakkarbappayojana_mokhada_culvert_1_00";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bars', markerColor: 'red', prefix: 'fa' });
             break;
         case "Dug well":
-            layer_name = "ThakkarBappaYojana_Mokhada_Well_1_0";
+            layer_name = "thakkarbappayojana_mokhada_well_1_0";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
             break;
         case "Public Toilets":
-            layer_name = "ThakkarBappaYojana_Mokhada_PublicToilet_1_0";
+            layer_name = "thakkarbappayojana_mokhada_publictoilet_1_0";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
             break;
         case "Concrete Gutter":
-            layer_name = "ThakkarBappaYojana_Mokhada_Well_1_00";
+            layer_name = "thakkarbappayojana_mokhada_well_1_00";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
             break;
         case "Samaj Mandir":
-            layer_name = "ThakkarBappaYojana_Mokhada_SamajMandir_1_01";
+            layer_name = "thakkarbappayojana_mokhada_samajmandir_1_01";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
             break;
         case "Smashan Bhoomi":
-            layer_name = "ThakkarBappaYojana_Mokhada_Smashanbhoomi_1_0";
+            layer_name = "thakkarbappayojana_mokhada_smashanbhoomi_1_0";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
             break;
 

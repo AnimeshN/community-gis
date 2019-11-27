@@ -18,8 +18,8 @@
     background:rgb(0, 0, 0);
     color:white;
 }
-.collapsible {
-  background-color: rgba(116, 109, 109, 0.61);
+.but {
+  background-color:turquoise;
   color: white;
   cursor: pointer;
   padding: 10px;
@@ -33,7 +33,7 @@
   font-size: 15px;
   font-weight: 1000;
 }
-.active, .collapsible:hover {
+.active, .but:hover {
   background-color: #000;
 }
 .content {
@@ -72,7 +72,28 @@
     border-radius: 0px 0px 0px 25px;
 
 }
+table, th, td {
+    border-bottom: 1px solid #ddd;
+    border-collapse: collapse;
+    padding: 2px 3px;
+    text-align: center;
+}
+th {
+    font-weight:bold;
+}
+tr:hover {
+    background-color: #6e6e6e;
+}
 
+/* css to customize Leaflet default styles  */
+.leaflet-popup-content-wrapper {
+    background: rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+}
+
+.leaflet-popup-content{
+    font-weight: bold;
+}
 </style>
 
 <div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- Main container -->
@@ -80,7 +101,7 @@
   <h2 style="color: brown;">Education and Skill Development Theme</h2>
   <hr>
   <div class="box">
-        <section class = 'heading'>Maharashtra Village and Town Boundaries</section><br>
+        <section class = 'heading'>Maharashtra Taluka Boundaries</section><br>
 <div style="text-align:center">
         <button class = 'btn btn-secondary ' onclick="addVillageLayer()">Add </button>
         <button class = 'btn btn-secondary  ' onclick="removeVillageLayer()">Remove</button>
@@ -89,52 +110,17 @@
   
 <ul class="list-group">
         <div class="box">
-                <section class = 'heading'>Rural Amenity</section><br>
-                <button class="collapsible" >Polytechnics</button>
-                <div class="content">
-                    <!-- <li class="list-group-item list-group-item-info"><button onclick="himam('P_All')" class="btn select">All</button></li> -->
-                    <li class="list-group-item list-group-item-info"><button onclick="himam('P_Government')" class="btn btn-secondary select">Government</button></li>
-                    <li class="list-group-item list-group-item-info"><button onclick="himam('P_Private')" class="btn btn-secondary select">Private</button></li>
+                <section class ='heading'>Education and Skill Amenity</section><br>
+                <button class="but" onclick="layerload('poly')">Polytechnics</button>
+                <button class="but" onclick="layerload('iti')" >ITI</button>
+                <button class="but" onclick="layerload('bifo')" >Bifocals</button>
+                <button class="but" onclick="layerload('vti')" >VTI</button>
 
-                </div>
-
-
-                
-            <br>
-            
-            <button class="collapsible">ITI</button>
-                <div class="content">
-                    <!-- <li class="list-group-item list-group-item-info"><button class="btn select"  onclick="himam('I_All')">All</button></li> -->
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="himam('I_Government')">Government</button></li>
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="himam('I_Private')">Private</button></li>
-
-                    
-                </div>
+    
         </div>
             
         <hr>
-        <div class="box">
-                <section class = 'heading'>Urban Amenity(Under Development)</section><br>
-                <button class="collapsible">Polytechnics</button>
-                <div class="content">
-                    <!-- <li class="list-group-item list-group-item-info"><button class="btn select" onclick="";>All</button></li> -->
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="";>Government</button></li>
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="";>Private</button></li>
-
-                </div>
-
-
-                
-            <br>
-            <button class="collapsible">ITI</button>
-                <div class="content">
-                    <!-- <li class="list-group-item list-group-item-info"><button class="btn select" onclick="";>All</button></li> -->
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="";>Government</button></li>
-                    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="";>Private</button></li>
-
-                    
-                </div>
-        <div>
+     
         
 </ul> 
 <div style="text-align: center"> 
@@ -146,75 +132,205 @@
     <script>
     var lat=19.7515,long= 75.7139;
     mymap.setView([lat,long],7);
+    var LAYER,insti_content;
 
-    function himam(maleg) {
-   
-    
+    function layerload(maleg) {
+    clearAllLayers();
+    if(wms_legend){
+    mymap.removeControl(wms_legend);
+    } 
     tempParameter = defaultParameters;
-    if(maleg === 'P_All'){
-        tempParameter.typeName ='geonode:maha_village_edu_centroid' ;
-        tempParameter.cql_filter='govt_poly_=1';
-        tempParameter.propertyName="the_geom,id,st_x,st_y,census_201,district_n,village_na,govt_poly_,govt_pol_1";
-        displayPoints(tempParameter);   
-        tempParameter.typeName ='geonode:maha_village_edu_centroid' ;
-        tempParameter.cql_filter='priv_poly_=1';
-        tempParameter.propertyName="the_geom,id,st_x,st_y,census_201,district_n,village_na,priv_poly_,priv_pol_1";
-        displayPoints(tempParameter); 
-    }
-    else if(maleg === 'P_Government')
-    {
-        tempParameter.typeName ='geonode:maha_village_edu_centroid' ;
-        tempParameter.cql_filter='govt_poly_=1';
-        tempParameter.propertyName="the_geom,id,st_x,st_y,census_201,district_n,village_na,govt_poly_,govt_pol_1";
-        displayPoints(tempParameter,maleg);   
+    if(maleg === 'poly'){
         
+        mmxlayer = new L.tileLayer.wms('http://makerghat.urbansciences.in/geoserver/geonode/ows', {
+
+        layers: 'geonode:maha_village_edu_centroid_ver2',
+        format: 'image/png',
+        //cql_filter:"govt_poly_=1 or priv_poly_=1" ,
+        version: '1.3.0',
+        transparent: true,
+    });
+    mmxlayer.addTo(mymap);
+    addWMSLegend(mmxlayer.options.layers);
+
+    LAYER = "http://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS="+mmxlayer.options.layers+"&QUERY_LAYERS="+mmxlayer.options.layers;
+    LayerList.push(mmxlayer);
+
+
+    }
     
-    }
-    else if(maleg === 'P_Private'){
-        tempParameter.typeName ='geonode:maha_village_edu_centroid' ;
-        tempParameter.cql_filter='priv_poly_=1';
-        tempParameter.propertyName="the_geom,id,st_x,st_y,census_201,district_n,village_na,priv_poly_,priv_pol_1";
-        displayPoints(tempParameter,maleg); 
+    
+    else if(maleg === 'iti'){
+       
+        mmylayer = new L.tileLayer.wms('http://makerghat.urbansciences.in/geoserver/geonode/ows', {
 
-    }
-    else if(maleg === 'I_All'){
-        tempParameter.typeName ='geonode:maha_village_edu_centroid' ;
-        tempParameter.cql_filter='govt_voc_s_=1';
-        tempParameter.propertyName="the_geom,id,st_x,st_y,census_201,district_n,village_na,govt_voc_s,govt_voc_n";
-        displayPoints(tempParameter); 
-        tempParameter.typeName ='geonode:maha_village_edu_centroid' ;
-        tempParameter.cql_filter='priv_voc_s=1';
-        tempParameter.propertyName="the_geom,id,st_x,st_y,census_201,district_n,village_na,priv_voc_s,priv_voc_n";
-        displayPoints(tempParameter); 
-
-    }
-    else if(maleg === 'I_Government'){
-        tempParameter.typeName ='geonode:maha_village_edu_centroid' ;
-        tempParameter.cql_filter='govt_voc_s=1';
-        tempParameter.propertyName="the_geom,id,st_x,st_y,census_201,district_n,village_na,govt_voc_s";
-        displayPoints(tempParameter,maleg);
-
+        layers: 'geonode:iti_23nov_mapped',
+        format: 'image/png',
+        version: '1.3.0',
+        transparent: true,
         
-    }
+        // cql_filter: "district_n='"+villageLayerCode[index]+"'",
+        // style: "maha_demo_style_v1.sld",
+      
+        });
+        mmylayer.addTo(mymap);
+        addWMSLegend(mmylayer.options.layers);
+
+        LAYER = "http://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS="+mmylayer.options.layers+"&QUERY_LAYERS="+mmylayer.options.layers;
+        LayerList.push(mmylayer);
+        }
+
+        else if(maleg === 'vti'){
+        
+        mmvlayer = new L.tileLayer.wms('http://makerghat.urbansciences.in/geoserver/geonode/ows', {
+
+        layers: 'geonode:maha_vti_institute_18nov',
+        format: 'image/png',
+        version: '1.3.0',
+        transparent: true,
+        
+       
+      
+        });
+        mmvlayer.addTo(mymap);
+        // addWMSLegend(mmvlayer.options.layers);
+
+        LAYER = "http://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS="+mmvlayer.options.layers+"&QUERY_LAYERS="+mmvlayer.options.layers;
+
+        LayerList.push(mmvlayer);
+        }
+        
+    //bifocal amenity is being displayed through else part
     else{
-        tempParameter.typeName ='geonode:maha_village_edu_centroid' ;
-        tempParameter.cql_filter='priv_voc_s=1';
-        tempParameter.propertyName="the_geom,id,st_x,st_y,census_201,district_n,village_na,priv_voc_s,priv_voc_n";
-        displayPoints(tempParameter,maleg); 
+        mmzlayer = new L.tileLayer.wms('http://makerghat.urbansciences.in/geoserver/geonode/ows', {
+
+        layers: 'geonode:maha_bifocul_insti_17nov',
+        format: 'image/png',
+        version: '1.3.0',
+        transparent: true,
+    });
+    mmzlayer.addTo(mymap);
+    // addWMSLegend(mmzlayer.options.layers);
+
+    LAYER = "http://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS="+mmzlayer.options.layers+"&QUERY_LAYERS="+mmzlayer.options.layers;
+
+    LayerList.push(mmzlayer);
+
 
     }
+
+
+
+
+
+
+function Identify(e)
+{
+// set parameters needed for GetFeatureInfo WMS request
+var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
+var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
+var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
+var WIDTH = mymap.getSize().x;
+var HEIGHT = mymap.getSize().y;
+
+var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
+var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
+
+// compose the URL for the request
+
+
+var URL = LAYER + '&BBOX='+BBOX+'&FEATURE_COUNT=1&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I='+X+'&J='+Y;
+// console.log(URL);
+//send GetFeatureInfo as asynchronous HTTP request using jQuery $.ajax
+
+$.ajax({
+    url: URL,
+    dataType: "json",
+    type: "GET",
+    success: function(data)
+    {
+        if(data.features.length !== 0) {  // at least one feature returned in response
+        var feature = data.features[0]; // first feature from response
+        // console.log(feature);
+        // Set up popup for clicked feature and open it
+        var popup = new L.Popup({
+            maxWidth: 300
+        });
+
+        if(maleg === 'poly'){
+            insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>"+feature.properties.district_n+"</td></tr>"+
+                            "<tr><td><b>Taluka</b></td><td>"+feature.properties.taluka_nam+"</td></tr>"+
+                            "<tr><td><b>Village</b></td><td>"+feature.properties.village_na+"</td></tr></table>";
+        }else if(maleg === 'iti'){
+            insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>"+feature.properties.district+"</td></tr>"+
+                            "<tr><td><b>Taluka</b></td><td>"+feature.properties.taluka+"</td></tr>"+
+                            "<tr><td><b>Address</b></td><td>"+feature.properties.address+"</td></tr></table>";
+        }else if(maleg === 'bifo'){
+            insti_content = "<table class = 'popupclass' ><tr><td><b>Location</b></td><td>"+feature.properties.formatted_+"</td></tr>"+
+                            "<tr><td><b>Address</b></td><td>"+feature.properties.address+"</td></tr></table>";
+        }else if(maleg === 'vti'){
+            insti_content = "<table class = 'popupclass' ><tr><td><b>Institute</b></td><td>"+feature.properties.InstituteN+"</td></tr>"+
+                            "<tr><td><b>Location</b></td><td>"+feature.properties.formatted_+"</td></tr>"+
+                            "<tr><td><b>Address</b></td><td>"+feature.properties.Addres+"</td></tr></table>";
+        }
+        popup.setContent(insti_content);
+        popup.setLatLng(e.latlng);
+        mymap.openPopup(popup);
+    }
+    }
+    });
+}
+
+mymap.addEventListener('click', Identify);
+
+
+
 
 };
 
 
-const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
 
-var rootUrl = domain[0] + 'geoserver/geonode/ows';
+
+
+
+
+
+
+
+const domain = ['http://makerghat.urbansciences.org','http://localhost/'];
+
+var rootUrl = domain[1] + 'geoserver/geonode/ows';
+var wms_legend;
+var LayerList= [];
 var village_layer;
 function addVillageLayer(){
-    village_layer = source.getLayer('geonode:maha_rural_plus_urban');
-    village_layer.addTo(mymap);
+    // village_layer = source.getLayer('geonode:maha_rural_plus_urban');
+    // village_layer.addTo(mymap);
+    // console.log("Hi");
+    villayer = new L.tileLayer.wms('http://makerghat.urbansciences.in/geoserver/geonode/ows', {
+
+    layers: 'geonode:maha_all_district_merged',
+    format: 'image/png',
+    version: '1.3.0',
+    transparent: true,
+    });
+    villayer.addTo(mymap);
+    // addWMSLegend(villayer.options.layers);
+
+    LayerList.push(mmylayer);
 }
+
+function clearAllLayers(){
+  
+  if(LayerList)  { 
+  LayerList.forEach(layer =>mymap.removeLayer(layer));}
+ }
+
+function addWMSLegend(layer){
+    lagendGraphic = "http://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+layer;
+    wms_legend = L.wmsLegend(lagendGraphic);
+}
+
 
 function clearLayer(){
     LayerList.forEach(layer => mymap.removeLayer(layer));
@@ -224,7 +340,7 @@ var myLayerList= new Object();
 var index;
 function displayPoints(param,key){
 point_url = rootUrl + L.Util.getParamString(param);
-
+// console.log(point_url);
 fetch(point_url)
 .then(
     function(response) {
@@ -239,15 +355,15 @@ fetch(point_url)
         geojson = L.geoJson(jsonData.features, {
                 pointToLayer: function (feature,latlng) {
                  if(feature.properties.govt_poly_){
-                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'building', markerColor: 'green', prefix: 'fa', size:'5px' }) });
+                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'building', markerColor: 'green', prefix: 'fa' }) });
                  }
                  else if(feature.properties.priv_poly_){
                     return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'building', markerColor: 'blue', prefix: 'fa' }) });
                  }
-                 else if(feature.properties.govt_voc_s){
+                 else if(feature.properties.institut_1 === 'GOVERNMENT'){
                     return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'warehouse', markerColor: 'green', prefix: 'fa' }) });
                  }
-                 else{
+                 else if(feature.properties.institut_1 === 'PRIVATE'){
                     return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'warehouse', markerColor: 'blue', prefix: 'fa' }) });
                  }
                 
@@ -279,9 +395,11 @@ if(index){                                  //if layer is present
 
 
 function removeVillageLayer(){
-    if(village_layer){
-        mymap.removeLayer(village_layer);
+    if(villayer){
+        mymap.removeLayer(villayer);
+        
     }
+    //mymap.removeControl(wms_legend);
 }
 var defaultParameters = {
 service: 'WFS',
@@ -307,6 +425,10 @@ for (i = 0; i < coll.length; i++) {
     }
   });
 }
+
+
+
+
 </script>
 
 <div id="mapdiv" class="col-md-12"></div>

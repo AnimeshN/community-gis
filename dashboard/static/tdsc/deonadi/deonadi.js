@@ -1,7 +1,7 @@
 var geojson;
 var searchControl;
 
-const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+const domain = ['http://makerghat.urbansciences.in/','http://localhost/'];
 var rootUrl = domain[0] + 'geoserver/geonode/ows';
 var defaultParameters = {
 service: 'WFS',
@@ -37,7 +37,7 @@ var deo = null;
 $('#selector button').click(function() {
     clear_layer();
     if(soil_legend){
-    map.removeControl(soil_legend);
+    mymap.removeControl(soil_legend);
     } 
     $(this).addClass('active').siblings().removeClass('active');
     deo = this.innerHTML;
@@ -71,7 +71,7 @@ $('#selector button').click(function() {
 $('#block').change(function () {
     clear_layer();
     if(soil_legend){
-    map.removeControl(soil_legend);
+    mymap.removeControl(soil_legend);
     }        
     var deo = document.getElementById('block').value;
     var tempParameter = defaultParameters;
@@ -138,7 +138,7 @@ function river_style(feature) {
 
 
 function clear_layer(){
-    LayerList.forEach(layer => map.removeLayer(layer));
+    LayerList.forEach(layer => mymap.removeLayer(layer));
 }
 
 function onEachFeaturePoint(feature, layer) {
@@ -151,7 +151,7 @@ var markerClusters = L.markerClusterGroup({"chunkedLoading": true});
 
 
 function displayPoints(param){
-map.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
 var parameters = L.Util.extend(param);
 point_url = rootUrl + L.Util.getParamString(parameters)
 var geojsonMarkerOptions = {
@@ -181,10 +181,10 @@ fetch(point_url)
 });
 
     markerClusters.addLayer(geojson);
-    map.addLayer(markerClusters);
+    mymap.addLayer(markerClusters);
     LayerList.push(markerClusters);
     pointLayerList.push(geojson);
-    map.spin(false);
+    mymap.spin(false);
     url = "";
     });
 
@@ -206,11 +206,11 @@ function addSearchControl(layer,propertyName){
     layer: layer,
     propertyName: 'village_na',
     marker: false,
-    moveToLocation: function(latlng, title, map) {
-        //map.fitBounds( latlng.layer.getBounds() );
+    moveToLocation: function(latlng, title, mymap) {
+        //mymap.fitBounds( latlng.layer.getBounds() );
         console.log(latlng);
-        var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-        map.setView(latlng, zoom); // access the zoom
+        var zoom = mymap.getBoundsZoom(latlng.layer.getBounds());
+        mymap.setView(latlng, zoom); // access the zoom
     }
 });
 searchControl.on('search:locationfound', function(e) {
@@ -239,7 +239,7 @@ function displayPolygon(param){
 var parameters = L.Util.extend(param);
 layer_url = rootUrl + L.Util.getParamString(parameters)
 
-map.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
 
 fetch(layer_url)
 .then(
@@ -253,7 +253,7 @@ fetch(layer_url)
     // Examine the text in the response
     response.json().then(function(geojsonData) {
         // console.log(geojsonData)
-        map.setView([LAT, LONG], 12);
+        mymap.setView([LAT, LONG], 12);
         if(param.typeName === 'geonode:deonadi_villages'){
             propertyName = '';
             geojson = L.geoJson(geojsonData.features, {
@@ -261,10 +261,10 @@ fetch(layer_url)
                 onEachFeature: onEachFeature
             });
 
-            info.addTo(map);
+            info.addTo(mymap);
             if(typeof searchControl === 'undefined'){
                 searchControl = addSearchControl(geojson,'village_na');
-                map.addControl(searchControl);
+                mymap.addControl(searchControl);
             }
             
             
@@ -279,9 +279,9 @@ fetch(layer_url)
           
         }
 
-    map.addLayer(geojson);
+    mymap.addLayer(geojson);
 
-    map.spin(false);
+    mymap.spin(false);
     LayerList.push(geojson);
 
     });
@@ -297,23 +297,23 @@ fetch(layer_url)
 }
 
 function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
+    mymap.fitBounds(e.target.getBounds());
 }
 
 
 function addWMSLegend(layer){
-    lagendGraphic = "https://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+layer;
+    lagendGraphic = "http://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+layer;
     soil_legend = L.wmsLegend(lagendGraphic);
 }
 function putWMSLayer(layer){
       
-            var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+            var wms_layer = L.tileLayer.wms('http://makerghat.urbansciences.in/geoserver/wms', {
             layers: layer,
             format: 'image/png',
             transparent: true,
             style:""
             });
-            wms_layer.addTo(map);
+            wms_layer.addTo(mymap);
             LayerList.push(wms_layer);
             console.log(wms_layer);
             addWMSLegend(layer);
@@ -357,7 +357,7 @@ function resetHighlight(e) {
 
 var info = L.control({position: 'bottomleft'});
 
-info.onAdd = function (map) {
+info.onAdd = function (mymap) {
     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
     this.update();
     return this._div;

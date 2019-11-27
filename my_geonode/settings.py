@@ -77,3 +77,10 @@ UNOCONV_ENABLE = strtobool(os.getenv('UNOCONV_ENABLE', 'True'))
 if UNOCONV_ENABLE:
     UNOCONV_EXECUTABLE = os.getenv('UNOCONV_EXECUTABLE', '/usr/bin/unoconv')
     UNOCONV_TIMEOUT = os.getenv('UNOCONV_TIMEOUT', 30)  # seconds
+
+
+CORS_ORIGIN_WHITELIST = [
+    "https://makerghat.urbansciences.in",
+    "http://makerghat.urbansciences.in/",
+    "http://localhost:8080"
+]

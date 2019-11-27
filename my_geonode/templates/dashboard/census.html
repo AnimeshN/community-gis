@@ -275,7 +275,7 @@ var districtZoom = [7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
 
 var LayerList = [];
 
-const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+const domain = ['http://makerghat.urbansciences.in/','http://localhost/'];
 
 var rootUrl = domain[0] + 'geoserver/geonode/ows';
 
@@ -309,7 +309,7 @@ if(amenity === 'Village Amenities'){
     if(villageLayerCode[index] == ''){
         alert('layer of '+ dis + ' not found');
     }else{
-        tempParameter.typeName = "geonode:VillageCensus_maharashtra_1_0";
+        tempParameter.typeName = "geonode:villagecensus_maharashtra_1_0 ";
         tempParameter.cql_filter="district_n='"+villageLayerCode[index]+"'";
         tempParameter.propertyName="fid,the_geom,census_201,village_na,taluka_nam,govt_pre_1,govt_pri_1,tot_popu";
 
@@ -592,7 +592,7 @@ fetch(layer_url)
 
     // Examine the text in the response
     response.json().then(function(geojsonData) {
-        console.log(geojsonData.features);
+        // console.log(geojsonData.features);
         mymap.setView([lat, long], 11);
         geojson = L.geoJson(geojsonData.features, {
         style : style,
