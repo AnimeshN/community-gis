@@ -18,13 +18,14 @@ var layer_name;
 var LayerList = [];
 var pointLayerList = [];
 const LAT = 19.8427, LONG = 74.0770;
-const TYPENAME = {'Deonadi Basin Villages':'geonode:deonadi_villages',
-'Drainage in deonadi basin':'geonode:deonadi_drainage',
-'Wells in catchment area':'geonode:deonadi_wells',
-'Deonadi basin landuse 2005-06':'geonode:deonadi_landuse_2005_06',
-'Deonadi basin landuse 2011-12':'geonode:deonadi_landuse_2011_12',
-'Deonadi catchment soil depth':'geonode:deonadi_soil',
-'Deonadi catchment contour line':'deonadi_dem_countor_4326'
+
+const TYPENAME = {'Deonadi Watershed Villages':'geonode:deonadi_villages',
+'Deonadi Watershed Drainage':'geonode:deonadi_drainage',
+'Deonadi Watershed Wells':'geonode:deonadi_wells',
+'Deonadi Watershed Landuse 2005-06':'geonode:deonadi_landuse_2005_06',
+'Deonadi Watershed Landuse 2011-12':'geonode:deonadi_landuse_2011_12',
+'Deonadi Watershed Soil Depth':'geonode:deonadi_soil',
+'Deonadi Watershed contour line':'deonadi_dem_countor_4326'
 };
 var tempParameter;
 var soil_legend;
@@ -34,59 +35,58 @@ var num = null;
 
 
 var deo = null;
-$('#selector button').click(function() {
-    clear_layer();
-    if(soil_legend){
-    mymap.removeControl(soil_legend);
-    } 
-    $(this).addClass('active').siblings().removeClass('active');
-    deo = this.innerHTML;
+// $('#selector button').click(function() {
+//     clear_layer();
+//     if(soil_legend){
+//     mymap.removeControl(soil_legend);
+//     } 
+//     $(this).addClass('active').siblings().removeClass('active');
+//     deo = this.innerHTML;
 
-    var tempParameter = defaultParameters;
-    if(deo === 'Drainage in deonadi basin'){
-        // tempParameter.typeName = TYPENAME[deo]; 
-        // displayPolygon(tempParameter);
-        putWMSLayer(TYPENAME[deo]);
-        tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
-        displayPolygon(tempParameter);      
-    }else if(deo === 'Wells in catchment area'){
-        tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
-        displayPolygon(tempParameter);
-        tempParameter.typeName = TYPENAME[deo]; 
-        displayPoints(tempParameter);
-    }else if(deo === 'Deonadi Basin Villages'){
-        tempParameter.typeName = TYPENAME[deo]; 
-        tempParameter.propertyName = 'the_geom,village_na,tot_popu,area_ha,net_area,forest,area_irri';
-        displayPolygon(tempParameter);  
-        delete tempParameter['propertyName'];
-    }else{
-        putWMSLayer(TYPENAME[deo]);
+//     var tempParameter = defaultParameters;
+//     if(deo === 'Drainage in deonadi basin'){
+//         // tempParameter.typeName = TYPENAME[deo]; 
+//         // displayPolygon(tempParameter);
+//         putWMSLayer(TYPENAME[deo]);
+//         tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
+//         displayPolygon(tempParameter);      
+//     }else if(deo === 'Wells in catchment area'){
+//         tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
+//         displayPolygon(tempParameter);
+//         tempParameter.typeName = TYPENAME[deo]; 
+//         displayPoints(tempParameter);
+//     }else if(deo === 'Deonadi Basin Villages'){
+//         tempParameter.typeName = TYPENAME[deo]; 
+//         tempParameter.propertyName = 'the_geom,village_na,tot_popu,area_ha,net_area,forest,area_irri';
+//         displayPolygon(tempParameter);  
+//         delete tempParameter['propertyName'];
+//     }else{
+//         putWMSLayer(TYPENAME[deo]);
 
-    }
+//     }
 
-});
+// });
 
 
-
-$('#block').change(function () {
+$('#selector').change(function () {
     clear_layer();
     if(soil_legend){
     mymap.removeControl(soil_legend);
     }        
-    var deo = document.getElementById('block').value;
+    var deo = document.getElementById('selector').value;
     var tempParameter = defaultParameters;
-    if(deo === 'Drainage in deonadi basin'){
+    if(deo === 'Deonadi Watershed Drainage'){
         // tempParameter.typeName = TYPENAME[deo]; 
         // displayPolygon(tempParameter);
         putWMSLayer(TYPENAME[deo]);
         tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
         displayPolygon(tempParameter);      
-    }else if(deo === 'Wells in catchment area'){
+    }else if(deo === 'Deonadi Watershed Wells'){
         tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
         displayPolygon(tempParameter);
         tempParameter.typeName = TYPENAME[deo]; 
         displayPoints(tempParameter);
-    }else if(deo === 'Deonadi Basin Villages'){
+    }else if(deo === 'Deonadi Watershed Villages'){
         tempParameter.typeName = TYPENAME[deo]; 
         tempParameter.propertyName = 'the_geom,village_na,tot_popu,area_ha,net_area,forest,area_irri';
         displayPolygon(tempParameter);  
@@ -315,7 +315,6 @@ function putWMSLayer(layer){
             });
             wms_layer.addTo(mymap);
             LayerList.push(wms_layer);
-            console.log(wms_layer);
             addWMSLegend(layer);
             
             

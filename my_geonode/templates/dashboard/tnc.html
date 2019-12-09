@@ -17,7 +17,7 @@
     <!-- div1 -->
     <div class="header">
         <div class="logo">
-                <img src="{% static 'images/logo.png' %}" alt="Smiley face" height="40" width="220"> 
+                <img src="{% static 'images/logo.png' %}" alt="community-gis" height="40" width="220"> 
         </div>
         <div class="project-title">{{ title }}</div>
 
@@ -34,7 +34,7 @@
     <div class="map-div" id="map"></div>
     <!-- div3 -->
     <div class="side-bar" id="side-bar">
-            <div id="selector" class="btn-group-vertical mb-2">
+            <!-- <div id="selector" class="btn-group-vertical mb-2">
                 <button type="button" class="btn btn-info disabled">{{ options.8}}</button>
                 <button type="button" class="btn btn-light">{{ options.2}}</button>
                 <button type="button" class="btn btn-light">{{ options.1}}</button>
@@ -44,9 +44,32 @@
                 <button type="button" class="btn btn-light">{{ options.6}}</button>
                 <button type="button" class="btn btn-light">{{ options.7}}</button>
 
-            </div>
+            </div> -->
+
+         
+  
+
+            <select class='form-control' id="selector" name="selector" >
+                <option>{{ options.8}}</option>
+                <option>{{ options.2}}</option>
+                <option>{{ options.1}}</option>
+                <option>{{ options.3}}</option>
+                <option >{{ options.4}}</option>
+                <option>{{ options.5}}</option>
+                <option>{{ options.6}}</option>
+                <option>{{ options.7}}</option>
+              </select>
+          
+
+            
     </div>
 </div>
+<!-- bootstrap -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
 <script src="{% static 'leaflet-src.js' %}" ></script>
 
 <script src = "{% static 'leaflet-legend-graphics/leaflet.wmslegend.js' %}"></script>
@@ -80,6 +103,12 @@
 <!-- basic scrits -->
 <script src="{% static 'tdsc/js/tdsc_leaflet_plugin.js' %}"></script>
 <script src="{% static 'tdsc/deonadi/deonadi.js' %}"></script>
+<!-- <script>
+    $('#selector').change(function () {
+    alert('hello');
+});
+
+</script> -->
 <body>
     
 </body>

@@ -9,4 +9,4 @@ services:
     volumes:
       - '.:/usr/src/my_geonode'
     environment:
-      - DEBUG=False
+      - DEBUG=True

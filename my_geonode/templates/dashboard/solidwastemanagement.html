@@ -80,7 +80,7 @@
              <div class="tooltips" title="Please select the ward">
                     <button class="btn select" onclick="putLayer('geonode:mumbai_ward_boundary_10jun','mumbai')">Admin Ward</button>  
                     <button class="btn select" onclick="putLayer('geonode:mumbai_city_census','mumbai')">Census Ward</button>
-                    <button class="btn select" onclick="putLayer('geonode:CorporatorWardBoundary_mumbai_1_0','mumbai')">Corporator Ward</button>                
+                    <button class="btn select" onclick="putLayer('geonode:corporatorwardboundary_mumbai_1_0','mumbai')">Corporator Ward</button>                
                      
             </div> <br><br>
 
@@ -215,7 +215,7 @@
 
     <section class = 'heading'>Pune</section><br>
     <button class="btn btn-primary" onclick="displayPolygon('building_footprint')">Building Footprint</button>
-    <button class="btn btn-primary" onclick="displayPolygon('road_Network')">Road Network</button>
+    <!-- <button class="btn btn-primary" onclick="displayPolygon('road_Network')">Road Network</button> -->
     <button class="btn btn-primary" onclick="displayPoint()">Waste Collection Points</button>
     <button class="btn btn-danger" onclick="clearLayer()">Clear Layer</button>
 
@@ -531,4 +531,3 @@ for (i = 0; i < coll.length; i++) {
 
 
 {% endblock %}
-

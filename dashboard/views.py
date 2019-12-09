@@ -64,13 +64,13 @@ def tdsc(request):
 
 def test_animesh(request):
     theme_name = "Deonadi Project Dashboard"
-    options = {'1':'Deonadi Basin Villages',
-                '2':'Drainage in deonadi basin',
-                '3':'Wells in catchment area',
-                '4':'Deonadi basin landuse 2005-06',
-                '5':'Deonadi basin landuse 2011-12',
-                '6':'Deonadi catchment soil depth',
-                '7':'Deonadi catchment contour line',
+    options = {'1':'Deonadi Watershed Villages',
+                '2':'Deonadi Watershed Drainage',
+                '3':'Deonadi Watershed Wells',
+                '4':'Deonadi Watershed Landuse 2005-06',
+                '5':'Deonadi Watershed Landuse 2011-12',
+                '6':'Deonadi Watershed Soil Depth',
+                '7':'Deonadi Watershed contour line',
                 '8':'Please Select layers'
                }
     return render(request,'dashboard/test.html',{'title': theme_name,'options':options})
@@ -81,13 +81,13 @@ def tby(request):
 
 def deonadi(request):
     theme_name = "Deonadi Project Dashboard"
-    options = {'1':'Deonadi Basin Villages',
-                '2':'Drainage in deonadi basin',
-                '3':'Wells in catchment area',
-                '4':'Deonadi basin landuse 2005-06',
-                '5':'Deonadi basin landuse 2011-12',
-                '6':'Deonadi catchment soil depth',
-                '7':'Deonadi catchment contour line',
+    options = {'1':'Deonadi Watershed Villages',
+                '2':'Deonadi Watershed Drainage',
+                '3':'Deonadi Watershed Wells',
+                '4':'Deonadi Watershed Landuse 2005-06',
+                '5':'Deonadi Watershed Landuse 2011-12',
+                '6':'Deonadi Watershed Soil Depth',
+                '7':'Deonadi Watershed contour line',
                 '8':'Please Select layers'
                }
     return render(request,'dashboard/tnc.html',{'title': theme_name,'options':options})
