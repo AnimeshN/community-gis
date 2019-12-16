@@ -48,10 +48,10 @@ var deo = null;
 //         // tempParameter.typeName = TYPENAME[deo]; 
 //         // displayPolygon(tempParameter);
 //         putWMSLayer(TYPENAME[deo]);
-//         tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
+//         tempParameter.typeName = 'geonode:devnadi_cachment_generated'; 
 //         displayPolygon(tempParameter);      
 //     }else if(deo === 'Wells in catchment area'){
-//         tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
+//         tempParameter.typeName = 'geonode:devnadi_cachment_generated'; 
 //         displayPolygon(tempParameter);
 //         tempParameter.typeName = TYPENAME[deo]; 
 //         displayPoints(tempParameter);
@@ -79,10 +79,10 @@ $('#selector').change(function () {
         // tempParameter.typeName = TYPENAME[deo]; 
         // displayPolygon(tempParameter);
         putWMSLayer(TYPENAME[deo]);
-        tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
+        tempParameter.typeName = 'geonode:devnadi_cachment_generated'; 
         displayPolygon(tempParameter);      
     }else if(deo === 'Deonadi Watershed Wells'){
-        tempParameter.typeName = 'geonode:devnadi_Cachment_generated'; 
+        tempParameter.typeName = 'geonode:devnadi_cachment_generated'; 
         displayPolygon(tempParameter);
         tempParameter.typeName = TYPENAME[deo]; 
         displayPoints(tempParameter);
