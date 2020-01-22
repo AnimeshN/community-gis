@@ -80,4 +80,4 @@ if UNOCONV_ENABLE:
 
 
 
-ALLOWED_HOSTS=["104.210.61.129"]
+ALLOWED_HOSTS=[u'104.210.61.129',u'makerghat.urbansciences.in']

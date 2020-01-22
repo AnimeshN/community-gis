@@ -65,3 +65,4 @@ geoserver/
 .idea/
 
 /.vscode/settings.json
+.env
