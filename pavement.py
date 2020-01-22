@@ -574,7 +574,7 @@ def start_django():
     settings = options.get('settings', '')
     if settings:
         settings = 'DJANGO_SETTINGS_MODULE=%s' % settings
-    bind = options.get('bind', '0.0.0.0:8000')
+    bind = options.get('bind', '0.0.0.0:80')
     foreground = '' if options.get('foreground', False) else '&'
     sh('%s python -W ignore manage.py runserver %s %s' % (settings, bind, foreground))
 
@@ -840,7 +840,7 @@ def test_integration(options):
             sh("%s python -W ignore manage.py loaddata geonode/base/fixtures/initial_data.json" %
                settings)
             call_task('start_geoserver')
-            bind = options.get('bind', '0.0.0.0:8000')
+            bind = options.get('bind', '0.0.0.0:80')
             foreground = '' if options.get('foreground', False) else '&'
             sh('%s python -W ignore manage.py runmessaging %s' % (settings, foreground))
             sh('%s python -W ignore manage.py runserver %s %s' %

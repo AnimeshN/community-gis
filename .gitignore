@@ -42,7 +42,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
-
+celerybeat-schedule
 # Django stuff:
 *.log
 celerybeat-schedule.*
@@ -60,6 +60,7 @@ static_root/
 development.db
 development.db-journal
 local_settings.py
+geoserver/
 
 .idea/
 

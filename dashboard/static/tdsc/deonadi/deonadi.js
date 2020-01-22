@@ -1,7 +1,7 @@
 var geojson;
 var searchControl;
 
-const domain = ['http://makerghat.urbansciences.in/','http://localhost/'];
+const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
 var rootUrl = domain[0] + 'geoserver/geonode/ows';
 var defaultParameters = {
 service: 'WFS',
@@ -302,12 +302,12 @@ function zoomToFeature(e) {
 
 
 function addWMSLegend(layer){
-    lagendGraphic = "http://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+layer;
+    lagendGraphic = "https://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+layer;
     soil_legend = L.wmsLegend(lagendGraphic);
 }
 function putWMSLayer(layer){
       
-            var wms_layer = L.tileLayer.wms('http://makerghat.urbansciences.in/geoserver/wms', {
+            var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
             layers: layer,
             format: 'image/png',
             transparent: true,
