@@ -311,7 +311,7 @@ function fetch_layer_name(){
     var structure = document.getElementById('structure').value;
     switch(structure){
         case "Culvert":
-            layer_name = "thakkarbappayojana_mokhada_culvert_1_00";
+            layer_name = "thakkarbappayojana_mokhada_culvert_1_0";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bars', markerColor: 'red', prefix: 'fa' });
             break;
         case "Dug well":
@@ -352,6 +352,8 @@ var geticon = function(){
 
 
 function displayPoints(layer_name,assessment){
+    console.log(assessment);
+
 pointLayerList.forEach(layer => mymap.removeLayer(layer));
 mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
 url = base_url + "&typeName=geonode%3A" + layer_name;
@@ -483,11 +485,11 @@ function onEachFeatureForPoint(feature, layer) {
         "<tr><td>In use:</td><td>"+feature.properties.In_use+"</tr>"+
         "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
     
-    }else if(feature.properties && feature.properties.chula_ch){
+    }else if(feature.properties && feature.properties["chula-ch"]){
 		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.Habitation+"</td></tr>"+
         "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
         "<tr><td>Budget:</td><td>"+feature.properties.Budget+"</td></tr>"+
-        "<tr><td>Chula_ch:</td><td>"+feature.properties.chula_ch+"</td></tr>"+
+        "<tr><td>Chula_ch:</td><td>"+feature.properties["chula-ch"]+"</td></tr>"+
         "<tr><td>Height:</td><td>"+feature.properties.Height+"</tr>"+
         "<tr><td>Length:</td><td>"+feature.properties.Length+"</tr>"+
         "<tr><td>Width:</td><td>"+feature.properties.Width+"</tr>"+
