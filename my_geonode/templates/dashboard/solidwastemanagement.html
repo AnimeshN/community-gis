@@ -64,6 +64,15 @@
   display: block;
 }
 
+.popupimage{
+    height: 350px;
+    width: 350px;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: rgba(255, 255, 255, 0)!important;
+    color: rgba(255, 255, 255, 0)!important;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0)!important;
+}
 </style>
 
 <div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- Main container -->
@@ -147,23 +156,19 @@
     
     <section class = 'heading'>S-ward</section><br>
     <!-- <button class="btn select" onclick="putLayer('geonode:','sward')">Buildings</button> -->
-    <button class="btn select" onclick="putLayer('geonode:s_ward_all_polygone_21','sward')">DP polygon</button>
-    <button class="btn select" onclick="putLayer('geonode:','sward')">Roads(NA)</button>
-
+    <button class="btn select" onclick="putLayer('geonode:s_ward_all_polygone_2','sward')">DP polygon</button>
+    <button class="btn select" onclick="putLayer('geonode:_122_roads','sward')">Roads</button>
+    <button class="btn select" onclick="putLayer('geonode:w122_buidings_24dec','sward')">Building Footprint</button>
+<!-- 
     <h5>Buildings</h5>
             <div class="tooltips">
                 <select class="form-control" id="swbuildings" name="swbuildings">
                     <option>Select Building type</option>    
                     <option>Residential</option>
-                   <!-- <option>Educational</option>
-                    <option>Hotels</option>
-                    <option>Markets</option>
-                    <option>Hospitals</option>
-                    <option>Slums</option>
-                    <option>Govt Buildings</option>-->
+                 
                 </select>
 
-            </div>   <br> 
+            </div>   <br>  -->
 
     
     <div class="tooltips" title="other layers">
@@ -389,7 +394,8 @@ fetch(layer_url)
 function onEachFeaturePoint(feature, layer) {
 	// does this feature have a property named popupContent?
     var str1 = "<img class = 'popupimage' src='/static/swm/swm_pune_pics/".concat(feature.properties.Name);
-    var str2 = str1.concat("' alt='talian Trulli'>");
+    var str2 = str1.concat("' alt='image not found'>");
+    console.log(str2);
     layer.bindPopup(str2);
 
 	
