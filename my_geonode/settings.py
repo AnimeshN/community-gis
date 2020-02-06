@@ -21,7 +21,12 @@
 # Django settings for the GeoNode project.
 import ast
 import os
-from urlparse import urlparse, urlunparse
+try:
+    from urllib.parse import urlparse, urlunparse
+    from urllib.request import urlopen, Request
+except ImportError:
+    from urllib2 import urlopen, Request
+    from urlparse import urlparse, urlunparse
 # Load more settings from a file called local_settings.py if it exists
 try:
     from my_geonode.local_settings import *
@@ -80,4 +85,4 @@ if UNOCONV_ENABLE:
 
 
 
-ALLOWED_HOSTS=[u'104.210.61.129',u'makerghat.urbansciences.in']
+ALLOWED_HOSTS=[u'104.210.61.129',u'makerghat.urbansciences.in','localhost']
