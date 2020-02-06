@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
+.env
 # C extensions
 *.so
 
@@ -66,3 +66,4 @@ geoserver/
 
 /.vscode/settings.json
 .env
+dashboard/static/swm/
