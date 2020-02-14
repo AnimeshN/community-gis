@@ -4,9 +4,10 @@
 
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'css/multiselect.css' %}">
+<script src="{% static 'js/multiselect.min.js' %}" ></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-
 
 <style>
 .bs-example{
@@ -46,8 +47,9 @@ tr:hover {
   border-collapse: collapse;
   padding: 2px 3px;
   width: 100%;
+  font-size: small;
   /* font-weight: bold; */
-
+  background: #fff;
 }
     
 
@@ -86,12 +88,30 @@ tr:hover {
     font-weight: bold;
 }
 
+
+.mobileShow {display: none;}
+
+  /* Smartphone Portrait and Landscape */
+  @media only screen
+    and (min-device-width : 320px)
+    and (max-device-width : 480px){ 
+      .mobileShow {display: inline;}
+  }
 </style>
 
 <div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- side-bar container -->
 
   <h2 class="text-center">Thakkar Bappa Yojana<br>Palghar</h2>
   <hr>
+
+  <div class="mobileShow">
+   
+    <div style="text-align: center"> 
+        <button style="display: inline-block ;position: relative; background: #000; opacity: 0.60;" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="fa fa-bars"></span></button> 
+    </div>
+
+ </div>   
+
  <!-- Tab for Report , Dashboard , Query Builder -->
   <div class="bs-example">
     <ul class="nav nav-tabs nav-justified">
@@ -128,22 +148,28 @@ tr:hover {
                          </optgroup>
                 </select>
             </div>
-
-
-
              <br>
-             
                 <div class="tooltips" title="Please select the structure.">
                     <select class= 'form-control' id="structure" name="structure" placeholder="Enter structure"></select>
                 </div>
-                <br><br>
+                <br>
+
+                <div class="tooltips" title="Please select the Year(s)">
+                  <select class = 'form-control' name='testSelect1' id='testSelect1' multiple placeholder="Select year(s)">
+                    <option value='1'>2011-2012</option>
+                    <option value='2'>2012-2013</option>
+                    <option value='3'>2013-2014</option>
+                    <option value='4'>2014-2015</option>
+                  </select>
+                </div> 
+                <br>
                <div class = 'text-center'> 
               <button title="OK" class = 'btn btn-success' onclick="display_layer('OK')"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-              <button title="Not OK" class = 'btn btn-success' onclick="display_layer('Not OK')"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button><br><br>
+              <button title="Not OK" class = 'btn btn-danger' onclick="display_layer('Not OK')"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button><br><br>
 
-              <button title="Clear layers" class = 'btn btn-success' onclick="clear_layer()"><span class="fa fa-eraser"></span></button>
+              <button title="Clear layers" class = 'btn btn-warning' onclick="clear_layer()"><span class="fa fa-eraser"></span></button>
 
-              <button title="Show Attribute table" class = 'btn btn-success select' id="displaytable" ><i class="fa fa-table" aria-hidden="true"></i></button>
+              <button title="Show Attribute table" class = 'btn btn-info select' id="displaytable" ><i class="fa fa-table" aria-hidden="true"></i></button>
               <!-- <button title="Download Attribute table" class = 'btn btn-success' id="downloadtable" ><i class="fa fa-download" aria-hidden="true"></i></button><br><br> -->
             </div>
 
@@ -193,12 +219,6 @@ tr:hover {
 <!-- Tab ends here -->
 
 
-
-
-
- <div style="text-align: center"> 
-        <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="fa fa-power-off"></span></button> 
-    </div>
 </div>
 
 <script>
@@ -238,6 +258,8 @@ var structures = {
     display_layer(event.data.msg);
     
 });
+
+
     
 var geojson;
 const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
@@ -294,10 +316,7 @@ function display_layer(assessment){
 
     }else{
         displayPoints(name_and_icons[0],assessment);
-
     }
-
-
 }
 
 function clear_layer(){
@@ -581,10 +600,7 @@ $("#displaytable").click(function(){
                                 console.log('Fetch Error :-S', err);
                             });
                             return div;
-                        
-
-
-                }
+                        }
                
                 attribute_table.addTo(mymap);
     }
@@ -651,6 +667,9 @@ function download_csv(csv, filename) {
     downloadLink.click();
 }
 
+
+    $('#testSelect1').multiselect();
+    
 </script>
 
 

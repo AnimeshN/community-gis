@@ -21,10 +21,7 @@
     <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet" href="{% static 'front.css' %}">
-	
-    
-    
+    <link rel="stylesheet" href="{% static 'front.css' %}">
 
     <script src="{% static 'leaflet-src.js' %}" ></script>
     <!-- <script src="src/jquery-3.2.0.min.js"></script> -->
@@ -125,7 +122,7 @@ var source = L.wms.source(
     attributionControl:false,
     messagebox: true,
     contextmenu: true,
-    measureControl: true
+    measureControl: false
   });
   mymap.messagebox.options.timeout = 5000;
   mymap.messagebox.setPosition("bottomright");
@@ -188,11 +185,11 @@ $('.select').click(function () {
   objOverlays = {
   };
   
-  var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
+  // var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
   var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
   var ctlPan = L.control.pan().addTo(mymap);
 
-  var ctlEasybutton = L.easyButton('fa fa-arrows-alt-h', function(){
+  var ctlEasybutton = L.easyButton('fa fa fa-bars', function(){
       ctlSidebar.toggle(); 
   }).addTo(mymap);
   ctlSidebar.show();
