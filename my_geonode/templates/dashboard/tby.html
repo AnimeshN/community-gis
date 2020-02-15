@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="{% static 'css/multiselect.css' %}">
-<script src="{% static 'js/multiselect.min.js' %}" ></script>
+<script src="{% static 'js/multiselect2.min.js' %}" ></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
@@ -150,16 +150,23 @@ tr:hover {
             </div>
              <br>
                 <div class="tooltips" title="Please select the structure.">
-                    <select class= 'form-control' id="structure" name="structure" placeholder="Enter structure"></select>
+                    <!-- <select class= 'form-control' id="structure" name="structure" placeholder="Enter structure"></select> --> 
+                    <script type="text/javascript" language="JavaScript">
+                        document.write('<select class= "form-control" name="structure" id="structure"><option value="">Select Structure</option></select>')
+                    </script>
+        
                 </div>
                 <br>
 
                 <div class="tooltips" title="Please select the Year(s)">
-                  <select class = 'form-control' name='testSelect1' id='testSelect1' multiple placeholder="Select year(s)">
-                    <option value='1'>2011-2012</option>
-                    <option value='2'>2012-2013</option>
-                    <option value='3'>2013-2014</option>
-                    <option value='4'>2014-2015</option>
+                    <!-- <script type="text/javascript" language="JavaScript">
+                        document.write('<select class= "form-control" id="testSelect1" multiple><option value="">All Years Selected</option><option value="2011-2012">2011-2012</option><option value="2012-2013">2012-2013</option><option value="2013-2014">2013-2014</option><option value="2014-2015">2014-2015</option></select>')
+                    </script> -->
+                  <select id='testSelect1' data-placeholder="Select year(s)" multiple>
+                    <option value='2011-2012'>2011-2012</option>
+                    <option value='2012-2013'>2012-2013</option>
+                    <option value='2013-2014'>2013-2014</option>
+                    <option value='2014-2015'>2014-2015</option>
                   </select>
                 </div> 
                 <br>
