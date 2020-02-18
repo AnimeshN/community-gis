@@ -1,0 +1,157 @@
+.select7_container {
+    box-sizing: border-box;
+    position: relative;
+    background-color: rgba(0, 0, 0, .8);
+    background: #fff;
+    padding: 5px 5px 0 5px;
+    padding-right: 30px;
+    border-radius: 5px;
+    overflow: hidden;
+    /* color: rgb(255, 255, 255); */
+    color: #000;
+    width: 100%;
+    min-height: 30px;
+    user-select: none;
+    /* height: calc(1.5em + .75rem + 2px); */
+    line-height: 1.5;
+
+    /* display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; */
+}
+
+.select7_placeholder {
+    /* font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif; */
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.445);
+    color: #000;
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    transform: translateY(-50%);
+    display: block;
+    padding-left: 12px;
+    font-weight: normal;
+    font-size: large;
+    opacity: 0.75;
+    /*display: block;
+    white-space: pre;
+    min-height: 1.2em;
+    padding: 0px 2px 1px; */
+}
+
+.select7_arrow {
+    position: absolute;
+    right: 7px;
+    vertical-align: middle;
+    font-size: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.75;
+}
+
+.select7_item {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, .9);
+    padding:2px 4px;
+    border-radius: 5px;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    /* font-weight: 700; */
+    font-size: 14px;
+    user-select: none;
+    margin-bottom: 5px;
+    max-width: 99%;
+
+    /* z-index: 1;
+	position: absolute;
+	display: none;
+	background-color: white;
+	border: 1px solid grey;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	margin-top: -2px; */
+}
+
+.select7_content {
+    padding-right: 15px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: rgba(0, 0, 0, .9);
+    /* opacity: 0.75; */
+}
+
+.select7_select {
+    position: absolute;
+    background:#fff;
+    /* color: rgba(255, 255, 255, 0); */
+    color: #000;
+    border: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-left: 12px;
+    /* opacity: 0.60; */
+}
+
+.select7_select > option {
+    /* background: rgba(0, 0, 0, 0.486); */
+    color: #000;
+    font-size: 15px;
+    opacity: 0.75;
+    /* font-weight: bold; */ /* add this for bold options */
+}
+
+.select7_del {
+    position: absolute;
+    top: 4px;
+    right: 12px;
+}
+
+.select7_del:hover {
+    cursor: pointer;
+}
+
+.select7_item:hover {
+
+    background-color: rgba(255, 255, 255, 0.603);
+}
+
+.select7_hide {
+    display:none;
+}
+
+.select7_x {
+    width: 3px;
+    height: 12px;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    opacity: 0.70;    
+}
+
+.select7_x:first-child {
+    transform: rotate(45deg);
+}
+
+.select7_x:last-child {
+    transform: rotate(-45deg);
+}
