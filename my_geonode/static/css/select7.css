@@ -44,7 +44,7 @@
     padding-left: 12px;
     font-weight: normal;
     /* font-size: large; */
-    opacity: 0.70;
+    opacity: 0.73;
     /*display: block;
     white-space: pre;
     min-height: 1.2em;
@@ -116,7 +116,7 @@
     /* background: rgba(0, 0, 0, 0.486); */
     color: #000;
     font-size: 15px;
-    opacity: 0.75;
+    opacity: 0.70;
     /* font-weight: bold; */ /* add this for bold options */
 }
 
@@ -145,7 +145,7 @@
     background-color: black;
     position: absolute;
     top: 0;
-    opacity: 0.73;    
+    opacity: 0.70;    
 }
 
 .select7_x:first-child {
