@@ -35,7 +35,7 @@
     font-weight: bold;
     color: rgba(255, 255, 255, 0.445);
     color: #000;
-    font-size: 16px;
+    font-size: 15px;
     position: absolute;
     top: 50%;
     left: 6px;
@@ -43,8 +43,8 @@
     display: block;
     padding-left: 12px;
     font-weight: normal;
-    font-size: large;
-    opacity: 0.75;
+    /* font-size: large; */
+    opacity: 0.70;
     /*display: block;
     white-space: pre;
     min-height: 1.2em;
@@ -145,7 +145,7 @@
     background-color: black;
     position: absolute;
     top: 0;
-    opacity: 0.70;    
+    opacity: 0.73;    
 }
 
 .select7_x:first-child {
