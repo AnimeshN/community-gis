@@ -197,14 +197,14 @@ tr:hover {
             <!-- </div> -->
 
             <div class="btn-group" style="text-align: center; ">
-                <button title="OK" class = 'btn btn-primary' style="margin-left:40px; margin-right:16px;  border-radius: 5px;" onclick="display_layer('OK')">Execute</i></button>
+                <button title="Execute" class = 'btn btn-primary' style="margin-left:40px; margin-right:16px;  border-radius: 5px;" id="execute">Execute</i></button>
                 <button title="OK" class = 'btn btn-success' style="border-radius: 5px 0px 0px 5px;" onclick="display_layer('OK')"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
               <button title="Not OK" class = 'btn btn-danger' onclick="display_layer('Not OK')"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button><br><br>
 
               <button title="Clear layers" class = 'btn btn-warning' onclick="clear_layer()"><span class="fa fa-eraser"></span></button>
 
               <button title="Show Attribute table" class = 'btn btn-info select' id="displaytable" ><i class="fa fa-table" aria-hidden="true"></i></button>
-              </div>
+            </div>
               
 
             <br><br>
@@ -212,7 +212,7 @@ tr:hover {
             <div style="text-align: center">
                 <table class='table-legend'>
                     <tr>
-                        <th colspan="2">Button discription</i></th>
+                        <th colspan="2">Button description</i></th>
                     </tr>
                     <tr>
                         <td><i class="fa fa-thumbs-up" aria-hidden="true"></i></td>
@@ -242,11 +242,6 @@ tr:hover {
             <h4 class="mt-2">Query Builder</h4>
             <p>User can build queries to analyse data.</p>
         </div>
-
-
-
-
-
     </div>
 </div>
 
@@ -288,22 +283,21 @@ var structures = {
     });
 
 
-    $("#structure").change({msg: "all"},  function(event) {
-    display_layer(event.data.msg);
-    
-});
 
-
+    $('#execute').click({msg: "all"}, function(event){
+        let structure = document.getElementById('structure').value;
+        let sel = Select7.get('select7');
+        let years=[];
+        sel.forEach(s => years.push(s.value));
+        displayWithYear(structure,years)
+    });
     
 var geojson;
-const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
-var base_url = domain[0] + "geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
+const domain = ['https://makerghat.urbansciences.in/','http://localhost:8080/'];
+var base_url = domain[1] + "geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
 var info = L.control();
 var attribute_table = L.control({position: 'bottomright'});
 var layer_name;
-
-
-
 
 
 const fontAwesomeIcon = L.divIcon({
@@ -343,20 +337,19 @@ function style(feature) {
     };
 }
 
-function display_layer(assessment){
+
+function displayWithYear(structure, years){
     var name_and_icons = fetch_layer_name();
     if(typeof name_and_icons[1] === 'undefined'){
         mymap.messagebox.show('Please select block and structure');
-
     }else{
-        displayPoints(name_and_icons[0],assessment);
+        displayPointsWithYear(name_and_icons[0],years);
     }
 }
 
 function clear_layer(){
     LayerList.forEach(layer => mymap.removeLayer(layer));
 }
-
 
 function fetch_layer_name(){
     var layer_name,structureIcon;
@@ -387,78 +380,69 @@ function fetch_layer_name(){
             layer_name = "thakkarbappayojana_mokhada_smashanbhoomi_1_0";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
             break;
-
     }
-
-
-
-
     var name_and_style = [layer_name,structureIcon];
     return name_and_style;
-
-    
 }
+
+function displayPointsWithYear(layer_name,years){
+    // console.log(years);
+
+    pointLayerList.forEach(layer => mymap.removeLayer(layer));
+    mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+    url = base_url + "&typeName=geonode%3A" + layer_name;
+    // console.log(url);
+    fetch(url)
+    .then(
+        function(response) {
+        if (response.status !== 200) {
+            console.log('Looks like there was a problem. Status Code: ' +
+            response.status);
+            return;
+        }
+
+        // Examine the text in the response
+        response.json().then(function(stressData) {
+            // console.log(stressData);
+
+            geojson = L.geoJson(stressData.features, {
+                pointToLayer: function (feature, latlng) {
+                    for(var i=0;i<years.length;i++){
+                        if(feature.properties.cons_year === years[i]){
+                            return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-up', markerColor: 'blue', prefix: 'fa' }) });
+                        }
+                    }
+                    
+        },
+        onEachFeature: onEachFeatureForPoint,
+        filter: function(feature, layer) {
+                    // if(assessment == 'all'){
+                    //     return true;
+                    // }else{
+                    //     return feature.properties.final_asse == assessment;                        
+                    // }
+                    return true;                
+                }
+        }).addTo(mymap);
+        LayerList.push(geojson);
+        pointLayerList.push(geojson);
+        mymap.spin(false);
+        url = "";
+
+        });
+    }
+    )
+    .catch(function(err) {
+        console.log('Fetch Error :-S', err);
+    });
+    // }
+}
+
+
 
 var geticon = function(){
  return L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
 }
-
-
-function displayPoints(layer_name,assessment){
-    console.log(assessment);
-
-pointLayerList.forEach(layer => mymap.removeLayer(layer));
-mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
-url = base_url + "&typeName=geonode%3A" + layer_name;
-fetch(url)
-.then(
-    function(response) {
-    if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-        response.status);
-        return;
-    }
-
-    // Examine the text in the response
-    response.json().then(function(stressData) {
-
-        geojson = L.geoJson(stressData.features, {
-            pointToLayer: function (feature, latlng) {
-                if(feature.properties.Final_Asse === 'OK'){
-                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-up', markerColor: 'green', prefix: 'fa' }) });
-                }else{
-                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-down', markerColor: 'red', prefix: 'fa' }) });
-                }
-	},
-    onEachFeature: onEachFeatureForPoint,
-    filter: function(feature, layer) {
-                if(assessment == 'all'){
-                    return true;
-                }else{
-                    return feature.properties.Final_Asse == assessment;
-                    
-                }
-                
-            }
-    }).addTo(mymap);
-    LayerList.push(geojson);
-    pointLayerList.push(geojson);
-    mymap.spin(false);
-    url = "";
-
-    });
-
-
-    }
-)
-.catch(function(err) {
-    console.log('Fetch Error :-S', err);
-});
-// }
-
-    
-}
-
 
 
 function displayPolygon(blockName,lat,long){
@@ -489,21 +473,19 @@ fetch(layer_url)
 .catch(function(err) {
     console.log('Fetch Error :-S', err);
 });
-
-    
+   
 }
 
 function onEachFeatureForPoint(feature, layer) {
 	// does this feature have a property named popupContent?
-	if (feature.properties && feature.properties.No_of_Pipe) {
-		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.Habitation+"</td></tr>"+
-        "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
-        "<tr><td>Budget:</td><td>"+feature.properties.Budget+"</td></tr>"+
-        "<tr><td>Number of pipes:</td><td>"+feature.properties.No_of_Pipe+"</td></tr>"+
-        "<tr><td>Width of pipes:</td><td>"+feature.properties.Width+"</tr>"+
-        "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
-
-             
+	if (feature.properties && feature.properties.no_of_pipe) {
+		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.habitation+"</td></tr>"+
+        // "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
+        // "<tr><td>Budget:</td><td>"+feature.properties.Budget+"</td></tr>"+
+        // "<tr><td>Number of pipes:</td><td>"+feature.properties.No_of_Pipe+"</td></tr>"+
+        "<tr><td>Width of pipes:</td><td>"+feature.properties.width+"</tr>"+
+        "<tr><td>Construction Year:</td><td>"+feature.properties.cons_year+"</td></tr>"+
+        "<tr><td>Final Assessment:</td><td>"+feature.properties.final_asse+"</td></tr></table>");
 
         
 	}else if(feature.properties && feature.properties.Diameter){
@@ -513,6 +495,7 @@ function onEachFeatureForPoint(feature, layer) {
         "<tr><td>Depth:</td><td>"+feature.properties.Depth+"</td></tr>"+
         "<tr><td>Diameter:</td><td>"+feature.properties.Diameter+"</tr>"+
         "<tr><td>Material Used:</td><td>"+feature.properties.Material+"</tr>"+
+        "<tr><td>Construction Year:</td><td>"+feature.properties.cons_year+"</td></tr>"+
         "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
     
     }
@@ -524,6 +507,7 @@ function onEachFeatureForPoint(feature, layer) {
         "<tr><td>Number of Bath:</td><td>"+feature.properties.No_of_Bath+"</tr>"+
         "<tr><td>No of WC:</td><td>"+feature.properties.No_of_WC+"</tr>"+
         "<tr><td>Water Availability:</td><td>"+feature.properties.Water_Prov+"</tr>"+
+        "<tr><td>Construction Year:</td><td>"+feature.properties.cons_year+"</td></tr>"+
         "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
     
     }else if(feature.properties && feature.properties.Electric_F){
@@ -536,6 +520,7 @@ function onEachFeatureForPoint(feature, layer) {
         "<tr><td>Width:</td><td>"+feature.properties.Width+"</tr>"+
         "<tr><td>Sanitary_B:</td><td>"+feature.properties.Sanitary_B+"</tr>"+
         "<tr><td>In use:</td><td>"+feature.properties.In_use+"</tr>"+
+        "<tr><td>Construction Year:</td><td>"+feature.properties.cons_year+"</td></tr>"+
         "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
     
     }else if(feature.properties && feature.properties["chula-ch"]){
@@ -546,19 +531,27 @@ function onEachFeatureForPoint(feature, layer) {
         "<tr><td>Height:</td><td>"+feature.properties.Height+"</tr>"+
         "<tr><td>Length:</td><td>"+feature.properties.Length+"</tr>"+
         "<tr><td>Width:</td><td>"+feature.properties.Width+"</tr>"+
+        "<tr><td>Construction Year:</td><td>"+feature.properties.cons_year+"</td></tr>"+
         "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
-    
     }
-}
+    else if (feature.properties && feature.properties.budget) {
+		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.habitation+"</td></tr>"+
+        // "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
+        "<tr><td>Budget:</td><td>"+feature.properties.budget+"</td></tr>"+
+        // "<tr><td>Number of pipes:</td><td>"+feature.properties.No_of_Pipe+"</td></tr>"+
+        // "<tr><td>Width of pipes:</td><td>"+feature.properties.width+"</tr>"+
+        "<tr><td>Construction Year:</td><td>"+feature.properties.cons_year+"</td></tr>"+
+        "<tr><td>Final Assessment:</td><td>"+feature.properties.final_asse+"</td></tr></table>");
 
+        
+	}
+
+}
 
 function hideTable(){
     mymap.removeControl(attribute_table);
     ctlSidebar.show();
 }
-
-
-
 
 var legend = L.control({position: 'bottomright'});
 var downloadThisTable;
@@ -640,8 +633,6 @@ $("#displaytable").click(function(){
     }
 });
 
-
-
 function create_property_json(feature){
     var json_props = [];
     feature.forEach(feat => {
@@ -701,11 +692,7 @@ function download_csv(csv, filename) {
     downloadLink.click();
 }
 
-
-    $('#testSelect1').multiselect();
-    
 </script>
-
 
 {% endblock %}
 
