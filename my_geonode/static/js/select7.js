@@ -65,7 +65,7 @@ Select7.get = (select7_id, type = "text") => {
                 break;
             }
         }
-        console.log(selected_values[0]);    
+        console.log(selected_values);    
         return selected_values;
     }
 };

@@ -188,9 +188,7 @@ tr:hover {
                 <!-- <div class="inner" style="display: inline;"> -->
               <!-- <button title="OK" class = 'btn btn-success' onclick="display_layer('OK')"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
               <button title="Not OK" class = 'btn btn-danger' onclick="display_layer('Not OK')"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button><br><br>
-
               <button title="Clear layers" class = 'btn btn-warning' onclick="clear_layer()"><span class="fa fa-eraser"></span></button>
-
               <button title="Show Attribute table" class = 'btn btn-info select' id="displaytable" ><i class="fa fa-table" aria-hidden="true"></i></button> -->
               <!-- <button title="Download Attribute table" class = 'btn btn-success' id="downloadtable" ><i class="fa fa-download" aria-hidden="true"></i></button><br><br> -->
             <!-- </div> -->
@@ -259,7 +257,7 @@ tr:hover {
 // dependent dropdown
 var structures = {
     // 'Concrete Gutter'
-        'Mokhada': ['Select Structure','Public Toilets', 'Culvert','Dug well','Samaj Mandir','Smashan Bhoomi'],
+        'Mokhada': ['Select Structure','Public Toilets', 'Culvert','Dug well','Samaj Mandir','Smashan Bhoomi','Bituminous Road'],
         'Jawahar': ['Select Structure','Borewell','Smashan Bhoomi'],
         'Vada': ['Select Structure','Bitumen Road', 'Concrete Road', 'Culvert','Dug well','Gym','Public water supply (PWS)','Mangal Karyalaya','Borewell','Smashan Bhoomi'],
         'Vikramgarh': ['Select Structure','Bitumen Road', 'Concrete Road', 'Culvert','Dug well','Gym','Public water supply (PWS)','Mangal Karyalaya','Borewell','Smashan Bhoomi'],
@@ -287,14 +285,16 @@ var structures = {
     $('#execute').click({msg: "all"}, function(event){
         let structure = document.getElementById('structure').value;
         let sel = Select7.get('select7');
-        let years=[];
-        sel.forEach(s => years.push(s.value));
-        displayWithYear(structure,years)
+        console.log(sel);
+        // let years=[];
+        // sel.forEach(s => years.push(s.value));
+        // console.log(years);
+        displayWithYear(structure,sel)
     });
     
 var geojson;
 const domain = ['https://makerghat.urbansciences.in/','http://localhost:8080/'];
-var base_url = domain[1] + "geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
+var base_url = domain[1] + "geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputformat=application/json&";
 var info = L.control();
 var attribute_table = L.control({position: 'bottomright'});
 var layer_name;
@@ -342,7 +342,10 @@ function displayWithYear(structure, years){
     var name_and_icons = fetch_layer_name();
     if(typeof name_and_icons[1] === 'undefined'){
         mymap.messagebox.show('Please select block and structure');
-    }else{
+    }else if(structure==="Bituminous Road"){
+       displayLinesWithYear(name_and_icons[0],years); 
+    }
+    else{
         displayPointsWithYear(name_and_icons[0],years);
     }
 }
@@ -380,18 +383,22 @@ function fetch_layer_name(){
             layer_name = "thakkarbappayojana_mokhada_smashanbhoomi_1_0";
             structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
             break;
+        case "Bituminous Road":
+            layer_name = "thakkarbappayojana_mokhada_bit_road_1";
+            structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', Color: 'red', prefix: 'fa' });
+            break;            
     }
     var name_and_style = [layer_name,structureIcon];
     return name_and_style;
 }
 
 function displayPointsWithYear(layer_name,years){
-    // console.log(years);
+    console.log(years);
 
     pointLayerList.forEach(layer => mymap.removeLayer(layer));
     mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
-    url = base_url + "&typeName=geonode%3A" + layer_name;
-    // console.log(url);
+    url = base_url + "&typeName=geonode%3A" + layer_name + "&maxFeatures=50";
+    console.log(url);
     fetch(url)
     .then(
         function(response) {
@@ -409,6 +416,7 @@ function displayPointsWithYear(layer_name,years){
                 pointToLayer: function (feature, latlng) {
                     for(var i=0;i<years.length;i++){
                         if(feature.properties.cons_year === years[i]){
+                            // console.log(years[i]);
                             return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-up', markerColor: 'blue', prefix: 'fa' }) });
                         }
                     }
@@ -424,6 +432,72 @@ function displayPointsWithYear(layer_name,years){
                     return true;                
                 }
         }).addTo(mymap);
+        LayerList.push(geojson);
+        pointLayerList.push(geojson);
+        mymap.spin(false);
+        url = "";
+
+        });
+    }
+    )
+    .catch(function(err) {
+        console.log('Fetch Error :-S', err);
+    });
+    // }
+}
+
+function displayLinesWithYear(layer_name,years){
+    console.log(years);
+
+    pointLayerList.forEach(layer => mymap.removeLayer(layer));
+    mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+    url = base_url + "&typeName=geonode%3A" + layer_name + "&maxFeatures=50";
+    console.log(url);
+    fetch(url)
+    .then(
+        function(response) {
+        if (response.status !== 200) {
+            console.log('Looks like there was a problem. Status Code: ' +
+            response.status);
+            return;
+        }
+
+        // Examine the text in the response
+        response.json().then(function(stressData) {
+            console.log(stressData);
+
+            geojson = L.geoJson(stressData.features, {
+                pointToLayer: function (feature, latlng) {
+                    for(var i=0;i<years.length;i++){
+                        if(feature.properties.cons_year === years[i]){
+                            console.log(years[i]);
+                            return L.polyline(latlng, {icon: L.AwesomeMarkers.icon({color: 'red', prefix: 'fa' }) });
+                        }
+                    }
+                    
+        },
+        onEachFeature: onEachFeatureForPoint,
+        filter: function(feature, layer) {
+                    // if(assessment == 'all'){
+                    //     return true;
+                    // }else{
+                    //     return feature.properties.final_asse == assessment;                        
+                    // }
+                    return true;                
+                }
+        }).addTo(mymap);
+
+        // var myStyle = {
+        //     "color":"#ff7800",
+        //     "weight":5,
+        //     "opacity":0.65
+        // };
+
+        // L.geoJson(layer_name, {
+        //     style: myStyle
+        // }).addTo(map);
+
+
         LayerList.push(geojson);
         pointLayerList.push(geojson);
         mymap.spin(false);
@@ -695,5 +769,3 @@ function download_csv(csv, filename) {
 </script>
 
 {% endblock %}
-
-
