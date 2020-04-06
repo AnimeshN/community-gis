@@ -1,0 +1,439 @@
+{% extends 'dashboard/base.html' %}
+{% load static%}
+{% block content %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+<script src="{% static 'js/indexdb.js' %}"></script>
+
+<style>
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.table{
+  border-collapse: collapse;
+  padding: 50px;
+  font-weight: bold;
+
+  
+  /* background:rgba(191, 149, 233, 0.473); */
+
+}
+
+/* css to customize Leaflet default styles  */
+.leaflet-popup-content-wrapper {
+    background: rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+}
+
+.leaflet-popup-content{
+    font-weight: bold;
+}
+
+</style>
+
+<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- side-bar container -->
+
+  <h2 class="text-center">Health Theme<br></h2>
+  <hr>
+ <!-- Tab for Report , Dashboard , Query Builder -->
+
+         
+ <h5>25 Aspirational Districts</h5>
+             <div class="tooltips" title="Please select the District">
+                <select class = 'form-control' id="district" name="district">
+                    <option>Select District</option>
+                            <option>All 25 Aspirational Districts</option>
+                             <option>Araria</option>
+                             <option>Bahraich</option>
+                             <option>Baksa</option>
+                             <option>Balrampur</option>
+                             <option>Baran</option>
+                             <option>Barpeta</option>
+                             <option>Barwani</option>
+                             <option>Begusarai</option>
+                             <option>Chitrakoot</option>
+                             <option>Damoh</option>
+                             <option>Darrang</option>
+                             <option>Dhubri</option>
+                             <option>East-Nimar</option>
+                             <option>Goalpara</option>
+                             <option>Jaisalmer</option>
+                             <option>Katihar</option>
+                             <option>Nandurbar</option>
+                             <option>Sahibganj</option>
+                             <option>Sheikhpura</option>
+                             <option>Shrawasti</option>
+                             <option>Singruli</option>
+                             <option>Sitamarhi</option>
+                             <option>Sonbhadra</option>
+                             <option>Vidisha</option>
+                             
+
+
+                </select>
+              </div>  
+ 
+
+
+
+            <!-- <br><br><h5>Malegaon</h5>
+            <div class="tooltips" title="Please select the Block">
+               <select class = 'form-control' id="block" name="block">
+                   <option>Select Layers</option>
+                            <option>Wards</option>
+                            <option>Aanganwadi</option>
+                            <option>Health Centers</option>
+                            <option>Schools</option>
+                            <option>Town Boundaries</option>
+
+               </select>
+           </div>
+      -->
+           
+
+
+
+       
+            <div style="text-align: center"> 
+                <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="fa fa-power-off"></span></button> 
+            </div>
+        </div>
+
+
+</div>
+
+<!-- Tab ends here -->
+
+
+<script>
+    const LAT = 27.14, LONG = 78.06;
+    var listOfAspiDistrict ={'All 25 Aspirational Districts':['All 25 Aspirational Districts',LAT,LONG],'Araria':['araria',26.1311, 87.4455],'Bahraich':['bahraich',27.5705, 81.5977],
+    'Baksa':['baksa',26.6935, 91.5984],'Balrampur':['balrampur',27.4308,82.3018],'Baran':['Baran',25.1011, 76.5132],'Barpeta':['barpeta',26.3304, 91.0041],
+    'Barwani':['barwani',22.0363,74.9033],'Begusarai':['Begusarai',25.4182, 86.1272],'Chitrakoot':['Chitrakoot',25.1094, 81.0755],'Damoh':['Damoh',23.8323,79.4387],
+    'Darrang':['darrang',26.4523, 92.0273],'Dhubri':['dhubri',26.0207, 89.9743],'East-Nimar':['East-Nimar',21.8803, 76.6413],'Goalpara':['Goalpara',26.0876,90.5636],
+    'Jaisalmer':['jaisalmer',26.9157, 70.9083],'Katihar':['katihar',25.5541,87.5591],'Nandurbar':['nandurbar',21.7469,74.1240],'Sahibganj':['sahibganj',25.2381,87.6454],
+    'Sheikhpura':['sheikhpura',25.0848, 85.8896],'Shrawasti':['shrawasti',27.5035, 82.0365],'Singruli':['singruli',24.1992,82.6645],'Sitamarhi':['sitamarhi',26.5887,85.5013],
+    'Sonbhadra':['sonbhadra',24.6850,83.0684],'Vidisha':['Vidisha',23.5262,77.8226]};
+
+
+   const INDIA_LAT_LONG = [23.1815,79.9864]; 
+   mymap.setView(INDIA_LAT_LONG,6.5);
+
+
+var geojson;
+
+const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+var rootUrl = domain[0] + 'geoserver/geonode/ows';
+
+var defaultParameters = {
+service: 'WFS',
+version: '1.0.0',
+request: 'GetFeature',
+outputFormat: 'application/json'
+};
+
+var info = L.control();
+var attribute_table = L.control({position: 'bottomright'});
+var layer_name;
+
+
+var LayerList = [];
+var pointLayerList = [];
+//const TYPENAME = {'Deonadi Basin Villages':'geonode:deonadi_villages','Deonadi Streams':'geonode:major_streams_dev','Wells in catchment area':'geonode:deonadi_wells'};
+var tempParameter;
+
+//aspirational districts
+$('#district').change(function () {
+    clear_layer();
+    
+    tempParameter = defaultParameters;
+    tempParameter.typeName = 'geonode:aspirational_polygon_merged_30sep'; 
+    var aspiD = document.getElementById('district').value;
+    distLayerLatLong = listOfAspiDistrict[aspiD];
+    // console.log(distLayerLatLong);
+    if(aspiD !== 'All 25 Aspirational Districts')tempParameter.cql_filter = "district='"+distLayerLatLong[0]+"'";
+    displayPolygon(tempParameter);
+    districtlayer = distLayerLatLong[0];
+    var districtlayerCapitalized = districtlayer.charAt(0).toUpperCase() + districtlayer.slice(1)
+    if(aspiD === 'East-Nimar') districtlayerCapitalized = 'East Nimar';
+    tempParameter.cql_filter = "block='"+districtlayerCapitalized+"'";
+
+    tempParameter.typeName = 'geonode:aspi_point_entity_27sep'; 
+
+    displayPoints(tempParameter);
+    var zoom;
+    if(aspiD === 'All 25 Aspirational Districts'){zoom = 6.2}else {zoom = 9};
+    mymap.setView([distLayerLatLong[1],distLayerLatLong[2]],zoom);
+    delete tempParameter['cql_filter'];
+});
+
+
+
+//malegaon
+$('#block').change(function () {
+    clear_layer();
+    
+    tempParameter = defaultParameters;
+    //tempParameter.typeName = 'geonode:aspirational_polygon_merged_30sep'; 
+    var maleg = document.getElementById('block').value;
+    //distLayerLatLong = listOfAspiDistrict[aspiD];
+    // console.log(distLayerLatLong);
+    if(maleg === 'Wards')tempParameter.typeName ='geonode:malegaon_merged_1' ;
+    if(maleg === 'Anganwadi')tempParameter.typeName ='geonode:urban_anganwadi_1' ;
+    if(maleg === 'Health Centers')tempParameter.typeName ='geonode:urban_health_1' ;
+    if(maleg === 'Schools')tempParameter.typeName ='geonode:urban_school_1' ;
+    if(maleg === 'Town Boundries')tempParameter.typeName ='geonode:town_boundr_malegaon_2' ;
+    displayPolygon(tempParameter);
+    // //districtlayer = distLayerLatLong[0];
+    // var districtlayerCapitalized = districtlayer.charAt(0).toUpperCase() + districtlayer.slice(1)
+    // if(aspiD === 'East-Nimar') districtlayerCapitalized = 'East Nimar';
+    // tempParameter.cql_filter = "block='"+districtlayerCapitalized+"'";
+
+    // tempParameter.typeName = 'geonode:aspi_point_entity_27sep'; 
+
+    // displayPoints(tempParameter);
+    // var zoom;
+    // if(aspiD === 'All 25 Aspirational Districts'){zoom = 6.2}else {zoom = 9};
+    // mymap.setView([distLayerLatLong[1],distLayerLatLong[2]],zoom);
+    // delete tempParameter['cql_filter'];
+});
+
+
+
+
+function getColor(d) {
+    return d > 6 ? '#FF0000' :
+           d > 2  ? '#FFFF00' :
+           d > -1  ? '#008000' :
+                      '#FFEDA0';
+}
+
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function style(feature) {
+    return {
+        weight: 2,
+        opacity: 1,
+        color: "black",
+        fillOpacity: 0
+    };
+}
+
+function river_style(feature) {
+    return {
+        weight: 2,
+        opacity: 1,
+        color: 'blue',
+        fillOpacity: 1
+    };
+}
+
+
+
+
+function clear_layer(){
+    LayerList.forEach(layer => mymap.removeLayer(layer));
+    // pointLayerList.forEach(layer => console.log(layer));
+    
+}
+
+function onEachFeaturePoint(feature, layer) {
+    // does this feature have a property named popupContent?
+        layer.bindPopup(feature.properties.Name);
+    
+}
+
+
+
+
+function displayPolygon(param){
+var parameters = L.Util.extend(param);
+layer_url = rootUrl + L.Util.getParamString(parameters)
+// console.log(layer_url);
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+
+fetch(layer_url,{mode:'cors'})
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(geojsonData) {
+        // console.log(geojsonData)
+        geojson = L.geoJson(geojsonData.features, {
+        style : style,
+        // onEachFeature: onEachFeature
+    }).addTo(mymap);
+        
+    mymap.spin(false);
+    LayerList.push(geojson);
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+
+    
+}
+
+function displayPoints(param){
+point_url = rootUrl + L.Util.getParamString(param);
+// console.log(point_url);
+fetch(point_url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(stressData) {
+        // console.log(stressData.features);
+
+        geojson = L.geoJson(stressData.features, {
+            
+            pointToLayer: function (feature, latlng) {
+                if(feature.properties.entity === 'town'){
+                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'building', markerColor: 'green', prefix: 'fa' }) });
+                }else if(feature.properties.entity === 'CHC'){
+                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'medkit', markerColor: 'black', prefix: 'fa' }) });
+                }else if(feature.properties.entity === 'PHC'){
+                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'plus-circle', markerColor: 'blue', prefix: 'fa' }) });
+                }else if(feature.properties.entity === 'subcentre'){
+                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'square', markerColor: 'pink', prefix: 'fa' }) });
+                }else if(feature.properties.entity === 'DHQ'){
+                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'star', markerColor: 'red', prefix: 'fa' }) });
+                }
+    },
+    // onEachFeature: onEachFeatureForPoint,
+    // filter: function(feature, layer) {
+    //             if(assessment == 'All 25 Aspirational Districts'){
+    //                 return true;
+    //             }else{
+    //                 return feature.properties.Final_Asse == assessment;
+                    
+    //             }
+                
+    //         }
+    });
+
+
+    geojson.addTo(mymap);
+    LayerList.push(geojson);
+    point_url = "";
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+// }
+
+    
+}
+
+function onEachFeaturePoint(feature, layer) {
+    // does this feature have a property named popupContent?
+        layer.bindPopup(feature.properties.entity);
+    
+}
+function zoomToFeature(e) {
+    mymap.fitBounds(e.target.getBounds());
+}
+
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5        
+    });
+    info.update(layer.feature.properties);
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    info.update();
+}
+
+
+
+var info = L.control({position: 'bottomright'});
+
+info.onAdd = function (mymap) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+info.update = function (props) {
+    this._div.innerHTML = `<div style="text-align: center">
+               <table class='table-legend'>
+                   <tr>
+                       <td><i class="fa fa-building" aria-hidden="true"></i></td>
+                       <td>Town</td>
+                   </tr>
+                   <tr>
+                       <td><i class="fa fa-medkit" aria-hidden="true"></i></td>
+                       <td>Community Health Center</td>
+                   </tr>
+                   <tr>
+                       <td><i class="fa fa-plus-circle" aria-hidden="true"></i></td>
+                       <td>Public Health Center</td>
+                   </tr>
+                   <tr>
+                       <td><i class="fa fa-square" aria-hidden="true"></i></td>
+                       <td>Sub-center</td>
+                   </tr>
+                   <tr>
+                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                        <td>District Headquarter</td>
+                    </tr>
+               </table>
+           </div>`;
+};
+info.addTo(mymap);
+</script>
+
+{% endblock %}
