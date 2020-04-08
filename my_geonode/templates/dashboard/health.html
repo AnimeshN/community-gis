@@ -1,8 +1,10 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'health_dash/base.html' %}
 {% load static%}
 {% block content %}
 <style>
-
+.btn{
+    margin:10px;
+}
 .border {
     padding: 6px 8px;
     border-style: groove;
@@ -44,7 +46,26 @@
 </style>
 
 <div id="side-bar" style="background-color: rgba(255, 255, 255);">                <!-- side-bar container -->
-
+    <div class="border">
+        <h5>Maharashtra Admin Boundaries</h5>
+        <div class="text-center">
+            <div class="checkbox" id="boundary">
+                <label><input type="checkbox" value="{state}" onchange="getBoundary(this)">State</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="{district}" onchange="getBoundary(this)">District</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="{mahadem}" onchange="getBoundary(this)">Maharashtra Demography</label>
+              </div>
+             <!--  <div class="checkbox disabled">
+                <label><input type="checkbox" value="taluka" disabled>Taluka</label>
+              </div>
+              <div class="checkbox disabled">
+                <label><input type="checkbox" value="village" disabled>Village</label>
+              </div> -->
+        </div>
+    </div>
     <div class="tooltips" title="Please select the District">
         <select class='form-control' id="district" name="district">
             <option value="All">Select District</option>
@@ -111,6 +132,7 @@
 
          <div class="border">
             <button type="button" class="btn btn-primary" id='locate'>Your Location</button>
+            <button type="button" class="btn btn-primary disable" id='locate'>Set Location</button>
             <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Facility</button>
          </div>
 
@@ -123,41 +145,62 @@
 
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
 
 <script>
-        let healthFacility,
-            $locate = $('#locate'),
-            $body = $('body'),
-            $findNearest = $('#find-nearest')
+
+function getBoundary(obj) {
+    let boundary = obj.value;
+    if($(obj).is(":checked")){ 
+        if(boundary == "{state}")
+            putWMS("geonode:states_in_india");
+        else if(boundary== "{district}")
+            putWMS("geonode:all_india_districts_27march2020");
+        else
+            putWMS("geonode:maha_demography_with_mumbai");
+    }else{
+        if(boundary== "{state}")
+            removeWMS("geonode:states_in_india");
+        else if(boundary== "{district}")
+            removeWMS("geonode:all_india_districts_27march2020");
+        else 
+            removeWMS("geonode:maha_demography_with_mumbai");
+    }
+}
+
+let healthFacility,
+    $locate = $('#locate'),
+    $body = $('body'),
+    $findNearest = $('#find-nearest')
 
 
-    $locate.on('click', function(e) {
-            // $status.html('finding your location');
-            if (!navigator.geolocation){
-                alert("<p>Sorry, your browser does not support Geolocation</p>");
-                return;
-            }
-            $body.removeClass('loaded');
-            navigator.geolocation.getCurrentPosition(success, error);
-        });   
+$locate.on('click', function(e) {
+        // $status.html('finding your location');
+        if (!navigator.geolocation){
+            alert("<p>Sorry, your browser does not support Geolocation</p>");
+            return;
+        }
+        $body.removeClass('loaded');
+        navigator.geolocation.getCurrentPosition(success, error);
+    });   
 
-        function success(position) {
-        $body.addClass('loaded');
-        var currentPos = [position.coords.latitude,position.coords.longitude];
-        mymap.setView(currentPos, 13);
-        var myLocation = L.marker(currentPos)
-                            .addTo(mymap)
-                            .bindTooltip("Your Location")
-                            .openTooltip();
-        
-        $findNearest.on('click', function(e) {
-                // $status.html('finding your nearest locations')
-                queryFeatures(currentPos, 5);
-                // myLocation.unbindTooltip();
-        });
-    };
+function success(position) {
+    $body.addClass('loaded');
+    var currentPos = [position.coords.latitude,position.coords.longitude];
+    mymap.setView(currentPos, 13);
+    var myLocation = L.marker(currentPos)
+                        .addTo(mymap)
+                        .bindTooltip("Your Location")
+                        .openTooltip();
+
+    $findNearest.on('click', function(e) {
+            // $status.html('finding your nearest locations')
+            queryFeatures(currentPos, 5);
+            // myLocation.unbindTooltip();
+    });
+};
     function error() {
         alert("Unable to retrieve your location");
     };
@@ -228,6 +271,9 @@
     var attribute_table = L.control({position: 'bottomright'});  
     var LayerList = [];
     var pointLayerList = [];
+    var newLayerList = [];
+  
+
     var searchControl;
 
     $('#district').on('click',function(){
@@ -237,18 +283,12 @@
         let district = document.getElementById('district').value;
 
         putWMSLayer();
-        //
-        // let lat = listDistrict[district][1];
-        // let long = listDistrict[district][2];
          tempParameter = defaultParameters;
          tempParameter.typeName = 'geonode:maha_blocks_30mar'; 
          tempParameter.propertyName="the_geom,ipname";
          var aspiD = document.getElementById('district').value;
          var distLayerLatLong= listDistrict[aspiD];
-    // console.log(distLayerLatLong);
         tempParameter.cql_filter = "dtname='"+distLayerLatLong[0]+"'";
-       // displayPolygon(tempParameter);
-        //districtlayer = distLayerLatLong[0];
         mymap.setView([distLayerLatLong[1],distLayerLatLong[2]],9);
 
         // switch(district){
@@ -353,7 +393,7 @@ function resetHighlight(e) {
 }
 
 
-
+//this is for putting districts in drop down menu
 function putWMSLayer(){
              var aspiD = document.getElementById('district').value;
              var distLayerLatLong= listDistrict[aspiD];
@@ -375,6 +415,18 @@ function putWMSLayer(){
             
 
          }
+
+
+//this function is for state boundary
+function putWMS(layer){
+    var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms',{
+        layers: layer,
+        format: 'image/png',
+        transparent:'true',
+    });
+    wms_layer.addTo(mymap);
+    newLayerList.push(wms_layer);
+}
 
 function displayPolygon(param){
 // clear_layer();
@@ -430,6 +482,17 @@ function clearpoint_layer(){
     pointLayerList.forEach(layer => mymap.removeLayer(layer));
     
 }
+
+function removeWMS(unchecked_layer){
+        newLayerList.forEach((layer, index) => {
+            if(layer.options.layers === unchecked_layer){
+                mymap.removeLayer(layer);
+                newLayerList.splice(index, 1);
+            }
+        });
+}
+
+
 
 function style(feature) {
     return {
