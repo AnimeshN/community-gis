@@ -7,8 +7,8 @@ The data sources are Census of India and GISE Lab of CSE deptt , IIT Bombay. Thi
 ## Contibutors
 
 - Animesh Nautiyal <nautiyalanimesh@gmail.com>
-- Himanshi Goel <ghimanshi2397@gmail.com >
-- Akanksha Ahirwal <akankshaahirwal@gmail.com >
+- Himanshi Goel <ghimanshi2397@gmail.com>
+- Akanksha Ahirwal <akankshaahirwal@gmail.com>
 
 
 ## Licensing and copyright
