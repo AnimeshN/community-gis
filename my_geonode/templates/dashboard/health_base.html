@@ -1,861 +1,260 @@
-{% extends 'dashboard/health_base.html' %}
-{% load static%}
-{% block content %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  
+    <link rel="stylesheet" href="{% static 'footer.css' %}" >
+    <link rel="stylesheet" href="{% static 'leaflet.css' %}" >
+    <link rel="stylesheet" href="{% static 'plugins/L.Control.Pan.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/L.Control.Zoomslider.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/L.Control.MousePosition.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/L.Control.Sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/Leaflet.PolylineMeasure.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/easy-button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'front.css' %}">
+
+    <script src="{% static 'leaflet-src.js' %}" ></script>
+    <!-- <script src="src/jquery-3.2.0.min.js"></script> -->
+    <script src="{% static 'plugins/L.Control.Pan.js' %}" ></script>
+    <script src="{% static 'plugins/L.Control.Zoomslider.js' %}" ></script>
+    <script src="{% static 'plugins/L.Control.MousePosition.js' %}"></script>
+    <script src="{% static 'plugins/L.Control.Sidebar.js' %}"></script>
+    <script src="{% static 'plugins/Leaflet.PolylineMeasure.js' %}"></script>
+    <script src="{% static 'plugins/easy-button.js' %}"></script>
+    <script src="{% static 'plugins/leaflet-providers.js' %}"></script>
+    <script src="{% static 'plugins/leaflet-opencage/src/js/L.Control.OpenCageSearch.js' %}"></script>
+    <!-- <script src="{% static 'app.js' %}"></script> -->
+    <!-- <link rel="stylesheet" type="leaflet.wms.js" href="{% static 'css/component.css' %}"  /> -->
+    <link rel="stylesheet" href="{% static 'mystyle.css' %}">
+    <link rel= 'stylesheet' href="{% static 'css/component.css' %}">
+    <script src="{% static 'plugins/leaflet.ajax.min.js' %}" ></script>
+    <script src="{% static 'js/modernizr-custom.js' %}" ></script>
+    <script src="{% static 'leaflet.wms.js' %}" ></script>
+
+    <script src="{% static 'js/classie.js' %}"></script>
+    <!-- <script src="js/dummydata.js"></script> -->
+    <!-- <script src="src/js/main.js"></script> -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'myscript.js' %}"></script>
+
+
+    <!-- scripts for spinner -->
+
+    <script src="{% static 'spin/spin.js'%}" ></script>
+    <script src="{% static 'leaflet.spin.min.js' %}"></script>
+
+<!-- font-awesome -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+<!-- script for leaflet font awesome-->
+<script src = "{% static 'leaflet.awesome-markers.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet.awesome-markers.css' %}">
+
+
+
+<!-- leaflet-messagebox-->
+<script src = "{% static 'leaflet-messagebox.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-messagebox.css' %}">
+
+ <!-- leaflet-measure-->
+<script src = "{% static 'leaflet_measure/leaflet.measure.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet_measure/leaflet.measure.css' %}">
+
+
+<!-- leaflet-search -->
+<script src = "{% static 'leaflet-search/leaflet-search.src.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-search/leaflet-search.src.css' %}">
+
+
+<!-- leaflet minimap -->
+<script src = "{% static 'leaflet-minimap/Control.MiniMap.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-minimap/Control.MiniMap.min.css' %}">
+ 
+
+
+<!-- leaflet lagend graphic -->
+
+<script src = "{% static 'leaflet-legend-graphics/leaflet.wmslegend.js' %}"></script>
+<link rel="stylesheet" href="{% static 'leaflet-legend-graphics/leaflet.wmslegend.css' %}">
+
+<!-- <link rel="stylesheet" href=""/>
+<script src="leaflet-legend-graphics/leaflet.wmslegend.js"></script> -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</head>
+
+  <body>
 <style>
-/* .multiselect {
-  width: 200px;
-} */
-
-/* .selectBox {
-  position: relative;
-} */
-
-/* .selectBox select {
-  width: 100%;
-  font-weight: bold;
-} */
-
-/* .overSelect {
-  position: absolute;
+body {
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-} */
-
-#checkboxes {
-  display: none;
-  /* border: 1px #dadada solid; */
+  margin: 0;
+  overflow: hidden;
+}
+.full-height {
+  height: 100%;
 }
 
-#checkboxes label {
-  display: block;
-  text-align: left;
-  margin: 10px;
+.header {
+    height: 50px;
 }
+  </style>
+<div class="full-height">
 
-/* #checkboxes label:hover {
-  background-color: #1e90ff;
-} */
+  <div class="row w-100 header ">
+    <div class="col">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Rural HealthGIS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item disable">
+              <a class="nav-link" href="#">Source: Census 2011 <span class="sr-only">(current)</span></a>
+            </li>
 
-.btn{
-    margin:10px;
-}
-.border {
-    padding: 6px 8px;
-    border-style: groove;
-    border-radius: 5px;
-    margin:20px;
-}
-.info {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-}
-.info h4 {
-    margin: 0 0 5px;
-    color: #777;
-}
+            <li class="nav-item active">
+                <a class="nav-link" href="https://ee.humanitarianresponse.info/x/#URXRVsvI">Contribute<span class="sr-only">(current)</span></a>
+              </li>
+          </ul>
 
-.table{
-  border-collapse: collapse;
-  padding: 50px;
-  font-weight: bold;
+          <ul class="navbar-nav ml-auto">
 
-  
-  /* background:rgba(191, 149, 233, 0.473); */
-
-}
-
-/* css to customize Leaflet default styles  */
-.leaflet-popup-content-wrapper {
-    background: rgba(0, 0, 0, 0.9);
-    color: #ffffff;
-}
-
-.leaflet-popup-content{
-    font-weight: bold;
-}
-
-</style>
-
-<div id="side-bar" style="background-color: rgba(255, 255, 255);">                <!-- side-bar container -->
-    <div class="border">
-        <table>
-        <tr><h5>Indian Admin Boundaries</h5></tr>
-        <div class="text-center">
-            <div class="checkbox" id="boundary">
-              <tr><tb>  <label><input type="checkbox" value="{state}" onchange="getBoundary(this)"></tb><tb><span> State </span></label></tb> </tr>
-              </div>
-              <div class="checkbox">
-                <label><input type="checkbox" value="{district}" onchange="getBoundary(this)"><span> District </span></label>
-              </div>
-             <!--  <div class="checkbox">
-                <label><input type="checkbox" value="{marhadem}" onchange="getBoundary(this)"><span> Road Network </span></label>
-              </div> -->
-             <!--  <div class="checkbox disabled">
-                <label><input type="checkbox" value="taluka" disabled>Taluka</label>
-              </div>
-              <div class="checkbox disabled">
-                <label><input type="checkbox" value="village" disabled>Village</label>
-              </div> -->
+          </ul>
+          <!-- <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form> -->
         </div>
-     </table>   
+      </nav>
     </div>
-    <div class="tooltips" title="Please select the State">
-        <select class='form-control' id="" name="">
-            <option value="All">Select State</option>
-            <optgroup label="States"> 
-                <option value="" onclick=""; >Maharashtra</option>
-                <option value="" disabled>Andhra Pradesh</option>
-                <option value="" disabled>Arunachal Pradesh</option>
-                 <option value="" disabled>Assam </option>
-                <option value="" disabled>Bihar</option>
-                <option value="" disabled>Chhattisgarh</option>
-                <option value="" disabled>Goa</option>
-                <option value="" disabled>Gujarat</option>
-                <option value="" disabled>Haryana</option>
-                <option value="" disabled>Himachal Pradesh</option>
-                <option value="" disabled>Jharkhan</option>
-                <option value="" disabled>Karnataka</option>
-                <option value="" disabled>Kerala</option>
-                <option value="" disabled>Madhya Pradesh</option>
-              
-                <option value="" disabled>Manipur</option>
-                <option value="" disabled>Meghalya</option>
-                <option value="" disabled>Mizoram</option>
-                <option value="" disabled>Nagaland</option>
-           
-  
-                <option value="" disabled>Odisha</option>
-                <option value="" disabled>Punjab</option>
-                <option value="" disabled>Rajasthan</option>
-                <option value="" disabled>Sikkim</option>
-                <option value="" disabled>Tamil Nadu</option>
-                <option value="" disabled>Telangana</option>
-           
-  
-                <option value="" disabled>Tripura</option>
-                <option value="" disabled>Uttar Pradesh</option>
-                <option value="" disabled>Uttrakhand</option>
-                <option value="" disabled>West Bengal</option>
-            <optgroup label="Union Territories"> 
-
-                <option value="" disabled>Andaman and Nicobar Islands</option>
-                <option value="" disabled>Chandigarh</option>
-                <option value="" disabled>Dadra and Nagar Haveli and Daman and Diu</option>
-                <option value="" disabled>National Capital Territory of Delhi</option>
-                <option value="" disabled>Jammu & Kashmir</option>
-                <option value="" disabled>Ladakh</option>
-                <option value="" disabled>Lakshadweep</option>
-                <option value="" disabled>Puducherry</option>
-           
-    
-          </select> 
-     </div>  
-<hr>
-<div id="side-bar" style="background-color: rgba(255, 255, 255);">                <!-- side-bar container -->
-    <div class="border">
-        <table>
-        <tr><h5>State Admin Boundaries</h5></tr>
-        <div class="text-center">
-            <div class="checkbox" id="stboun">
-              <tr><tb>  <label><input type="checkbox" value="{mahadem}" onchange="getBoundaryst(this)"></tb><tb><span> Demography </span></label></tb> </tr>
-              </div>
-              <div class="checkbox">
-                <label><input type="checkbox" value="{maharoad}" onchange="getBoundaryst(this)"><span> Road Network </span></label>
-              </div>
-        </div>
-     </table>   
+  </div>
+  <div class="row h-100">
+    <div class="container-fluid">
+      <div id="mapdiv" class="col-12 h-100"></div>
     </div>
-    <div class="tooltips" title="Please select the District">
-        <select class='form-control' id="district" name="district">
-            <option value="All">Select Maharashtra District</option>
-            <!-- <optgroup label="Vidarbh(East)"> -->
-                <option value="Akola">Akola</option>
-                <option value="Amravati">Amrawati</option>
-                 <option value="Buldana">Buldana</option>
-                <option value="Yavatmal">Yavatmal</option>
-                <option value="Washim">Washim</option>
-                <option value="Aurangabad">Aurangabad</option>
-                <option value="Bid">Bid</option>
-                <option value="Jalna">Jalna</option>
-                <option value="Osmanabad">Osmanabad</option>
-                <option value="Nanded">Nanded</option>
-                <option value="Latur">Latur</option>
-                <option value="Parbhani">Parbhani</option>
-                <option value="Hingoli">Hingoli</option>
-              <!--   <option value="Mumbai City">Mumbai City</option>
-                <option value="Mumbai Suburban">Mumbai Suburban</option> -->
-                <option value="Thane">Thane</option>
-                <option value="Palghar">Palghar</option>
-                <option value="Raigad">Raigad</option>
-                <option value="Ratnagiri">Ratnagiri</option>
-                <option value="Sindhudurg">Sindhudurg</option>
-           
-  
-                <option value="Bhandara">Bhandara</option>
-                <option value="Gadchiroli">Gadchiroli</option>
-                <option value="Chandrapur">Chandrapur</option>
-                <option value="Gondia">Gondia</option>
-                <option value="Nagpur">Nagpur</option>
-                <option value="Wardha">Wardha</option>
-           
-  
-                <option value="Ahmadnagar">Ahmednagar</option>
-                <option value="Dhule">Dhule</option>
-                <option value="Jalgaon">Jalgaon</option>
-                <option value="Nandurbar">Nandurbar</option>
-                <option value="Nashik">Nashik</option>
-           
-  
-          
-                <option value="Kolhapur">Kolhapur</option>
-                <option value="Pune">Pune</option>
-                <option value="Sangli">Sangli</option>
-                <option value="Satara">Satara</option>
-                <option value="Solapur">Solapur</option>
-    
-          </select> 
-     </div>  
 
-     <hr>
-     <div class="text-center">
-       
-
-        <form id="projectList" class='border'>
-            <h5>Explore Health Care</h5>
-             <form>
-              <div class="multiselect">
-                <div class="selectBox" onclick="showCheckboxes()">
-                    <button type="button" class="btn btn-outline-dark">Select Health Facilies</button>
-                    <!-- <option>Select Health Facilities</option> -->
-                  <div class="overSelect"></div>
-                </div>
-                <div id="checkboxes">
-
-                  <label for="one">
-                    <input type="checkbox" id="val" value="CHC" name='facility'/>CHC</label>
-                  <label for="two">
-                    <input type="checkbox" id="phs" value="PHC" name='facility'/>PHC</label>
-                  <label for="three">
-                    <input type="checkbox" id="" disabled/>Subcentre</label>
-                  <label for="three">
-                    <input type="checkbox" id="" disabled/>Rural Hospital (30 Beds)</label>
-                  <label for="three">
-                    <input type="checkbox" id="" disabled/>Sub-District Hospital (50 Beds) </label>
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Sub-District Hospital (100 Beds) </label>
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>District Hospital </label>
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Super Speciality Hospital </label> 
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Mental Health Institutes </label>   
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Women Hospital</label>   
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>TB Hospitals</label> 
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Other General Hospitals</label> 
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Health & Family Welfare Training Institutions</label>
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Primary Health Units</label> 
-                  <label for="three">
-                    <input type="checkbox" id="" disabled/>Ashram Health Units</label> 
-                  <label for="three">
-                    <input type="checkbox" id="" disabled/>Mobile Health Units</label>    
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Mobile Medical Units</label>  
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Dispensaries-Allopathic</label>  
-                   <label for="three">
-                    <input type="checkbox" id="" disabled/>Dispensaries-Ayurvedic</label>
-                    
-                         
-                </div>
-              </div>
-           
-              <button type="button" class="btn btn-primary" onclick = "GetSelected()">Display</button>
-        </form>
- 
-        
-
-         </form> 
-         <!--   -->
-         <div class="border">
-            <button type="button" class="btn btn-primary" id='locate'>Your Location</button>
-            <button type="button" class="btn btn-primary disable" id='setlocation'>Set Location</button>
-            <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Facility</button>
-         </div>
-
-         <div class="border row">
-            <input type="text" placeholder = "Enter facility Name" class="form-control col-7" id="usr">
-            <button type="button" class="btn btn-primary col" onclick = "searchFacilities()">Search Facility</button>
-         </div>
-     </div>
-
+  </div>
 
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-
 
 <script>
 
- var expanded = false;
+var mymap;
+var source = L.wms.source(
+      "https://makerghat.urbansciences.in/geoserver/wms",
+      {
+          "format": "image/png",
+          "transparent": "true"
+      }        
+  );
 
-function showCheckboxes() {
-  var checkboxes = document.getElementById("checkboxes");
-  if (!expanded) {
-    checkboxes.style.display = "block";
-    expanded = true;
-  } else {
-    checkboxes.style.display = "none";
-    expanded = false;
-  }
-}   
+  mymap = L.map('mapdiv', {
+    center:[19.0760, 84.8777], 
+    zoom:5, zoomControl:false, 
+    attributionControl:false,
+    messagebox: true,
+    contextmenu: true,
+    measureControl: false
+  });
+  mymap.messagebox.options.timeout = 5000;
+  mymap.messagebox.setPosition("bottomright");
+  lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
+  lyrOSM2 = L.tileLayer.provider('OpenStreetMap.Mapnik');
+  lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
+  mymap.addLayer(lyrOSM);
+  var miniMap = new L.Control.MiniMap(lyrOSM2, { toggleDisplay: true }).addTo(mymap);
+//  var miniMap = new L.Control.MiniMap(lyrOSM).addTo(mymap);
 
-function getBoundary(obj) {
-    let boundary = obj.value;
-    if($(obj).is(":checked")){ 
-        if(boundary == "{state}")
-            putWMS("geonode:states_in_india");
-        else if(boundary== "{district}")
-            putWMS("geonode:all_india_districts_27march2020");
-        else
-            putWMS("geonode:maha_demography_with_mumbai");
-    }else{
-        if(boundary== "{state}")
-            removeWMS("geonode:states_in_india");
-        else if(boundary== "{district}")
-            removeWMS("geonode:all_india_districts_27march2020");
-        else 
-            removeWMS("geonode:maha_demography_with_mumbai");
-    }
-}
-
-function getBoundaryst(obj) {
-    let boundary = obj.value;
-    if($(obj).is(":checked")){ 
-        if(boundary == "{mahadem}")
-            putWMS("geonode:maha_demography_with_mumbai");
-        else if(boundary== "{maharoad}")
-            putWMS("geonode:osm_highways");
-        else
-            putWMS("geonode:maha_demography_with_mumbai");
-    }else{
-        if(boundary== "{mahadem}")
-            removeWMS("geonode:maha_demography_with_mumbai");
-        else if(boundary== "{maharoad}")
-            removeWMS("geonode:osm_highways");
-        else 
-            removeWMS("geonode:maha_demography_with_mumbai");
-    }
+function round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
 }
 
 
-// ***********FIND NEAREST FACILITY FEATURE
-let healthFacility,
-    $locate = $('#locate'),
-    $body = $('body'),
-    $findNearest = $('#find-nearest'),
-    $setlocation = $('#setlocation')
+function copyToClipboard(text) {
+    var dummy = document.createElement("textarea");
+    // dummy.style.display = 'none'
+    document.body.appendChild(dummy);
+    dummy.value = text;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+}
 
-let currentPos = null;
-let marker = null;
-let oldMarker = null;
-let facilityLayer = new L.featureGroup();
-let oldLayer = null;
+mymap.on('contextmenu',function(e){
+  copyToClipboard(e.latlng.lat+","+e.latlng.lng);
+  mymap.messagebox.show("<h6>Latitude:<b>"+round(e.latlng.lat,4)+"</b> Longitude:<b>"+round(e.latlng.lng,4)+"</b> copied to clipboard</h6>");
+});
 
-// YOUR LOCATION BUTTON
-$locate.on('click', function(e) {
-    if(oldMarker){
-        mymap.removeLayer(oldMarker);
-        oldMarker = null;
-    }
-    if(oldLayer){
-        mymap.removeLayer(oldLayer);
-        oldLayer = null;
-        facilityLayer = new L.featureGroup();
-    }
-        // $status.html('finding your location');
-    if (!navigator.geolocation){
-        alert("<p>Sorry, your browser does not support Geolocation</p>");
-        return;
-    }
-    $body.removeClass('loaded');
-    navigator.geolocation.getCurrentPosition(success, error);
-});   
 
-// SET LOCATION BUTTON
-$setlocation.on('click',function(e){
-    mymap.on('click', function(e) {
-        currentPos = [e.latlng.lat,e.latlng.lng];
-        if(oldMarker){
-            mymap.removeLayer(oldMarker);
-            oldMarker = null;
-        }
-        if(oldLayer){
-            mymap.removeLayer(oldLayer);
-            oldLayer = null;
-            facilityLayer = new L.featureGroup();
-        }
-        marker = new L.marker(currentPos).addTo(mymap);
-        oldMarker = marker;
-    });
+
+$('.select').click(function () {
+  $(this).toggleClass('highlight')
 })
-
-// FIND NEAREST BUTTON
-$findNearest.on('click', function(e) {
-            queryFeatures(currentPos, 1);
-});
-
-// IF LOCATION FETCH BY BROWSER SUCCESS
-function success(position) {
-    $body.addClass('loaded');
-    currentPos = [position.coords.latitude,position.coords.longitude];
-    mymap.setView(currentPos, 13);
-    marker = L.marker(currentPos)
-                        .addTo(mymap)
-                        .bindTooltip("Your Location")
-                        .openTooltip();
-    oldMarker = marker;
-
-};
-// IF error IN FETCHING LOCATION
-function error() {
-    alert("Unable to retrieve your location");
-};
-// LOOP THROUGH EACH POINT AND COMPARE WITH SELECTED OR CURRENT USER LOCATION
-function queryFeatures(currentPos, numResults) {
-    var distances = [];
-    healthFacility.eachLayer(function(l) {
-        var distance = L.latLng(currentPos).distanceTo(l.getLatLng())/1000;
-        distances.push(distance);
-    });
-    distances.sort(function(a, b) {
-        return a - b;
-    });
-
-    healthFacility.eachLayer(function(l) {
-        var distance = L.latLng(currentPos).distanceTo(l.getLatLng())/1000;
-        if(distance < distances[numResults]) {
-            l.bindTooltip(distance.toLocaleString() + ' km from current location.');
-            L.polyline([currentPos, l.getLatLng()], {
-                color : 'blue',
-                weight : 4,
-                opacity: .5,
-            }).addTo(facilityLayer);
-        }
-    });
-    oldLayer = facilityLayer;
-    mymap.flyToBounds(facilityLayer.getBounds(), {duration : 3, easeLinearity: .1 });
-    mymap.on('zoomend', function() {
-        mymap.addLayer(facilityLayer);
-    })
-}
-
-// *****************
-
-    let listDistrict = {'Akola':['Akola',20.7002, 77.0082],'Amravati':['Amravati',20.9374,77.7796],
-    'Buldana':['Buldana',20.4561,76.3637],'Yavatmal':['Yavatmal',20.3888,78.1204],'Washim':['Washim',20.139,77.1025],
-    'Aurangabad':['Aurangabad',19.8762,75.3433],'Bid':['Bid',18.9891,75.7601],'Jalna':['Jalna',19.8297,75.88],
-    'Osmanabad':['Osmanabad',18.207,76.1784],'Nanded':['Nanded',19.1383,77.321],'Latur':['Latur',18.4088,76.5604],
-    'Parbhani':['Parbhani',19.2644,76.6413],'Hingoli':['Hingoli',19.5781,77.1025],'Thane':['Thane',19.2183,72.9781],
-    'Palghar':['Palghar',19.6936,72.7655],'Raigad':['Raigad',18.5158,73.1822],'Ratnagiri':['Ratnagiri',16.9902,73.312],'Sindhudurg':['Sindhudurg',16.3492,73.5594],'Bhandara':['Bhandara',21.0736,79.8297],
-    'Gadchiroli':['Gadchiroli',19.4969,80.2767],'Chandrapur':['Chandrapur',19.9615,79.2961],
-    'Gondia':['Gondia',21.4624,80.221],'Nagpur':['Nagpur',21.1458,79.0882],'Wardha':['Wardha',20.7453,78.6022],
-    'Ahmadnagar':['Ahmadnagar',19.0948,74.748],'Dhule':['Dhule',20.9042,74.7749],'Jalgaon':['Jalgaon',21.0077,75.5626],
-    'Nandurbar':['Nandurbar',21.7469,74.124],'Nashik':['Nashik',19.9975,73.7898],'Kolhapur':['Kolhapur',16.705,74.2433],
-    'Pune':['Pune',18.5204,73.8567],'Sangli':['Sangli',16.8524,74.5815],'Satara':['Satara',17.6805,74.0183],
-    'Solapur':['Solapur',17.6599,74.9064]}
-    
-    let listFacility = {'CHC':'chc_num','PHC':'phc_num'}
-    let url;
-    
-    function style(feature) {
-    return {
-        fillColor: "#0000",
-        weight: 2,
-        opacity: 1,
-        color: 'black',
-        // dashArray: '3',
-        fillOpacity: 0.7
-    };
-}
-    const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
-    var rootUrl = domain[0] + 'geoserver/geonode/ows';
-
-    var defaultParameters = {
-        service: 'WFS',
-        version: '1.0.0',
-        request: 'GetFeature',
-        outputFormat: 'json'
-        };
-
-    var info = L.control();
-    var attribute_table = L.control({position: 'bottomright'});  
-    var LayerList = [];
-    var pointLayerList = [];
-    var newLayerList = [];
-  
-
-    var searchControl;
-
-    $('#district').on('click',function(){
-        clear_layer();
-        clearpoint_layer();
-
-        let district = document.getElementById('district').value;
-
-        putWMSLayer();
-         tempParameter = defaultParameters;
-         tempParameter.typeName = 'geonode:maha_blocks_30mar'; 
-         tempParameter.propertyName="the_geom,ipname";
-         var aspiD = document.getElementById('district').value;
-         var distLayerLatLong= listDistrict[aspiD];
-        tempParameter.cql_filter = "dtname='"+distLayerLatLong[0]+"'";
-        mymap.setView([distLayerLatLong[1],distLayerLatLong[2]],9);
-
-        // switch(district){
-        // case 'Akola': url = "https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_blocks_30mar&cql_filter=dtname='Akola'&propertyName=the_geom";break;
-        // case 'Amravati': url = "https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_blocks_30mar&cql_filter=dtname='Amravati'&propertyName=the_geom";break;
-        // }
-
-        //mymap.spin(true,{lines: 15, length: 1, width: 50, scale: 200,radius: 200, color: "grey"});
-        fetch(url).then(
-        function(response) {
-        if (response.status !== 200) {
-            console.log('Looks like there was a problem. Status Code: ' +
-            response.status);
-            return;
-        }
-        response.json().then(function(geojsonData) {
-            console.log(geojsonData.features);
-            mymap.setView([lat, long], 9);
-            geojson = L.geoJson(geojsonData.features, {
-            // style : style,
-            // onEachFeature: onEachFeature
-        }).addTo(mymap);
-            // LayerList.push(geojson);
-             mymap.spin(false);
-        });
-
-
-        }
-    )
-    .catch(function(err) {
-        console.log('Fetch Error :-S', err);
-    });
-
-    //     mymap.spin(true,{lines: 15, length: 1, width: 50, scale: 200,radius: 200, color: "grey"});
-    //     fetch(url).then(
-    //     function(response) {
-    //     if (response.status !== 200) {
-    //         console.log('Looks like there was a problem. Status Code: ' +
-    //         response.status);
-    //         return;
-    //     }
-    //     response.json().then(function(geojsonData) {
-    //         console.log(geojsonData.features);
-    //         mymap.setView([lat, long], 9);
-    //         geojson = L.geoJson(geojsonData.features, {
-    //         style : style
-    //         // onEachFeature: onEachFeature
-    //     }).addTo(mymap);
-    //         // LayerList.push(geojson);
-    //          mymap.spin(false);
-    //     });
-
-
-    //     }
-    // )
-    // .catch(function(err) {
-    //     console.log('Fetch Error :-S', err);
-    // });
-
-
-    // blockLayer = new L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/geonode/ows', {
-    //     layers: 'geonode:maha_map_06feb2020',
-    //     format: 'image/png',
-    //     version: '1.3.0',
-    //     transparent: true,
-    // });
-    // console.log(blockLayer);
-    // blockLayer.addTo(mymap);
-
-
-    })
-
-
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        //click: zoomToFeature,
-    });
-
-    layer.bindTooltip("<div style = 'text-transform: capitalize'>"+feature.properties.village_na+"</div>",{permanent: true, 
-   direction: "center",
-   className: "my-labels"});
-   
-
-}
-function highlightFeature(e) {
-    var layer = e.target;
-
-    layer.setStyle({
-        weight: 5        
-    });
-    info.update(layer.feature.properties);
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
-    }
-}
-
-function resetHighlight(e) {
-    geojson.resetStyle(e.target);
-    info.update();
-}
-
-
-//this is for putting districts in drop down menu
-function putWMSLayer(){
-             var aspiD = document.getElementById('district').value;
-             var distLayerLatLong= listDistrict[aspiD];
-             //clear_layer();
-            var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms',{
-            layers: 'geonode:maha_blocks_30mar',
-            format: 'image/png',
-            transparent:'true',
-            opacity:0.5,
-            // version: '1.3.0',
-            cql_filter: "dtname='"+distLayerLatLong[0]+"'",
-            style:""});
-            clear_layer();
-            clearpoint_layer();
-            wms_layer.addTo(mymap);
-
-            LayerList.push(wms_layer);
-            // addWMSLegend(layer);
-            
-
-         }
-
-
-//this function is for state boundary
-function putWMS(layer){
-    var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms',{
-        layers: layer,
-        format: 'image/png',
-        transparent:'true',
-    });
-    wms_layer.addTo(mymap);
-    newLayerList.push(wms_layer);
-}
-
-function displayPolygon(param){
-// clear_layer();
-
-var parameters = L.Util.extend(param);
-layer_url = rootUrl + L.Util.getParamString(parameters)
-// console.log(layer_url);
-//mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
-
-fetch(layer_url,{mode:'cors'})
-.then(
-    function(response) {
-    if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-        response.status);
-        return;
-    }
-
-    // Examine the text in the response
-    response.json().then(function(geojsonData) {
-        // console.log(geojsonData)
-        geojson = L.geoJson(geojsonData.features, {
-        style : style,
-        onEachFeature: onEachFeature
-    }).addTo(mymap);
-     clear_layer();
-    if(typeof searchControl === 'undefined'){
-                searchControl = addSearchControl(geojson,'ipname');
-                mymap.addControl(searchControl);
-          }
-    mymap.spin(false);
-    LayerList.push(geojson);
-
-    });
-
-
-    }
-)
-.catch(function(err) {
-    console.log('Fetch Error :-S', err);
-    
-});
-
-    
-}
-function clear_layer(){
-    LayerList.forEach(layer => mymap.removeLayer(layer));
-    
-}
-
-function clearpoint_layer(){
-    //console.log(pointLayerList);
-    pointLayerList.forEach(layer => mymap.removeLayer(layer));
-    
-}
-
-function removeWMS(unchecked_layer){
-        newLayerList.forEach((layer, index) => {
-            if(layer.options.layers === unchecked_layer){
-                mymap.removeLayer(layer);
-                newLayerList.splice(index, 1);
-            }
-        });
-}
-
-
-
-function style(feature) {
-    return {
-        weight: 2,
-        opacity: 1,
-        color: "black",
-        fillOpacity: 0
-    };
-}
-
-function addSearchControl(layer,propertyName){
-    var searchControl = new L.Control.Search({
-    layer: layer,
-    propertyName: 'ipname',
-    marker: false,
-    moveToLocation: function(latlng, title, mymap) {
-        //mymap.fitBounds( latlng.layer.getBounds() );
-        console.log(latlng);
-        var zoom = mymap.getBoundsZoom(latlng.layer.getBounds());
-        mymap.setView(latlng, zoom); // access the zoom
-    }
-});
-searchControl.on('search:locationfound', function(e) {
-    e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
-    if(e.layer._popup)
-        e.layer.openPopup();
-
-}).on('search:collapsed', function(e) {
-
-    featuresLayer.eachLayer(function(layer) {   //restore feature color
-        featuresLayer.resetStyle(layer);
-    }); 
-});
-
-return searchControl;
-}
-
-L.Map.include({
-    hasSearchControl: function () {
-        return (this.searchControl) ? true : false;
-    }
-});
-
-    function GetSelected() {
-         var selected = new Array();
-         var projectList = document.getElementById("projectList");
-         var chks = projectList.getElementsByTagName("INPUT");
-         for (var i = 0; i < chks.length; i++) {
-             if (chks[i].checked) {
-                 selected.push(chks[i].value);
-             }
-         }
-         var geojsonMarkerOptions = {
-            radius: 10,
-            fillColor: "#ff7800",
-            color: "#000",
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-        };
-
-        var geojsonMarkerOptions2 = {
-            radius: 7,
-            fillColor: "#007800",
-            color: "#000",
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-        };
-
-
-  //"dtname='"+distLayerLatLong[0]+"'"
-
-        selected.forEach(sel => {
-            var aspiD = document.getElementById('district').value;
-            var distLayerLatLong= listDistrict[aspiD];
-            console.log(distLayerLatLong[0]);
-
-            let newurl =`https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar&cql_filter=district_n='${distLayerLatLong[0]}' AND ${listFacility[sel]}>0`
-            clearpoint_layer();
-            function onEachFeatureForPoint(feature, layer) {
-            if(sel === 'PHC'){
-                layer.bindPopup(`<div class = 'text-center'>PHC<br>
-                                Source: Census 2011<br>
-                                Village Name: ${feature.properties.village_na}<br>
-                                Distance Range: ${feature.properties.phc_distan}<br>
-                                Doctors In Position :${feature.properties.phc_doc_in}<br>
-                                Doctors Total Strength :${feature.properties.phc_doc_nu}<br>
-                                Para Medical Staff Total Strength : ${feature.properties.phc_param_}<br>
-                                Para Medical Staff In Position : ${feature.properties.phc_para_1}fen
-                                </div>`) 
-            }else if(sel === 'CHC'){
-                layer.bindPopup(`<div class = 'text-center'>CHC<br>
-                                Source: Census 2011<br>
-                                Village Name: ${feature.properties.village_na}<br>
-                                Distance Range: ${feature.properties.chc_distan}<br>
-                                Doctors In Position :${feature.properties.chc_doc_in}<br>
-                                Doctors Total Strength :${feature.properties.chc_doc_nu}<br>
-                                Para Medical Staff Total Strength : ${feature.properties.chc_param_}<br>
-                                Para Medical Staff In Position : ${feature.properties.chc_para_1}
-                                </div>`) 
-            }
-            //clearpoint_layer();
-            }
-            fetch(newurl).then(
-            function(response) {
-            if (response.status !== 200) {
-                console.log('Looks like there was a problem. Status Code: ' +
-                response.status);
-                return;
-            }
-
-            response.json().then(function(geojsonData) {
-                console.log(geojsonData.features);
-                healthFacility = L.geoJson(geojsonData.features, {
-                    pointToLayer: function (feature, latlng) {
-                        if(sel === 'CHC')
-                            return L.circleMarker(latlng, geojsonMarkerOptions);
-                        else if(sel === 'PHC')
-                            return L.circleMarker(latlng, geojsonMarkerOptions2);
-
-                    },onEachFeature:onEachFeatureForPoint,
-                }).addTo(mymap);
-                pointLayerList.push(healthFacility);
-            });
-
-
-        }).catch(function(err) {
-                console.log('Fetch Error :-S', err);
-        });
-        })
-        };  
-
 </script>
 
+
+
+   
+{% block content%}
 {% endblock %}
+
+<script>
+  
+  
+  
+  $("#closebutton").click(function(){
+  ctlSidebar.toggle();
+});
+ 
+  
+  
+  objBasemaps = {
+      "Open Street Maps": lyrOSM,
+      "Imagery":lyrImagery
+  };
+  
+  objOverlays = {
+  };
+  
+  // var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
+  var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
+  // var ctlPan = L.control.pan().addTo(mymap);
+
+  var ctlEasybutton = L.easyButton('fa fa fa-bars', function(){
+      ctlSidebar.toggle(); 
+  }).addTo(mymap);
+  ctlSidebar.show();
+
+  var ctlZoomslider = L.control.zoomslider({position:'topright'}).addTo(mymap);
+  
+  ctlAttribute = L.control.attribution({position:'bottomleft'}).addTo(mymap);
+  ctlAttribute.addAttribution('&copy; <a href="http://www.makerghat.org">makerGHAT</a>');
+
+      
+</script>
+   
+
+  </body>
+</html>
