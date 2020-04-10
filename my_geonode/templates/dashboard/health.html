@@ -1,4 +1,4 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/health_base.html' %}
 {% load static%}
 {% block content %}
 <style>
@@ -324,73 +324,109 @@ function getBoundary(obj) {
     }
 }
 
+
+// ***********FIND NEAREST FACILITY FEATURE
 let healthFacility,
     $locate = $('#locate'),
     $body = $('body'),
     $findNearest = $('#find-nearest'),
     $setlocation = $('#setlocation')
 
-$setlocation.on('click',function(e){
-    // var newMarker = new L.marker(e.latlng).addTo(mymap);
-    console.log(e);
+let currentPos = null;
+let marker = null;
+let oldMarker = null;
+let facilityLayer = new L.featureGroup();
+let oldLayer = null;
 
+// YOUR LOCATION BUTTON
+$locate.on('click', function(e) {
+    if(oldMarker){
+        mymap.removeLayer(oldMarker);
+        oldMarker = null;
+    }
+    if(oldLayer){
+        mymap.removeLayer(oldLayer);
+        oldLayer = null;
+        facilityLayer = new L.featureGroup();
+    }
+        // $status.html('finding your location');
+    if (!navigator.geolocation){
+        alert("<p>Sorry, your browser does not support Geolocation</p>");
+        return;
+    }
+    $body.removeClass('loaded');
+    navigator.geolocation.getCurrentPosition(success, error);
+});   
+
+// SET LOCATION BUTTON
+$setlocation.on('click',function(e){
+    mymap.on('click', function(e) {
+        currentPos = [e.latlng.lat,e.latlng.lng];
+        if(oldMarker){
+            mymap.removeLayer(oldMarker);
+            oldMarker = null;
+        }
+        if(oldLayer){
+            mymap.removeLayer(oldLayer);
+            oldLayer = null;
+            facilityLayer = new L.featureGroup();
+        }
+        marker = new L.marker(currentPos).addTo(mymap);
+        oldMarker = marker;
+    });
 })
 
+// FIND NEAREST BUTTON
+$findNearest.on('click', function(e) {
+            queryFeatures(currentPos, 1);
+});
 
-$locate.on('click', function(e) {
-        // $status.html('finding your location');
-        if (!navigator.geolocation){
-            alert("<p>Sorry, your browser does not support Geolocation</p>");
-            return;
-        }
-        $body.removeClass('loaded');
-        navigator.geolocation.getCurrentPosition(success, error);
-    });   
-
+// IF LOCATION FETCH BY BROWSER SUCCESS
 function success(position) {
     $body.addClass('loaded');
-    var currentPos = [position.coords.latitude,position.coords.longitude];
+    currentPos = [position.coords.latitude,position.coords.longitude];
     mymap.setView(currentPos, 13);
-    var myLocation = L.marker(currentPos)
+    marker = L.marker(currentPos)
                         .addTo(mymap)
                         .bindTooltip("Your Location")
                         .openTooltip();
+    oldMarker = marker;
 
-    $findNearest.on('click', function(e) {
-            // $status.html('finding your nearest locations')
-            queryFeatures(currentPos, 5);
-            // myLocation.unbindTooltip();
-    });
 };
-    function error() {
-        alert("Unable to retrieve your location");
-    };
-    function queryFeatures(currentPos, numResults) {
-        var distances = [];
-        healthFacility.eachLayer(function(l) {
-            var distance = L.latLng(currentPos).distanceTo(l.getLatLng())/1000;
-            distances.push(distance);
-        });
-        distances.sort(function(a, b) {
-            return a - b;
-        });
-        var facilityLayer = L.featureGroup();
-        healthFacility.eachLayer(function(l) {
-            var distance = L.latLng(currentPos).distanceTo(l.getLatLng())/1000;
-            if(distance < distances[numResults]) {
-                l.bindTooltip(distance.toLocaleString() + ' km from current location.');
-                L.polyline([currentPos, l.getLatLng()], {
-                    color : 'blue',
-                    weight : 4,
-                    opacity: .5,
-                }).addTo(facilityLayer);
-            }
-        });
-        mymap.flyToBounds(facilityLayer.getBounds(), {duration : 3, easeLinearity: .1 });
-        mymap.on('zoomend', function() {
-            mymap.addLayer(facilityLayer);
-        })
-    }
+// IF error IN FETCHING LOCATION
+function error() {
+    alert("Unable to retrieve your location");
+};
+// LOOP THROUGH EACH POINT AND COMPARE WITH SELECTED OR CURRENT USER LOCATION
+function queryFeatures(currentPos, numResults) {
+    var distances = [];
+    healthFacility.eachLayer(function(l) {
+        var distance = L.latLng(currentPos).distanceTo(l.getLatLng())/1000;
+        distances.push(distance);
+    });
+    distances.sort(function(a, b) {
+        return a - b;
+    });
+
+    healthFacility.eachLayer(function(l) {
+        var distance = L.latLng(currentPos).distanceTo(l.getLatLng())/1000;
+        if(distance < distances[numResults]) {
+            l.bindTooltip(distance.toLocaleString() + ' km from current location.');
+            L.polyline([currentPos, l.getLatLng()], {
+                color : 'blue',
+                weight : 4,
+                opacity: .5,
+            }).addTo(facilityLayer);
+        }
+    });
+    oldLayer = facilityLayer;
+    mymap.flyToBounds(facilityLayer.getBounds(), {duration : 3, easeLinearity: .1 });
+    mymap.on('zoomend', function() {
+        mymap.addLayer(facilityLayer);
+    })
+}
+
+// *****************
 
     let listDistrict = {'Akola':['Akola',20.7002, 77.0082],'Amravati':['Amravati',20.9374,77.7796],
     'Buldana':['Buldana',20.4561,76.3637],'Yavatmal':['Yavatmal',20.3888,78.1204],'Washim':['Washim',20.139,77.1025],
