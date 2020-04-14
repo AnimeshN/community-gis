@@ -19,19 +19,30 @@
 #########################################################################
 
 import os
-try: # for pip >= 10
+try:  # for pip >= 10
     from pip._internal.req import parse_requirements
-    from pip._internal.download import PipSession
-except ImportError: # for pip <= 9.0.3
-    from pip.req import parse_requirements
-    from pip.download import PipSession
+    try:
+        from pip._internal.download import PipSession
+        pip_session = PipSession()
+    except ImportError:  # for pip >= 20
+        from pip._internal.network.session import PipSession
+        pip_session = PipSession()
+except ImportError:  # for pip <= 9.0.3
+    try:
+        from pip.req import parse_requirements
+        from pip.download import PipSession
+        pip_session = PipSession()
+    except ImportError:  # backup in case of further pip changes
+        pip_session = 'hack'
+
 from distutils.core import setup
 
 from setuptools import find_packages
 
 # Parse requirements.txt to get the list of dependencies
 inst_req = parse_requirements('requirements.txt',
-                              session=PipSession())
+                              session=pip_session)
+
 REQUIREMENTS = [str(r.req) for r in inst_req]
 
 def read(*rnames):
@@ -39,7 +50,7 @@ def read(*rnames):
 
 setup(
     name="my_geonode",
-    version="2.10.1",
+    version="3.0",
     author="",
     author_email="",
     description="my_geonode, based on GeoNode",
@@ -55,7 +66,7 @@ setup(
     packages=find_packages(),
     install_requires=REQUIREMENTS,
     dependency_links=[
-        "git+https://github.com/GeoNode/geonode.git@2.10.1#egg=geonode"
+        "git+https://github.com/GeoNode/geonode.git#egg=geonode"
     ],
     include_package_data=True,
     zip_safe=False,

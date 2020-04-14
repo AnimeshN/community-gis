@@ -56,7 +56,7 @@ WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', "en")
 
 if PROJECT_NAME not in INSTALLED_APPS:
-    INSTALLED_APPS += (PROJECT_NAME,'dashboard')
+    INSTALLED_APPS += (PROJECT_NAME,'dashboard','school_gis')
 
 # Location of url mappings
 ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
@@ -76,13 +76,5 @@ loaders = TEMPLATES[0]['OPTIONS'].get('loaders') or ['django.template.loaders.fi
 # loaders.insert(0, 'apptemplates.Loader')
 TEMPLATES[0]['OPTIONS']['loaders'] = loaders
 TEMPLATES[0].pop('APP_DIRS', None)
+DATABASE_ROUTERS = ['my_geonode.router.DatastoreRouter']
 
-UNOCONV_ENABLE = strtobool(os.getenv('UNOCONV_ENABLE', 'True'))
-
-if UNOCONV_ENABLE:
-    UNOCONV_EXECUTABLE = os.getenv('UNOCONV_EXECUTABLE', '/usr/bin/unoconv')
-    UNOCONV_TIMEOUT = os.getenv('UNOCONV_TIMEOUT', 30)  # seconds
-
-
-
-ALLOWED_HOSTS=[u'104.210.61.129',u'makerghat.urbansciences.in','localhost']

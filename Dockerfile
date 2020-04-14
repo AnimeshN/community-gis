@@ -1,22 +1,26 @@
-FROM python:2.7.16-stretch
+FROM python:3.7.6-stretch
 MAINTAINER GeoNode development team
 
 RUN mkdir -p /usr/src/my_geonode
+
+# Enable postgresql-client-11.2
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
 
 # This section is borrowed from the official Django image but adds GDAL and others
 RUN apt-get update && apt-get install -y \
 		gcc \
                 zip \
 		gettext \
-		postgresql-client libpq-dev \
+		postgresql-client-11 libpq-dev \
 		sqlite3 \
-                python-gdal python-psycopg2 \
-                python-imaging python-lxml \
-                python-dev libgdal-dev \
-                python-ldap \
+                python3-gdal python3-psycopg2 \
+                python3-pil python3-lxml \
+                python3-dev libgdal-dev \
                 libmemcached-dev libsasl2-dev zlib1g-dev \
-                python-pylibmc \
-                uwsgi uwsgi-plugin-python \
+                python3-pylibmc \
+                uwsgi uwsgi-plugin-python3 \
 	--no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 
@@ -41,12 +45,6 @@ RUN chmod +x /usr/src/my_geonode/tasks.py \
 
 # Upgrade pip
 RUN pip install pip --upgrade
-
-# To understand the next section (the need for requirements.txt and setup.py)
-# Please read: https://packaging.python.org/requirements/
-
-# fix for known bug in system-wide packages
-RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/python2.7/
 
 # app-specific requirements
 RUN pip install --upgrade --no-cache-dir --src /usr/src -r requirements.txt
