@@ -56,6 +56,9 @@ def Transport(request):
 def Health(request):
     return render(request,'dashboard/health.html')
 
+def UrbanHealth(request):
+    return render(request,'dashboard/town_health.html')
+
 def Water(request):
     return render(request,'dashboard/ruralwater.html')
 

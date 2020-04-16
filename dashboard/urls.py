@@ -8,7 +8,10 @@ urlpatterns = [
     url(r'devplan',views.DP_2014_34),
     url(r'swm',views.SWM),
     url(r'water',views.Water),
-    url(r'health',views.Health),
+
+    url(r'health',views.Health, name='rural_health'),
+    url(r'urban_health',views.UrbanHealth, name='urban_health'),
+
     url(r'transport',views.Transport),
     url(r'edu',views.Education),
     url(r'goamap',views.Goadashboards),
