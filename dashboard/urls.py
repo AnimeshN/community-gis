@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'swm',views.SWM),
     url(r'water',views.Water),
 
-    url(r'health',views.Health, name='rural_health'),
+    url(r'rural_health',views.Health, name='rural_health'),
     url(r'urban_health',views.UrbanHealth, name='urban_health'),
 
     url(r'transport',views.Transport),
