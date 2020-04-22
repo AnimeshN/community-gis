@@ -143,6 +143,7 @@ var villages = {
     $('#district').change(function () {
         console.log("hey");
         var district_pal = document.getElementById('district').value;
+        displayDistrictPolygon(district_name[district_pal][0],district_name[district_pal][1],district_name[district_pal][2]);
         // displayPolygon(district_name[district_pal][0],district_name[district_pal][1],district_name[district_pal][2]);
         var district = $(this).val(), lcns = talukas[district] || [];
         
@@ -154,10 +155,11 @@ var villages = {
 
     $('#taluka').change(function () {
         console.log("hey");
-        
+        var district_pal = document.getElementById('district').value;
         var taluka_pal = document.getElementById('taluka').value;
         console.log(villages[taluka_pal]);
 
+        displayDistrictPolygon(district_name[district_pal][0],district_name[district_pal][1],district_name[district_pal][2]);
         displayPolygon(taluka_name[taluka_pal][0],taluka_name[taluka_pal][1],taluka_name[taluka_pal][2]);
         displayAllVillagesPolygon(taluka_name[taluka_pal][0],taluka_name[taluka_pal][1],taluka_name[taluka_pal][2],villages[taluka_pal]);
 
@@ -172,8 +174,9 @@ var villages = {
     $('#execute').click({msg: "all"}, function(event){
         var taluka_pal = document.getElementById('taluka').value;
         let vill = document.getElementById('village').value;
-
+        var district_pal = document.getElementById('district').value;
         console.log(vill);
+        displayDistrictPolygon(district_name[district_pal][0],district_name[district_pal][1],district_name[district_pal][2]);
         displayPolygon(taluka_name[taluka_pal][0],taluka_name[taluka_pal][1],taluka_name[taluka_pal][2]);
         displayVillagePolygon(vill,taluka_name[taluka_pal][1],taluka_name[taluka_pal][2])
     });
@@ -221,9 +224,9 @@ function getRandomColor() {
 function style(feature) {
     return {
         fillColor: "#fff",
-        weight: 2,
+        weight: 3,
         opacity: 1,
-        color: 'black',
+        color: 'red',
         fillOpacity: 0
     };
 }
@@ -248,10 +251,20 @@ function style2(feature) {
     };
 }
 
+function style3(feature) {
+    return {
+        fillColor: "#fff",
+        weight: 2,
+        opacity: 1,
+        color: 'black',
+        fillOpacity: 0
+    };
+}
+
 
 
 function displayPolygon(taluka_name,lat,long){
-LayerList.forEach(layer => mymap.removeLayer(layer));
+// LayerList.forEach(layer => mymap.removeLayer(layer));
 console.log("Hello");
 layer_url =base_url + "&typeName=geonode%3Amaha_taluka_15apr2020&cql_filter=taluka_nam='"+taluka_name+"'";
 fetch(layer_url)
@@ -268,6 +281,38 @@ fetch(layer_url)
         mymap.setView([lat, long], 11);
         geojson = L.geoJson(geojsonData.features, {
         style : style
+    }).addTo(mymap);
+    LayerList.push(geojson);
+
+    });
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+   
+}
+
+
+function displayDistrictPolygon(dis_name,lat,long){
+LayerList.forEach(layer => mymap.removeLayer(layer));
+console.log("Hello");
+layer_url =base_url + "&typeName=geonode%3Aall_india_districts_27march2020&cql_filter=district='"+dis_name+"'";
+fetch(layer_url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(geojsonData) {
+        mymap.setView([lat, long], 10);
+        geojson = L.geoJson(geojsonData.features, {
+        style : style3
     }).addTo(mymap);
     LayerList.push(geojson);
 
