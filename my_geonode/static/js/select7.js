@@ -11,8 +11,8 @@ Select7.add = (elem, e) => {
 
     placeholder.style.display = "none";
 
-    selected_items.innerHTML += "<div class='select7_item'><div data-option-value='"+ option_value +"' class='select7_content'>"+ option_text +"</div><div class='select7_del' onclick='Select7.remove(this, event);'><div class='select7_x'></div><div class='select7_x'></div></div></div> ";
-
+    selected_items.innerHTML += "<div class='select7_item';'><div data-option-value='"+ option_value +"' class='select7_content'>"+ option_text +"</div><div class='select7_del' onclick='Select7.remove(this, event);'><div class='select7_x'></div><div class='select7_x'></div></div></div> ";
+    // Select7.get(select7_id, text);
     elem[elem.selectedIndex].parentElement.removeChild(elem[elem.selectedIndex]);
     if (elem.length == 1)
         elem.style.display = "none";
@@ -38,7 +38,8 @@ Select7.remove = (elem, e) => {
     elem.parentElement.parentElement.removeChild(elem.parentElement);
 };
 
-Select7.get = (select7_id, type = "both") => {
+Select7.get = (select7_id, type = "text") => {
+
     var selected_items = document.getElementById(select7_id).querySelectorAll(".select7_content");
 
     if (selected_items.length > 0) {
@@ -64,7 +65,7 @@ Select7.get = (select7_id, type = "both") => {
                 break;
             }
         }
-
+        console.log(selected_values);    
         return selected_values;
     }
 };
