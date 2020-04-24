@@ -108,10 +108,10 @@
     </script>
 
 </div>
-<br>
+<!-- <br>
 <div class="btn-group" style="text-align: center; ">
     <button title="Execute" class = 'btn btn-primary' style="margin-left:40px; margin-right:16px;  border-radius: 5px;" id="execute">Execute</i></button>
-</div>
+</div> -->
 
     <script>
   
@@ -171,14 +171,14 @@ var villages = {
         $villages.html(html)
     });
 
-    $('#execute').click({msg: "all"}, function(event){
+    $('#village').change(function () {
         var taluka_pal = document.getElementById('taluka').value;
         let vill = document.getElementById('village').value;
         var district_pal = document.getElementById('district').value;
         console.log(vill);
         displayDistrictPolygon(district_name[district_pal][0],district_name[district_pal][1],district_name[district_pal][2]);
         displayPolygon(taluka_name[taluka_pal][0],taluka_name[taluka_pal][1],taluka_name[taluka_pal][2]);
-        displayVillagePolygon(vill,taluka_name[taluka_pal][1],taluka_name[taluka_pal][2])
+        displayVillagePolygon(vill,taluka_name[taluka_pal][0],taluka_name[taluka_pal][1],taluka_name[taluka_pal][2])
     });
 
     
@@ -327,9 +327,9 @@ fetch(layer_url)
 }
 
 
-function displayVillagePolygon(vill_name,lat,long){
+function displayVillagePolygon(vill_name,taluka_name,lat,long){
 // LayerList.forEach(layer => mymap.removeLayer(layer));
-layer_url =base_url + "&typeName=geonode%3Amaha_village_polygon_29mar&cql_filter=village_na='"+vill_name+"'";
+layer_url =base_url + "&typeName=geonode%3Amaha_village_polygon_29mar&cql_filter=taluka_nam='"+taluka_name+"'and village_na='"+vill_name+"'";
 fetch(layer_url)
 .then(
     function(response) {
@@ -369,8 +369,8 @@ function displayAllVillagesPolygon(taluka_name,lat,long,villages){
 //     var i;
 console.log(villages.length);
 for (i = 0; i < villages.length; i++) {
-  
-layer_url =base_url + "&typeName=geonode%3Amaha_village_polygon_29mar&cql_filter=village_na='"+villages[i+1]+"'";
+console.log(villages[i+1]);
+layer_url =base_url + "&typeName=geonode%3Amaha_village_polygon_29mar&cql_filter=taluka_nam='"+taluka_name+"'and village_na='"+villages[i+1]+"'";
 fetch(layer_url)
 .then(
     function(response) {
