@@ -65,6 +65,10 @@ def Water(request):
 def tdsc(request):
     return render(request,'dashboard/tdsc.html')
 
+def melghat(request):
+    return render(request,'dashboard/melghat.html')
+
+
 def test_animesh(request):
     theme_name = "Deonadi Project Dashboard"
     options = {'1':'Deonadi Watershed Villages',
