@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'pwss',views.pwss),
     url(r'palgarh',views.palgarh),
     url(r'melghat',views.melghat),
+    url(r'tdd',views.tdd),
 
     
 

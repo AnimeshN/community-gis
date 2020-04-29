@@ -68,6 +68,9 @@ def tdsc(request):
 def melghat(request):
     return render(request,'dashboard/melghat.html')
 
+def tdd(request):
+    return render(request,'dashboard/tdd.html')
+
 
 def test_animesh(request):
     theme_name = "Deonadi Project Dashboard"
