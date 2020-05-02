@@ -68,6 +68,9 @@ def tdsc(request):
 def melghat(request):
     return render(request,'dashboard/melghat.html')
 
+def ahmadnagargis(request):
+    return render(request,'dashboard/ahmadnagar.html')
+
 def tdd(request):
     return render(request,'dashboard/tdd.html')
 
