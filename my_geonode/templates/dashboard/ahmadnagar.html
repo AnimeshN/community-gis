@@ -39,6 +39,17 @@ tr:hover {
   text-align: left;
   margin: 10px;
 }
+
+#checkboxes3 {
+  display: none;
+  /* border: 1px #dadada solid; */
+}
+
+#checkboxes3 label {
+  display: block;
+  text-align: left;
+  margin: 10px;
+}
 /* #checkboxes label:hover {
   background-color: #1e90ff;
 } */
@@ -260,40 +271,6 @@ tr:hover {
        
 
         <form id="projectList" style="width: 100%">
-            <h6>Tribal Villages and Towns</h6>
-             <form>
-              <div class="multiselect">
-                <div class="selectBox" onclick="showCheckboxes2()">
-                    <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; ">Select Category</button>
-                    <!-- <option>Select Health Facilities</option> -->
-                  <div class="overSelect"></div>
-                </div>
-                <div id="checkboxes2">
-                      <div class="checkbox" id="boundary">
-                        <label><input type="checkbox" value="{at}" onchange="getBoundarytrib(this)"><span>Additional TSP</span></label>
-                      </div>
-                      <div class="checkbox">
-                        <label><input type="checkbox" value="{m}" onchange="getBoundarytrib(this)"><span>MADA</span></label>
-                      </div>
-                       <div class="checkbox">
-                        <label><input type="checkbox" value="{mm}" onchange="getBoundarytrib(this)"><span>Mini MADA</span></label>
-                      </div>
-                      <div class="checkbox">
-                        <label><input type="checkbox" value="{t}" onchange="getBoundarytrib(this)"><span>Tribal Sub Plan</span></label>
-                      </div>
-                       
-                  
-
-                  
-              
-                         
-                </div>
-              </div>
-     <hr>
-     <div class="text-center">
-       
-
-        <form id="projectList" style="width: 100%">
             <h6>Explore Facilities</h6>
              <form>
               <div class="multiselect">
@@ -362,6 +339,75 @@ tr:hover {
                    -->       
                 </div>
               </div>
+     <hr>
+      <div class="text-center">
+       
+
+        <form id="projectList" style="width: 100%">
+            <h6>COVID-19 Lockdown Zones</h6>
+             <form>
+              <div class="multiselect">
+                <div class="selectBox" onclick="showCheckboxes3()">
+                    <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; ">Select Zone</button>
+                    <!-- <option>Select Health Facilities</option> -->
+                  <div class="overSelect"></div>
+                </div>
+                <div id="checkboxes3">
+                      <div class="checkbox" id="boundary">
+                        <label><button type="button" class="btn btn-outline-dark" value="{at}" onchange="" style="background-color:green;width:90%;font-size:14px;" disabled><span>Green Zone</span></label>
+                      </div>
+                      <div class="checkbox">
+                        <label><button class="btn btn-outline-dark" type="button" value="{m}" onchange="" style="background-color:orange;width:90%;font-size:14px;" disabled><span>Orange Zone</span></label>
+                      </div>
+                       <div class="checkbox">
+                        <label><button type="button" class="btn btn-outline-dark" value="{mm}" onchange="" style="background-color:red;width:90%;font-size:14px;" disabled><span>Red Zone</span></label>
+                      </div>
+                     
+                       
+                  
+
+                  
+              
+                         
+                </div>
+              </div>
+     <hr>
+     <div class="text-center">
+       
+
+        <form id="projectList" style="width: 100%">
+            <h6>Tribal Villages and Towns</h6>
+             <form>
+              <div class="multiselect">
+                <div class="selectBox" onclick="showCheckboxes2()">
+                    <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; ">Select Category</button>
+                    <!-- <option>Select Health Facilities</option> -->
+                  <div class="overSelect"></div>
+                </div>
+                <div id="checkboxes2">
+                      <div class="checkbox" id="boundary">
+                        <label><input type="checkbox" value="{at}" onchange="getBoundarytrib(this)"><span>Additional TSP</span></label>
+                      </div>
+                      <div class="checkbox">
+                        <label><input type="checkbox" value="{m}" onchange="getBoundarytrib(this)"><span>MADA</span></label>
+                      </div>
+                       <div class="checkbox">
+                        <label><input type="checkbox" value="{mm}" onchange="getBoundarytrib(this)"><span>Mini MADA</span></label>
+                      </div>
+                      <div class="checkbox">
+                        <label><input type="checkbox" value="{t}" onchange="getBoundarytrib(this)"><span>Tribal Sub Plan</span></label>
+                      </div>
+                       
+                  
+
+                  
+              
+                         
+                </div>
+              </div>
+     <hr>
+
+
            
               <!-- <button type="button" class="btn btn-primary" onclick = "GetSelected()">Display</button>
  -->              <div id="side-bar" style="background-color: rgba(255, 255, 255);">                <!-- side-bar container -->
@@ -436,6 +482,17 @@ function showCheckboxes2() {
   }
 }   
 
+
+function showCheckboxes3() {
+  var checkboxes = document.getElementById("checkboxes3");
+  if (!expanded) {
+    checkboxes3.style.display = "block";
+    expanded = true;
+  } else {
+    checkboxes3.style.display = "none";
+    expanded = false;
+  }
+} 
 
 function getBoundary(obj) {
     let boundary = obj.value;
