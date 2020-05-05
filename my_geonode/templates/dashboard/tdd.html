@@ -1,3 +1,5 @@
+<!--TDD code-->
+
 {% extends 'dashboard/base.html' %}
 {% load static%}
 {% block content %}
@@ -706,7 +708,7 @@ function queryFeatures(currentPos, numResults) {
     var tribLayerList=[];
     var pointLayerList = [];
     var newLayerList = [];
-  
+    var TRIBLAYER,FACLAYER,insti_content,tooltiplayer;
 
     var searchControl;
 
@@ -771,7 +773,9 @@ function resetHighlight(e) {
 //function for tooltip
 function Identify(e)
 {
-  //console.log("Identify");
+  var a=tooltiplayer;
+  console.log(e);
+  var url_part;
 // set parameters needed for GetFeatureInfo WMS request
 var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
 var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
@@ -784,9 +788,12 @@ var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
 
 // compose the URL for the request
 
+if(a==="fac")
+  url_part=FACLAYER;
+else
+  url_part=TRIBLAYER;
 
-var URL = TRIBLAYER + '&BBOX='+BBOX+'&FEATURE_COUNT=1&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I='+X+'&J='+Y;
-// console.log(URL);
+var URL =url_part+'&BBOX='+BBOX+'&FEATURE_COUNT=1&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I='+X+'&J='+Y;
 //send GetFeatureInfo as asynchronous HTTP request using jQuery $.ajax
 console.log(URL);
 $.ajax({
@@ -803,8 +810,26 @@ $.ajax({
         var popup = new L.Popup({
             maxWidth: 300
         });
-
-        if(feature.properties.category === "at"){
+        //identified unique columns in that particular layer of schools to tap the info in information window
+        if(feature.properties.school_nam && feature.properties.ac_year){
+          console.log("I reached at school");
+            insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>"+feature.properties.distname+"</td></tr>"+
+               "<tr><td><b>Block Name</b></td><td>"+feature.properties.block_nam+"</td></tr>"+             
+                "<tr><td><b>Village Name</b></td><td>"+feature.properties.village_na+"</td></tr>"+
+                "<tr><td><b>School Name</b></td><td>"+feature.properties.school_nam+"</td></tr>";
+        }else if(feature.properties.name_of_sc){
+          console.log("I reached at school");
+            insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>"+feature.properties.district+"</td></tr>"+
+               "<tr><td><b>Block Name</b></td><td>"+feature.properties.taluka+"</td></tr>"+             
+                "<tr><td><b>Village Name</b></td><td>"+feature.properties.village+"</td></tr>"+
+                "<tr><td><b>School Name</b></td><td>"+feature.properties.name_of_sc+"</td></tr>";
+        }else if(feature.properties.po){
+          console.log("I reached at school");
+            insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>"+feature.properties.district+"</td></tr>"+
+               "<tr><td><b>Block Name</b></td><td>"+feature.properties.taluka+"</td></tr>"+             
+                "<tr><td><b>Village Name</b></td><td>"+feature.properties.village+"</td></tr>"+
+                "<tr><td><b>School Name</b></td><td>"+feature.properties.school_nam+"</td></tr>";
+        }else if(feature.properties.category === "at"){
           //console.log("I reached at");
             insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>"+feature.properties.district+"</td></tr>"+
                "<tr><td><b>Village Name</b></td><td>"+feature.properties.area_name+"</td></tr>"+             
@@ -913,6 +938,7 @@ function putWMStrib(layer,cql){
             wms_layer.addTo(mymap);
 
             TRIBLAYER="https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS="+wms_layer.options.layers+"&QUERY_LAYERS="+wms_layer.options.layers;
+            tooltiplayer="trib";
             // console.log(wms_layer);
             tribLayerList.push(wms_layer);
            
@@ -957,14 +983,19 @@ function putWMS(layer){
     wms_layer.addTo(mymap);
     
     FACLAYER="https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS="+wms_layer.options.layers+"&QUERY_LAYERS="+wms_layer.options.layers;
+    tooltiplayer="fac"
+
     newLayerList.push(wms_layer);
-    //console.log(wms_layer);
-    
-    // console.log(WMSLAYER);
+    // if(wms_legend){
+    //             mymap.removeControl(wms_legend);
+    // }
+    console.log(wms_legend); 
+    addWMSLegend(layer);
+
 }
 
 function addWMSLegend(layer){
-    lagendGraphic = "https://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+layer;
+    lagendGraphic = "https://makerghat.urbansciences.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+layer+"&LEGEND_OPTIONS=forceLabels:on";
     wms_legend = L.wmsLegend(lagendGraphic);
 }
 
