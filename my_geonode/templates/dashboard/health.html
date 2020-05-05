@@ -20,6 +20,17 @@ tr:hover {
   /* border: 1px #dadada solid; */
 }
 
+#checkboxes3 label {
+  display: block;
+  text-align: left;
+  margin: 10px;
+}
+
+#checkboxes3 {
+  display: none;
+  /* border: 1px #dadada solid; */
+}
+
 #checkboxes label {
   display: block;
   text-align: left;
@@ -116,8 +127,8 @@ h6 {
             <optgroup label="States"> 
               <option value="Maharashtra" onclick="mymap.setView(new L.LatLng(19.7515,75.7139),7);" >Maharashtra</option>
 
-                <option value="Andhra Pradesh" >Andhra Pradesh</option>
-                <option value="Arunachal Pradesh" >Arunachal Pradesh</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunanchal Pradesh" >Arunachal Pradesh</option>
                  <option value="Assam" >Assam </option>
                 <option value="Bihar" >Bihar</option>
                 <option value="Chhattisgarh" >Chhattisgarh</option>
@@ -170,13 +181,13 @@ h6 {
         <tr><h6>Selected State:Related Data</h6></tr>
         <div class="text-center">
             <div class="checkbox" id="stboun">
-              <tr><tb>  <label><input type="checkbox" value="{mahadem}" onchange="getBoundaryst(this)"></tb><tb><span> Demography </span></label></tb> </tr>
+              <tr><tb>  <label><input type="checkbox" value="{mahadem}" onchange="getBoundaryst(this)"></tb><tb><span>Maharashtra Demography </span></label></tb> </tr>
               </div>
               <div class="checkbox">
-                <label><input type="checkbox" value="{maharoad}" onchange="getBoundaryst(this)"><span> Road Network </span></label>
+                <label><input type="checkbox" value="{maharoad}" onchange="getBoundaryst(this)"><span> Maharashtra Road Network </span></label>
               </div>
               <div class="checkbox">
-                <label><input type="checkbox" value="{mahaschool}" onchange="getBoundaryst(this)"><span> Schools (UDISE 16-17) </span></label>
+                <label><input type="checkbox" value="{mahaschool}" onchange="getBoundaryst(this)"><span>Maharashtra Schools (UDISE 16-17) </span></label>
               </div>
         </div>
      </table>   
@@ -302,6 +313,39 @@ h6 {
            
               <!-- <button type="button" class="btn btn-primary" onclick = "GetSelected()">Display</button>
  -->              <div id="side-bar" style="background-color: rgba(255, 255, 255);">                <!-- side-bar container -->
+  <div class="text-center">
+       
+
+        <form id="projectList" style="width: 100%">
+            <h6>COVID-19 Lockdown Zones</h6>
+             <form>
+              <div class="multiselect">
+                <div class="selectBox" onclick="showCheckboxes3()">
+                    <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; ">Select Zone</button>
+                    <!-- <option>Select Health Facilities</option> -->
+                  <div class="overSelect"></div>
+                </div>
+                <div id="checkboxes3">
+                      <div class="checkbox" id="boundary">
+                        <label><button type="button" class="btn btn-outline-dark" value="{at}" onchange="" style="background-color:green;width:90%;font-size:14px;" disabled><span>Green Zone</span></label>
+                      </div>
+                      <div class="checkbox">
+                        <label><button class="btn btn-outline-dark" type="button" value="{m}" onchange="" style="background-color:orange;width:90%;font-size:14px;" disabled><span>Orange Zone</span></label>
+                      </div>
+                       <div class="checkbox">
+                        <label><button type="button" class="btn btn-outline-dark" value="{mm}" onchange="" style="background-color:red;width:90%;font-size:14px;" disabled><span>Red Zone</span></label>
+                      </div>
+                     
+                       
+                  
+
+                  
+              
+                         
+                </div>
+              </div>
+     <hr>
+
     <div class="border">
         <table>
         <!-- <tr><h5>Selected State:Related Data</h5></tr> -->
@@ -360,6 +404,17 @@ function showCheckboxes() {
     checkboxes.style.display = "none";
     expanded = false;
   }
+}  
+
+function showCheckboxes3() {
+  var checkboxes = document.getElementById("checkboxes3");
+  if (!expanded) {
+    checkboxes3.style.display = "block";
+    expanded = true;
+  } else {
+    checkboxes3.style.display = "none";
+    expanded = false;
+  }
 }   
 
 function getBoundary(obj) {
@@ -411,7 +466,7 @@ function getBoundaryru(obj) {
     
     }else{
         if(boundary== "{mahatown}")
-            removeWMS("geonode:townhealth_centroid");
+            removeWMS("geonode:TownHealth0");
         else if(boundary== "{maharural}")
             removeWMS("geonode:maha_village_polygon_29mar");
    
@@ -566,7 +621,9 @@ function queryFeatures(currentPos, numResults) {
 }
 
 // *****************
-  let listState = {'Maharashtra':['Maharashtra',19.7515,75.7139]}
+  let listState = {'Maharashtra':['Maharashtra',19.7515,75.7139],'Andhra Pradesh':['Andhra Pradesh',15.91,79.7439],'Arunanchal Pradesh':['Arunanchal Pradesh',27.10039878 ,93.61660071],
+    'Assam':['Assam',26.7499809,94.21666744],'Bihar':['Bihar',25.78541445,87.4799727],
+    'Chandigarh':['Chandigarh',30.71999697,76.78000565],'Chhattisgarh':['Chhattisgarh',22.09042035,82.15998734],'Dadra & Nagar Haveli':['Dadra & Nagar Haveli',20.26657819,73.0166178],'Delhi':['Delhi',28.6699929,77.23000403],'Goa':['Goa',15.491997,73.81800065],'Haryana':['Haryana',28.45000633,77.01999101],'Himachal Pradesh':['Himachal Pradesh',31.10002545,77.16659704],'Jammu & Kashmir':['Jammu & Kashmir',34.29995933,74.46665849],'Jharkhand':['Jharkhand',23.80039349,86.41998572],'Karnataka':['Karnataka',12.57038129,76.91999711],'Kerala':['Kerala', 8.900372741,76.56999263],'Lakshadweep':['Lakshadweep',10.56257331,72.63686717],'Madhya Pradesh':['Madhya Pradesh',21.30039105,76.13001949],'Manipur':['Manipur',24.79997072,3.95001705],'Meghalaya':['Meghalaya',25.57049217,91.8800142],'Mizoram':['Mizoram',23.71039899,92.72001461],'Nagaland':['Nagaland',  25.6669979,94.11657019],'Orissa':['Orissa',19.82042971,85.90001746],'Puducherry':['Puducherry', 11.93499371,79.83000037],'Punjab':['Punjab',31.51997398, 75.98000281],'Rajasthan':['Rajasthan',26.44999921,  74.63998124],'Sikkim':['Sikkim',27.3333303,88.6166475],'Tamil Nadu':['Tamil Nadu',12.92038576,79.15004187],'Tripura':['Tripura',  23.83540428,91.27999914],'Uttar Pradesh':['Uttar Pradesh',27.59998069,78.05000565],',Uttaranchal':['Uttaranchal',30.32040895,78.05000565],'West Bengal':['West Bengal',22.58039044,88.32994665]}
 
     let listDistrict = {'Akola':['Akola',20.7002, 77.0082],'Amravati':['Amravati',20.9374,77.7796],
     'Buldana':['Buldana',20.4561,76.3637],'Yavatmal':['Yavatmal',20.3888,78.1204],'Washim':['Washim',20.139,77.1025],
@@ -790,7 +847,7 @@ function putWMSLayerst(){
             clear_layer();
             clearpoint_layer();
             wms_layer.addTo(mymap);
-
+            mymap.setView([stLayerLatLong[1],stLayerLatLong[2]],8);
             LayerList.push(wms_layer);
             // addWMSLegend(layer);
             
