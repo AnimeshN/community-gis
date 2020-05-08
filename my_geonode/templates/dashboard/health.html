@@ -456,7 +456,7 @@ h6 {
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-<script  src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.js"></script>
+<script  src="{% static 'js/d3.v4.mini.js'%}"></script>
 
 
 <script>
@@ -506,7 +506,6 @@ function filterCSV2(csv, key, value)
 d3.csv("{% static 'data/healthdash/st_dist_pin.csv' %}",function(data){
   
   
-    console.log(data);
     $('#indstate').on("change", function(d) {
        var val = d3.select(this).property("value");
      //console.log(val);
