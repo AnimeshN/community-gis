@@ -1,0 +1,50 @@
+{% extends 'dashboard/base.html' %}
+{% load static%}
+{% block content %}
+
+
+<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- Main container -->
+
+  <h2>Rural Water Maps</h2>
+  <hr>
+ 
+<ul class="list-group">
+    <li class="list-group-item list-group-item-info"><b>Ratnagiri</b></li>
+    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:stress')";>Palgarh</button></li>
+ </ul> 
+ <div style="text-align: center"> 
+        <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="fa fa-power-off"></span></button> 
+    </div>
+</div>
+
+
+    <script>
+
+var myLayerList = [];
+    function putLayer(geonode_source){
+        console.log('jjj');
+        mymap.setView([19.9365, 73.3404], 9);
+        var index = myLayerList.indexOf(geonode_source);
+        if(index >= 0){
+            console.log('remove'+geonode_source)
+            source.getLayer(geonode_source).addTo(mymap).remove(mymap);
+            myLayerList.splice(index,1);
+
+        }else{
+            console.log('add:::::'+geonode_source);
+            // info.toFront(geonode_);
+            source.getLayer(geonode_source).addTo(mymap);
+            myLayerList.push(geonode_source);
+        }
+    }
+
+    
+
+
+    </script>
+
+
+
+
+
+{% endblock %}

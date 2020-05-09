@@ -45,7 +45,7 @@
                   <hr>
               </div>
               <div class="items cart" >
-        <a href="health" class="btn" style="font-size: 150%;background-color: beige;color: darkslategray">Maps</a>
+        <a href="{% url 'rural_health' %}" class="btn" style="font-size: 150%;background-color: beige;color: darkslategray">Maps</a>
 
             </div>
           </div>
@@ -107,6 +107,60 @@
           
           {% endif %}
           {% endfor %}
+
+	  {%if user.username == 'melghat'%}
+	   <div class="card-container"style="background: url('{%static 'images/melghat.jpeg'%}'); background-size: cover;   background-color: black;">
+            <div class="overlay">
+              <div class = "items"></div>
+              <div class = "items head">
+                <p><b>This theme displays facilities in Melghat, Amravati.
+
+                  <p><b></b></p><br>
+                  <hr>
+              </div>
+              <div class="items cart" >
+        <a href="melghat" class="btn" style="font-size: 150%;background-color: beige;color: darkslategray">Maps</a>
+
+            </div>
+          </div>
+          </div>
+
+
+          <div class="card-container"style="background: url('{%static 'images/tdd_logo.jpg'%}'); background-size: cover;   background-color: black;">
+            <div class="overlay">
+              <div class = "items"></div>
+              <div class = "items head">
+                <p><b>Tribal Development Department
+
+                  <p><b></b></p><br>
+                  <hr>
+              </div>
+              <div class="items cart" >
+        <a href="tdd" class="btn" style="font-size: 150%;background-color: beige;color: darkslategray">Maps</a>
+
+            </div>
+          </div>
+          </div>
+  {%endif%}
+  
+  {%if user.username == 'ahmadnagar'%}
+	   <div class="card-container"style="background: url('{%static 'images/ahmadnagar.jpeg'%}'); background-size: cover;   background-color: black;">
+            <div class="overlay">
+              <div class = "items"></div>
+              <div class = "items head">
+                <p><b>This page displays different facilities of Ahmadnagar District of Maharashtra.
+
+                  <p><b></b></p><br>
+                  <hr>
+              </div>
+              <div class="items cart" >
+        <a href="ahmadnagargis" class="btn" style="font-size: 150%;background-color: beige;color: darkslategray">Maps</a>
+
+            </div>
+          </div>
+          </div>
+      {% endif %}
+
 
 <!-- <div class="space" style="">
     <div class = "container" id="mydiv" style="float:left;">

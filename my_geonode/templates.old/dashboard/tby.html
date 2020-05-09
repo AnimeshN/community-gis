@@ -1,0 +1,699 @@
+{% extends 'dashboard/base.html' %}
+{% load static%}
+{% block content %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'css/select7.css' %}">
+<script src="{% static 'js/select7.js' %}" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+<style>
+.bs-example{
+    margin: 20px;
+}
+
+.nav-tabs{
+background-color:#63c54a;
+}
+
+table, th, td {
+    border-bottom: 1px solid #ddd;
+    border-collapse: collapse;
+    padding: 2px 3px;
+    text-align: center;
+}
+th {
+    font-weight:bold;
+}
+tr:hover {
+    background-color: #c9dbe6;
+}
+
+.myAttributeTable{
+  background-color: rgb(255, 255, 255);
+  text-align: left;
+  border-collapse: collapse;
+  overflow-y: scroll; 
+  max-height: 400px;
+  max-width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+.table-legend{
+  border-collapse: collapse;
+  padding: 2px 3px;
+  width: 100%;
+  font-size: small;
+  /* font-weight: bold; */
+  background: #fff;
+}
+    
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+/* css to customize Leaflet default styles  */
+.leaflet-popup-content-wrapper {
+    background: rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+}
+
+.leaflet-popup-content{
+    font-weight: bold;
+}
+
+
+.mobileShow {display: none;}
+
+  /* Smartphone Portrait and Landscape */
+  @media only screen
+    and (min-device-width : 320px)
+    and (max-device-width : 480px){ 
+      .mobileShow {display: inline;}
+  }
+</style>
+
+<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- side-bar container -->
+
+  <h2 class="text-center">Thakkar Bappa Yojana<br>Palghar</h2>
+  <hr>
+
+  <div class="mobileShow">
+   
+    <div style="text-align: center"> 
+        <button style="display: inline-block ;position: relative; background: #000; opacity: 0.60;" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="fa fa-bars"></span></button> 
+    </div>
+
+ </div>   
+
+ <!-- Tab for Report , Dashboard , Query Builder -->
+  <div class="bs-example">
+    <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+            <a href="#home" class="nav-link active" data-toggle="tab">Report</a>
+        </li>
+        <li class="nav-item">
+            <a href="#profile" class="nav-link" data-toggle="tab">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a href="#messages" class="nav-link" data-toggle="tab">Query Builder</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <!-- <div class="tab-pane fade show active text" id="home"> -->
+            <!-- <h4 class="mt-2">Report</h4><br> -->
+            <br>
+           
+
+             <div class="tooltips" title="Please select the Block">
+                <select class = 'form-control' id="block" name="block">
+                    <option>Please select block</option>
+                     <optgroup label="Jawahar ITDP">
+                             <option>Mokhada</option>
+                             <!-- <option>Jawahar</option> -->
+                             <!-- <option>Vada</option> -->
+                             <!-- <option>Vikramgarh</option> -->
+                         </optgroup>
+                         <optgroup label="Dhanu ITDP">
+                             <!-- <option>Dhanu</option> -->
+                             <!-- <option>Talsari</option> -->
+                             <!-- <option>Palgarh</option> -->
+                             <!-- <option>Vasai</option> -->
+                         </optgroup>
+                </select>
+            </div>
+             <br>
+                <div class="tooltips" title="Please select the structure.">
+                    <!-- <select class= 'form-control' id="structure" name="structure" placeholder="Enter structure"></select> --> 
+                    <script type="text/javascript" language="JavaScript">
+                        document.write('<select class= "form-control" name="structure" id="structure"><option value="">Select Structure</option></select>')
+                    </script>
+        
+                </div>
+                <br>
+
+                <!-- <div class="tooltips" title="Please select the Year(s)">
+                    <script type="text/javascript" language="JavaScript">
+                        document.write('<select class= "form-control" id="testSelect1" multiple><option value="">All Years Selected</option><option value="2011-2012">2011-2012</option><option value="2012-2013">2012-2013</option><option value="2013-2014">2013-2014</option><option value="2014-2015">2014-2015</option></select>')
+                    </script>
+                  <select id='testSelect1' data-placeholder="Select year(s)" multiple>
+                    <option value='2011-2012'>2011-2012</option>
+                    <option value='2012-2013'>2012-2013</option>
+                    <option value='2013-2014'>2013-2014</option>
+                    <option value='2014-2015'>2014-2015</option>
+                  </select>
+                </div>  -->
+                <div class="tooltips" title="Please select the Year(s)">
+                <div id="select7" class="select7_container">
+                    <div class="select7_arrow">&#9662;</div>
+                    <div class="select7_placeholder">Select year(s)</div>
+                    <select class="select7_select" onchange="Select7.add(this, event);">
+                        <option class="select7_hide" value="filler"></option>
+                        <option value='2011-2012'>2011-2012</option>
+                        <option value='2012-2013'>2012-2013</option>
+                        <option value='2013-2014'>2013-2014</option>
+                        <option value='2014-2015'>2014-2015</option>
+                        </select>
+                    <div class="select7_items"></div>
+                </div>
+            </div>
+                <br>
+               <div class = 'text-center'> 
+              <button title="OK" class = 'btn btn-success' onclick="display_layer('OK')"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+              <button title="Not OK" class = 'btn btn-danger' onclick="display_layer('Not OK')"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button><br><br>
+
+              <button title="Clear layers" class = 'btn btn-warning' onclick="clear_layer()"><span class="fa fa-eraser"></span></button>
+
+              <button title="Show Attribute table" class = 'btn btn-info select' id="displaytable" ><i class="fa fa-table" aria-hidden="true"></i></button>
+              <!-- <button title="Download Attribute table" class = 'btn btn-success' id="downloadtable" ><i class="fa fa-download" aria-hidden="true"></i></button><br><br> -->
+            </div>
+
+            <br><br>
+            <!-- button legend -->
+            <div style="text-align: center">
+                <table class='table-legend'>
+                    <tr>
+                        <th colspan="2">Button discription</i></th>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-thumbs-up" aria-hidden="true"></i></td>
+                        <td>Show structures with final assessment "OK"</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-thumbs-down" aria-hidden="true"></i></td>
+                        <td>Show structures with final assessment "Not OK"</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-eraser" aria-hidden="true"></i></td>
+                        <td>Clear Layers from map</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-table" aria-hidden="true"></i></td>
+                        <td>Show Attribute Table</td>
+                    </tr>
+                </table>
+            </div>
+   
+        </div>
+        <div class="tab-pane fade" id="profile">
+            <h4 class="mt-2">Dashboard</h4>
+            <p>Dashboard will feature summary of data gathered using charts.</p>
+        </div>
+        <div class="tab-pane fade" id="messages">
+            <h4 class="mt-2">Query Builder</h4>
+            <p>User can build queries to analyse data.</p>
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+<!-- Tab ends here -->
+
+
+</div>
+
+<script>
+(function() {
+   const PALGARH_LAT_LONG = [19.6967, 72.7699]; 
+   mymap.setView(PALGARH_LAT_LONG,9);
+})();
+
+// dependent dropdown
+var structures = {
+    // 'Concrete Gutter'
+        'Mokhada': ['Select Structure','Public Toilets', 'Culvert','Dug well','Samaj Mandir','Smashan Bhoomi'],
+        'Jawahar': ['Select Structure','Borewell','Smashan Bhoomi'],
+        'Vada': ['Select Structure','Bitumen Road', 'Concrete Road', 'Culvert','Dug well','Gym','Public water supply (PWS)','Mangal Karyalaya','Borewell','Smashan Bhoomi'],
+        'Vikramgarh': ['Select Structure','Bitumen Road', 'Concrete Road', 'Culvert','Dug well','Gym','Public water supply (PWS)','Mangal Karyalaya','Borewell','Smashan Bhoomi'],
+        'Dhanu': ['Select Structure','Bitumen Road', 'Concrete Road', 'Culvert','Dug well','Gym','Public water supply (PWS)','Mangal Karyalaya','Borewell','Smashan Bhoomi'],
+        'Talsari': ['Select Structure','Bitumen Road', 'Concrete Road', 'Culvert','Dug well','Gym','Public water supply (PWS)','Mangal Karyalaya','Borewell','Smashan Bhoomi'],
+        'Palgarh': ['Select Structure','Bitumen Road', 'Concrete Road', 'Culvert','Dug well','Gym','Public water supply (PWS)','Mangal Karyalaya','Borewell','Smashan Bhoomi'],
+        'Vasai': ['Select Structure','Bitumen Road', 'Concrete Road', 'Culvert','Dug well','Gym','Public water supply (PWS)','Mangal Karyalaya','Borewell','Smashan Bhoomi'],
+    }
+  
+  var palgarh_block = {'Mokhada':['Mokhada',19.9365, 73.3404],'Jawahar':['Jawhar',19.9077, 73.2355],'Vada':['Vada',19.6570, 73.1409],'Vikramgarh':['Vikramgad',19.7973, 73.0956],'Dhanu':['Dahanu',19.9903, 72.7397],'Talsari':['Talasari',20.1238, 72.9169],'Palgarh':['Palghar',19.6967, 72.7699],'Vasai':['Vasai',19.3919, 72.8397]};
+    var $structures = $('#structure');
+    $('#block').change(function () {
+        var block_pal = document.getElementById('block').value;
+        displayPolygon(palgarh_block[block_pal][0],palgarh_block[block_pal][1],palgarh_block[block_pal][2]);
+        var block = $(this).val(), lcns = structures[block] || [];
+        
+        var html = $.map(lcns, function(lcn){
+            return '<option value="' + lcn + '">' + lcn + '</option>'
+        }).join('');
+        $structures.html(html)
+    });
+
+
+    $("#structure").change({msg: "all"},  function(event) {
+    display_layer(event.data.msg);
+    
+});
+
+
+    
+var geojson;
+const domain = ['https://makerghat.urbansciences.in/','http://localhost/'];
+var base_url = domain[0] + "geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application/json&";
+var info = L.control();
+var attribute_table = L.control({position: 'bottomright'});
+var layer_name;
+
+
+
+
+
+const fontAwesomeIcon = L.divIcon({
+    html: '<i class="fa fa-map-marker fa-4x"></i>',
+    iconSize: [20, 20],
+    className: 'myDivIcon'
+});
+
+
+var LayerList = [];
+var pointLayerList = [];
+
+function getColor(d) {
+    return d > 6 ? '#FF0000' :
+           d > 2  ? '#FFFF00' :
+           d > -1  ? '#008000' :
+                      '#FFEDA0';
+}
+
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function style(feature) {
+    return {
+        fillColor: "#fff",
+        weight: 2,
+        opacity: 1,
+        color: 'black',
+        fillOpacity: 0
+    };
+}
+
+function display_layer(assessment){
+    var name_and_icons = fetch_layer_name();
+    if(typeof name_and_icons[1] === 'undefined'){
+        mymap.messagebox.show('Please select block and structure');
+
+    }else{
+        displayPoints(name_and_icons[0],assessment);
+    }
+}
+
+function clear_layer(){
+    LayerList.forEach(layer => mymap.removeLayer(layer));
+}
+
+
+function fetch_layer_name(){
+    var layer_name,structureIcon;
+    var block = document.getElementById('block').value;
+    var structure = document.getElementById('structure').value;
+    switch(structure){
+        case "Culvert":
+            layer_name = "thakkarbappayojana_mokhada_culvert_1_0";
+            structureIcon = L.AwesomeMarkers.icon({icon: 'bars', markerColor: 'red', prefix: 'fa' });
+            break;
+        case "Dug well":
+            layer_name = "thakkarbappayojana_mokhada_well_1_0";
+            structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
+            break;
+        case "Public Toilets":
+            layer_name = "thakkarbappayojana_mokhada_publictoilet_1_0";
+            structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
+            break;
+        case "Concrete Gutter":
+            layer_name = "thakkarbappayojana_mokhada_well_1_00";
+            structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
+            break;
+        case "Samaj Mandir":
+            layer_name = "thakkarbappayojana_mokhada_samajmandir_1_01";
+            structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
+            break;
+        case "Smashan Bhoomi":
+            layer_name = "thakkarbappayojana_mokhada_smashanbhoomi_1_0";
+            structureIcon = L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
+            break;
+
+    }
+
+
+
+
+    var name_and_style = [layer_name,structureIcon];
+    return name_and_style;
+
+    
+}
+
+var geticon = function(){
+ return L.AwesomeMarkers.icon({icon: 'bullseye', markerColor: 'blue', prefix: 'fa' });
+}
+
+
+function displayPoints(layer_name,assessment){
+    console.log(assessment);
+
+pointLayerList.forEach(layer => mymap.removeLayer(layer));
+mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
+url = base_url + "&typeName=geonode%3A" + layer_name;
+fetch(url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(stressData) {
+
+        geojson = L.geoJson(stressData.features, {
+            pointToLayer: function (feature, latlng) {
+                if(feature.properties.Final_Asse === 'OK'){
+                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-up', markerColor: 'green', prefix: 'fa' }) });
+                }else{
+                    return L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'thumbs-down', markerColor: 'red', prefix: 'fa' }) });
+                }
+	},
+    onEachFeature: onEachFeatureForPoint,
+    filter: function(feature, layer) {
+                if(assessment == 'all'){
+                    return true;
+                }else{
+                    return feature.properties.Final_Asse == assessment;
+                    
+                }
+                
+            }
+    }).addTo(mymap);
+    LayerList.push(geojson);
+    pointLayerList.push(geojson);
+    mymap.spin(false);
+    url = "";
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+// }
+
+    
+}
+
+
+
+function displayPolygon(blockName,lat,long){
+LayerList.forEach(layer => mymap.removeLayer(layer));
+layer_url =base_url + "&typeName=geonode%3Apalgarh_block&cql_filter=tal_name='"+blockName+"'";
+fetch(layer_url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(geojsonData) {
+        mymap.setView([lat, long], 11);
+        geojson = L.geoJson(geojsonData.features, {
+        style : style
+    }).addTo(mymap);
+    LayerList.push(geojson);
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+
+    
+}
+
+function onEachFeatureForPoint(feature, layer) {
+	// does this feature have a property named popupContent?
+	if (feature.properties && feature.properties.No_of_Pipe) {
+		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.Habitation+"</td></tr>"+
+        "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
+        "<tr><td>Budget:</td><td>"+feature.properties.Budget+"</td></tr>"+
+        "<tr><td>Number of pipes:</td><td>"+feature.properties.No_of_Pipe+"</td></tr>"+
+        "<tr><td>Width of pipes:</td><td>"+feature.properties.Width+"</tr>"+
+        "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
+
+             
+
+        
+	}else if(feature.properties && feature.properties.Diameter){
+		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.Habitation+"</td></tr>"+
+        "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
+        "<tr><td>Budget:</td><td>"+feature.properties.Budget+"</td></tr>"+
+        "<tr><td>Depth:</td><td>"+feature.properties.Depth+"</td></tr>"+
+        "<tr><td>Diameter:</td><td>"+feature.properties.Diameter+"</tr>"+
+        "<tr><td>Material Used:</td><td>"+feature.properties.Material+"</tr>"+
+        "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
+    
+    }
+    else if(feature.properties && feature.properties.No_of_Bath){
+		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.Habitation+"</td></tr>"+
+        "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
+        "<tr><td>Budget:</td><td>"+feature.properties.Budget+"</td></tr>"+
+        "<tr><td>In use:</td><td>"+feature.properties.In_use+"</td></tr>"+
+        "<tr><td>Number of Bath:</td><td>"+feature.properties.No_of_Bath+"</tr>"+
+        "<tr><td>No of WC:</td><td>"+feature.properties.No_of_WC+"</tr>"+
+        "<tr><td>Water Availability:</td><td>"+feature.properties.Water_Prov+"</tr>"+
+        "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
+    
+    }else if(feature.properties && feature.properties.Electric_F){
+		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.Habitation+"</td></tr>"+
+        "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
+        "<tr><td>Budget:</td><td>"+feature.properties.Budget+"</td></tr>"+
+        "<tr><td>Electric Fan:</td><td>"+feature.properties.Electric_F+"</td></tr>"+
+        "<tr><td>Height:</td><td>"+feature.properties.Height+"</tr>"+
+        "<tr><td>Length:</td><td>"+feature.properties.Length+"</tr>"+
+        "<tr><td>Width:</td><td>"+feature.properties.Width+"</tr>"+
+        "<tr><td>Sanitary_B:</td><td>"+feature.properties.Sanitary_B+"</tr>"+
+        "<tr><td>In use:</td><td>"+feature.properties.In_use+"</tr>"+
+        "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
+    
+    }else if(feature.properties && feature.properties["chula-ch"]){
+		layer.bindPopup("<table class = 'popupclass' ><tr><td>Habitation:</td><td>"+feature.properties.Habitation+"</td></tr>"+
+        "<tr><td>Sanction Year:</td><td>"+feature.properties.Sanction_y+"</td></tr>"+
+        "<tr><td>Budget:</td><td>"+feature.properties.Budget+"</td></tr>"+
+        "<tr><td>Chula_ch:</td><td>"+feature.properties["chula-ch"]+"</td></tr>"+
+        "<tr><td>Height:</td><td>"+feature.properties.Height+"</tr>"+
+        "<tr><td>Length:</td><td>"+feature.properties.Length+"</tr>"+
+        "<tr><td>Width:</td><td>"+feature.properties.Width+"</tr>"+
+        "<tr><td>Final Assessment:</td><td>"+feature.properties.Final_Asse+"</td></tr></table>");
+    
+    }
+}
+
+
+function hideTable(){
+    mymap.removeControl(attribute_table);
+    ctlSidebar.show();
+}
+
+
+
+
+var legend = L.control({position: 'bottomright'});
+var downloadThisTable;
+
+$("#displaytable").click(function(){
+    var name_and_icons = fetch_layer_name();
+    if(typeof name_and_icons[1] === 'undefined'){
+        mymap.messagebox.show('Please select block and structure');
+
+    }else{
+        ctlSidebar.hide();
+            attribute_table.onAdd = function(mymap){
+            var div = L.DomUtil.create('div','myAttributeTable');
+            div.innerHTML += "<button style='float: right'class='btn btn-danger' onclick='hideTable()'><i class='fa fa-times-circle' aria-hidden='true'></i></button>";
+            layer_name = fetch_layer_name();
+            // if(layer_name[1] == undefined){
+                // mymap.messagebox.show("please select block and structure");
+                // }else{
+                                url = base_url + "&typeName=geonode%3A" + layer_name[0];
+                            fetch(url)
+                            .then(
+                                function(response) {
+                                if (response.status !== 200) {
+                                    console.log('Looks like there was a problem. Status Code: ' +
+                                    response.status);
+                                    return;
+                                }
+
+                                response.json().then(function(layer) {
+                                    
+                                var propsJSON = create_property_json(layer.features);
+                                    var col = [];
+                                    for (var i = 0; i < propsJSON.length; i++) {
+                                        for (var key in propsJSON[i]) {
+                                            if (col.indexOf(key) === -1) {
+                                                col.push(key);
+                                            }
+                                        }
+                                    }
+
+                                    var table = document.createElement("table");
+
+                                    var tr = table.insertRow(-1);                   
+
+                                    for (var i = 0; i < col.length; i++) {
+                                        var th = document.createElement("th");      
+                                        th.innerHTML = col[i];
+                                        tr.appendChild(th);
+                                    }
+
+                                    for (var i = 0; i < propsJSON.length; i++) {
+
+                                        tr = table.insertRow(-1);
+
+                                        for (var j = 0; j < col.length; j++) {
+                                            var tabCell = tr.insertCell(-1);
+                                            tabCell.innerHTML = propsJSON[i][col[j]];
+                                        }
+                                    }
+
+                                    
+                                    div.appendChild(table);
+
+                                // div.innerHTML += table;
+                                url = "";
+                                downloadThisTable = table;   
+                                });
+
+
+                                }
+                            )
+                            .catch(function(err) {
+                                console.log('Fetch Error :-S', err);
+                            });
+                            return div;
+                        }
+               
+                attribute_table.addTo(mymap);
+    }
+});
+
+
+
+function create_property_json(feature){
+    var json_props = [];
+    feature.forEach(feat => {
+        json_props.push(feat.properties);
+    });
+    return(json_props);
+    
+}
+
+$("#downloadtable").click(function(){
+    if(downloadThisTable){
+        export_table_to_csv(downloadThisTable, "Assessment.csv");
+    }else{
+        mymap.messagebox.show("Please display attribute table first");
+    }
+})
+
+function export_table_to_csv(html, filename) {
+	var csv = [];
+	var rows = html.querySelectorAll("table tr");
+	
+    for (var i = 0; i < rows.length; i++) {
+		var row = [], cols = rows[i].querySelectorAll("td, th");
+		
+        for (var j = 0; j < cols.length; j++) 
+            row.push(cols[j].innerText);
+        
+		csv.push(row.join(","));		
+	}
+
+    download_csv(csv.join("\n"), filename);
+}
+
+function download_csv(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV FILE
+    csvFile = new Blob([csv], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // We have to create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Make sure that the link is not displayed
+    downloadLink.style.display = "none";
+
+    // Add the link to your DOM
+    document.body.appendChild(downloadLink);
+
+    // Lanzamos
+    downloadLink.click();
+}
+
+
+    $('#testSelect1').multiselect();
+    
+</script>
+
+
+{% endblock %}
+
+

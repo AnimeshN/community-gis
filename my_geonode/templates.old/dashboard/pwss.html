@@ -1,0 +1,259 @@
+{% extends 'dashboard/base.html' %}
+{% load static%}
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<style>
+    
+.select {
+    background:rgb(255,255,255);
+}
+.select.highlight {
+    background:rgb(26, 255, 0);
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+
+</style>
+
+<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- Main container -->
+
+  <h2>Rural Water Supply</h2>
+  <hr>
+ 
+<ul class="list-group">
+    <li class="list-group-item list-group-item-info"><b>Palgarh</b></li>
+    <li class="list-group-item list-group-item-info"><button class="btn select" onclick="displayLayer()";>Water stress</button></li>
+ </ul> 
+ <div style="text-align: center"> 
+        <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="glyphicon glyphicon-off"></span></button> 
+    </div>
+</div>
+
+
+    <script>
+$("#closebutton").click(function(){
+    ctlSidebar.toggle();
+});
+var myLayerList = [];
+    function putLayer(geonode_source){
+        console.log('jjj');
+        mymap.setView([19.9365, 73.3404], 11);
+        var index = myLayerList.indexOf(geonode_source);
+        if(index >= 0){
+            console.log('remove'+geonode_source)
+            source.getLayer(geonode_source).addTo(mymap).remove(mymap);
+            myLayerList.splice(index,1);
+
+        }else{
+            console.log('add:::::'+geonode_source);
+            // info.toFront(geonode_);
+            source.getLayer(geonode_source).addTo(mymap);
+            myLayerList.push(geonode_source);
+        }
+    }
+
+    $('.select').click(function () {
+        $(this).toggleClass('highlight')
+    })
+
+
+    </script>
+
+<div id="mapdiv" class="col-md-12"></div>
+<script>
+var mymap;
+var geojson;
+
+var url = "https://makerghat.urbansciences.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astress&outputFormat=application/json";
+var info = L.control({position: 'bottomright'});
+var source = L.wms.source(
+"https://localhost/geoserver/wms",
+{
+    "format": "image/png",
+    "transparent": "true"
+}        
+);
+
+
+
+// mymap = L.map('mapdiv', {center:[19.9374, 73.5364], zoom:9, zoomControl:false, attributionControl:false});
+// lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
+// lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
+// mymap.addLayer(lyrOSM);
+
+
+objBasemaps = {
+    "Open Street Maps": lyrOSM,
+    "Imagery":lyrImagery
+};
+
+objOverlays = {
+};
+
+// var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
+// var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
+// ctlSidebar.show();
+// var ctlPan = L.control.pan().addTo(mymap);
+
+// var ctlEasybutton = L.easyButton('glyphicon-transfer', function(){
+//     ctlSidebar.toggle(); 
+// }).addTo(mymap);
+// var ctlZoomslider = L.control.zoomslider({position:'topright'}).addTo(mymap);
+
+function getColor(d) {
+    return d > 6 ? '#FF0000' :
+           d > 2  ? '#FFFF00' :
+           d > -1  ? '#008000' :
+                      '#FFEDA0';
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.S_Stress),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+
+
+
+
+function displayLayer(){
+// console.log(url);
+fetch(url)
+.then(
+    function(response) {
+    if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+        response.status);
+        return;
+    }
+
+    // Examine the text in the response
+    response.json().then(function(stressData) {
+        geojson = L.geoJson(stressData.features,{style: style}).addTo(mymap);
+        mymap.setView([19.9365, 73.3404], 11);
+        geojson = L.geoJson(stressData.features, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(mymap);
+
+    });
+
+
+    }
+)
+.catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});
+
+info.addTo(mymap);
+legend.addTo(mymap);
+
+  
+}
+
+function zoomToFeature(e) {
+    mymap.fitBounds(e.target.getBounds());
+}
+
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+        
+    });
+    info.update(layer.feature.properties);
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    info.update();
+}
+
+
+//  custom control 
+
+info.onAdd = function (mymap) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Drinking Water stress</h4>' +  (props ?
+        '<b>District Name:</b>'+props.D_NAME + '<br /></br>'+'<b>Taluka Name:</b>'+props.T_NAME + '<br><br>' + '<b>Village Name:</b>'+props.S_Village+'<br><br>' + '<b>Shape Area:</b>'+ props.Shape_Area+'<br><br>'+'<b>Shap Length:</b>'+ props.Shape_Leng + '<br><br>' + '<b>Stress:</b>'+props.S_Stress
+        : 'Hover over a VILLAGE');
+};
+
+
+
+
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (mymap) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 3, 7,],
+        labels = [];
+    div.innerHTML = "Stress level<br><hr>";
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+};
+
+
+
+
+</script>
+
+
+{% endblock %}

@@ -56,11 +56,24 @@ def Transport(request):
 def Health(request):
     return render(request,'dashboard/health.html')
 
+def UrbanHealth(request):
+    return render(request,'dashboard/town_health.html')
+
 def Water(request):
     return render(request,'dashboard/ruralwater.html')
 
 def tdsc(request):
     return render(request,'dashboard/tdsc.html')
+
+def melghat(request):
+    return render(request,'dashboard/melghat.html')
+
+def ahmadnagargis(request):
+    return render(request,'dashboard/ahmadnagar.html')
+
+def tdd(request):
+    return render(request,'dashboard/tdd.html')
+
 
 def test_animesh(request):
     theme_name = "Deonadi Project Dashboard"

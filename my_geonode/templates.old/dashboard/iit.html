@@ -1,0 +1,128 @@
+{% extends 'dashboard/base.html' %}
+{% load static%}
+{% block content %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+<script src="{% static 'js/indexdb.js' %}"></script>
+
+<style>
+.select {
+    background:rgb(255,255,255);
+}
+.select.highlight {
+    background:rgb(26, 255, 0);
+}
+
+</style>
+
+<div id="side-bar" style="background-color: rgba(0, 0, 0, 0.2);">                <!-- side-bar container -->
+
+ <div class="">
+    <h2>IIT Bombay</h2>
+    <hr>
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_zone_iitb')";>IITB Zone</button></li>
+  
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_bldg_exit_pt_r1')";>IITB Buildings</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_telephone_line_r1')";>IITB telephone line</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_telephone_assets_r1')";>IITB telephone assets</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_road_junction_r1')";>IITB road junction</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_road_edge_r1')";>IITB road edge</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_road_centerline_r1')";>IITB road centerline</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_revenue_boundary_r1')";>IITB revenue boundary</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_proposed_road_edge_r1')";>IITB proposed road edge</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_proposed_building_r1')";>IITB proposed building</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_places')";>IITB places</button></li>
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_open_space_r1')";>IITB open space</button></li>    
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_location_plan_r1')";>IITB location plan</button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_internet_assets_r1')";>IITB internet assets</button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_gate_r1')";>IITB gate
+       </button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_electrical_line_r1')";>IITB electrical line
+       </button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_electrical_assets_r1')";>IITB electrical assets
+       </button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_culvert_r1')";>IITB culvert
+       </button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_contour_r1')";>IITB contour
+       </button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_compound_plot_r1')";>IITB compound plot
+       </button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_bus_stop_r1')";>IITB bus stop
+       </button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_built_up_r1')";>IITB built up
+       </button></li>  
+       
+       <li class="list-group-item list-group-item-info"><button class="btn select" onclick="putLayer('geonode:iitb_building_exit_point_r1')";>IITB building exit point</button></li>  
+      
+      
+    </ul> 
+  
+  </div>
+
+
+
+       
+            <div style="text-align: center"> 
+                <button style="display: inline-block ;position: relative;top: 100px" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="fa fa-power-off"></span></button> 
+            </div>
+</div>
+
+
+</div>
+
+<!-- Tab ends here -->
+
+
+<script>
+
+var source = L.wms.source(
+                    "https://makerghat.urbansciences.in/geoserver/wfs",
+                    {
+                        "format": "image/png",
+                        "transparent": "true"
+                    }        
+                    );
+var myLayerList = [];
+    function putLayer(geonode_source){
+        mymap.setView([19.1334, 72.9133], 15);
+        var index = myLayerList.indexOf(geonode_source);
+        if(index >= 0){
+            // console.log('remove'+geonode_source)
+            source.getLayer(geonode_source).addTo(mymap).remove(mymap);
+            myLayerList.splice(index,1);
+
+        }else{
+            // console.log('add'+geonode_source);
+            source.getLayer(geonode_source).addTo(mymap);
+            myLayerList.push(geonode_source);
+        }
+    }
+
+    $('.select').click(function () {
+        $(this).toggleClass('highlight')
+    })
+</script>
+
+{% endblock %}
