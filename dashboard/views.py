@@ -13,7 +13,7 @@ from django.contrib.auth.forms import UserCreationForm
 # from .forms import SignUpForm, PassChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User, Group
-
+from django.conf import settings
 
 # Upload Data
 
@@ -54,7 +54,8 @@ def Transport(request):
 
 
 def Health(request):
-    return render(request,'dashboard/health.html')
+    context = {'site_url':settings.MY_SITE_URL}
+    return render(request,'dashboard/health.html',context)
 
 def UrbanHealth(request):
     return render(request,'dashboard/town_health.html')
@@ -76,6 +77,7 @@ def tdd(request):
 
 
 def test_animesh(request):
+
     theme_name = "Deonadi Project Dashboard"
     options = {'1':'Deonadi Watershed Villages',
                 '2':'Deonadi Watershed Drainage',
@@ -86,7 +88,8 @@ def test_animesh(request):
                 '7':'Deonadi Watershed contour line',
                 '8':'Please Select layers'
                }
-    return render(request,'dashboard/test.html',{'title': theme_name,'options':options})
+    context = {'site_url':settings.MY_SITE_URL,'opt':options}
+    return render(request,'dashboard/test.html',context)
 
 def tby(request):
     return render(request,'dashboard/tby.html')

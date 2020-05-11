@@ -38,7 +38,7 @@ except ImportError:
 # General Django development settings
 #
 PROJECT_NAME = 'my_geonode'
-
+MY_SITE_URL = 'https://makerghat.urbansciences.in/'
 # add trailing slash to site url. geoserver url will be relative to this
 if not SITEURL.endswith('/'):
     SITEURL = '{}/'.format(SITEURL)
