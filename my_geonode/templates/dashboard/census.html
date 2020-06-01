@@ -344,7 +344,7 @@ else if(amenity === 'Household Amenities'){
          if(townLayerCode[index] == ''){
             alert('layer of '+ dis + ' not found');
         }else{
-            tempParameter.typeName = "geonode:town";
+            tempParameter.typeName = "geonode:TownCensus_maharashtra_1_00";
             tempParameter.cql_filter="district_n='"+townLayerCode[index]+"'";
             tempParameter.propertyName="fid,the_geom,census_201,district_n,town_name,civic_stat,sex_rati_2,tot_pop";
             legend.addTo(mymap);
