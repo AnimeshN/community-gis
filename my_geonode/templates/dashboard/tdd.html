@@ -189,6 +189,23 @@
 </style>
 
 <div id="side-bar" style="background-color: rgba(255, 255, 255);">
+  <div class="mobileShow">
+    <div style="text-align: center;">
+      <button
+        style="
+          display: inline-block;
+          position: relative;
+          background: #000;
+          opacity: 0.6;
+        "
+        id="closebutton"
+        name="closebutton"
+        class="btn btn-secondary"
+      >
+        <span class="fa fa-bars"></span>
+      </button>
+    </div>
+  </div>
   <div class="text-center">
     <form id="projectList" style="width: 100%;">
       <h6>Maharashtra Layers</h6>
@@ -379,15 +396,6 @@
                     onchange="getBoundarytrib(this)"
                     disbaled
                   /><span> Namankit Schools</span></label
-                >
-              </div>
-              <div class="checkbox">
-                <label
-                  ><input
-                    type="checkbox"
-                    value="{aidtri}"
-                    onchange="getBoundary(this)"
-                  /><span> Aided Schools</span></label
                 >
               </div>
             </div>
@@ -583,8 +591,6 @@
           else if (boundary == "{triro}") putWMS("geonode:maha_tribal_roads");
           else if (boundary == "{mahasch}")
             putWMS("geonode:school16_17_codes_30april2020");
-          else if (boundary == "{aidtri}")
-            putWMS("geonode:aided_schools_30april");
         } else {
           if (boundary == "{mahadis}")
             removeWMS("geonode:maharashtra_districts");
@@ -596,8 +602,6 @@
             removeWMS("geonode:maha_tribal_roads");
           else if (boundary == "{mahasch}")
             removeWMS("geonode:school16_17_codes_30april2020");
-          else if (boundary == "{aidtri}")
-            removeWMS("geonode:aided_schools_30april");
         }
       }
 
