@@ -1,6 +1,6 @@
 <!--TDD code-->
-{% if user.is_authenticated %} {% extends 'dashboard/base.html' %} {% load
-static%} {% block content %}
+{% extends 'dashboard/base.html' %} {% load static%} {% block content %} {% if
+user.is_authenticated %}
 <style>
   .select {
     background-color: rgb(116, 109, 109);
@@ -1574,8 +1574,6 @@ static%} {% block content %}
         });
       }
     </script>
-
-    {% endblock %}
+    {% endif %} {% endblock %}
   </div>
 </div>
-{% endif %}
