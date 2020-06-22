@@ -14,6 +14,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User, Group
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 # Upload Data
 
@@ -66,12 +67,14 @@ def Water(request):
 def tdsc(request):
     return render(request,'dashboard/tdsc.html')
 
+@login_required
 def melghat(request):
     return render(request,'dashboard/melghat.html')
 
 def ahmadnagargis(request):
     return render(request,'dashboard/ahmadnagar.html')
 
+@login_required
 def tdd(request):
     return render(request,'dashboard/tdd.html')
 
