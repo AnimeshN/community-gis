@@ -44,7 +44,7 @@ if not SITEURL.endswith('/'):
     SITEURL = '{}/'.format(SITEURL)
 
 SITENAME = os.getenv("SITENAME", 'my_geonode')
-
+DEBUG = False
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
 LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
