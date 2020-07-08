@@ -55,9 +55,29 @@ WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', "en")
 
+INSTALLED_APPS += ('wagtail.contrib.forms',
+                    'wagtail.contrib.redirects',
+                    'wagtail.embeds',
+                    'wagtail.sites',
+                    'wagtail.users',
+                    'wagtail.snippets',
+                    'wagtail.documents',
+                    'wagtail.images',
+                    'wagtail.search',
+                    'wagtail.admin',
+                    'wagtail.core',
+
+                    'modelcluster',
+                    )
 if PROJECT_NAME not in INSTALLED_APPS:
     INSTALLED_APPS += (PROJECT_NAME,'dashboard','school_gis')
 
+MIDDLEWARE += (
+    'wagtail.core.middleware.SiteMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+)
+
+WAGTAIL_SITE_NAME = 'makerghat.urbansciences.in'
 # Location of url mappings
 ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
 
@@ -77,4 +97,3 @@ loaders = TEMPLATES[0]['OPTIONS'].get('loaders') or ['django.template.loaders.fi
 TEMPLATES[0]['OPTIONS']['loaders'] = loaders
 TEMPLATES[0].pop('APP_DIRS', None)
 DATABASE_ROUTERS = ['my_geonode.router.DatastoreRouter']
-
