@@ -1,0 +1,194 @@
+{% load static %}
+
+{% load wagtailcore_tags %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+
+<html class="no-js"> <!--<![endif]-->
+    <head>
+
+        <title>Melghat</title>
+
+        <!-- meta -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        
+        <!-- stylesheets -->
+        <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/owl.theme.css' %}">
+        <style>
+            #header {
+                background: url({% static 'assets/img/slider1.jpg'%}) no-repeat center center;
+            }
+            </style>
+            <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+        <!-- scripts -->
+        <script type="text/javascript" src="{% static 'assets/js/modernizr.custom.97074.js' %}"></script>
+
+    </head>
+
+    <body>
+
+        <div id="home-page">
+
+            
+
+
+            <!-- header start -->
+            <header id="header" class="header-wrapper home-parallax home-fade">
+                <div class="header-overlay"></div>
+                <div class="header-wrapper-inner">
+                    <div class="container">
+
+                        <div class="welcome-speech">
+                            <h1>Melghat</h1>
+                            <!-- <p>Everything you need to have in order to build a stunning website</p> -->
+                            <a href="/dashboard/melghat" class="btn btn-white">
+                                Visit Dashboard
+                            </a>
+                        </div><!-- /.intro -->
+                        
+                    </div><!-- /.container -->
+
+                </div><!-- /.header-wrapper-inner -->
+            </header>
+            <!-- /#header -->
+
+            <div class="main-content">
+
+                <!--  begin intro section -->
+
+                <section class="intro bg-light-gray">
+                    <div class="container">
+                        <div class="row">
+                            <!-- <div class="col-md-5">
+                                <img src="assets/img/intro.jpg" class="img-responsive center-block" alt="intro">
+                            </div> -->
+
+                            <div class="col-md-12">
+                                <div class="intro-description">
+                                    <h2>About Melghat Dashboard</h2>
+                                    <p>
+                                        It is a well-recognized fact that many infrastructural deficits come in the way of development of public facilities. This problem is especially compounded in tribal areas because they typically happen to be in locations that are predominantly forested. Moreover, because of the lack of connectivity and data access, decision making by administrators ( and participation of the public) is difficult, thus resulting in an under-use of even existing facilities. Severe malnutrition in tribal areas of Melghat has prompted very targeted action by the Government. There is a need to enhance the pace and quality of development in the region.
+The constructionist approach of learning depends on using learning opportunities of real-life problems, providing the thought models to solve them and lenses to view the interdependence of the 'complex' systems so that learners can explore solutions.  Even if a small number can access digital medium and internet, it is expected that aspiration can be raised, understandability of the problems and the motivation to learn can be enhanced.
+As engineers, we wish to democratize data as well as contribute to the efforts of the decision-makers. We thus need to measure progress minutely and share the same within the community. We need to increase the understandability of the measures. Visual representation of the spatial variations of the parameters can be made understandable by the use of GIS and visualization tools available now. 
+In Melghat’s interface, the following layers of Melghat are present:
+
+                                    </p>
+
+                                    <ul class="points">
+                                        <li>
+                                            <span>
+                                                <i class="fa fa-star"></i>
+                                            </span>
+                                            Village Level Map.
+                                        </li>
+                                        <li>
+                                            <span>
+                                                <i class="fa fa-star"></i>
+                                            </span>
+                                            Road Network extracted from OSM
+
+                                        </li>
+                                        <li>
+                                            <span>
+                                                <i class="fa fa-star"></i>
+                                            </span>
+                                            Agro, Education, Medical, and Transport/Admin Facilities from PMGSY Habitation Level data
+
+                                        </li>
+                                        <li>
+                                            <span>
+                                                <i class="fa fa-star"></i>
+                                            </span>
+                                            Set Location functionality to find the closest facility near the location.
+                                        </li>
+                                    </ul> <!-- end of /.points -->
+
+
+                                        <h3>Resources</h3>
+
+                                        {{ page.resources|richtext }}
+                                        
+                                        <br>
+                                    <a href="/dashboard/melghat" class="btn btn-slategray">
+                                        Visit Dashboard
+                                    </a> <!-- /purchase button -->
+                                </div> <!-- end of /.intro-description -->
+                            </div>
+                        </div>
+                    </div> <!-- end of /.container -->
+                </section> 
+                <!--  end of intro section -->
+
+
+   
+
+        <!--  Necessary scripts  -->
+
+        <script type="text/javascript" src="{% static 'assets/js/jquery-2.1.3.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'assets/js/owl.carousel.js' %}"></script>
+        <script type="text/javascript" src="{% static 'assets/js/jquery.hoverdir.js' %}"></script>
+
+
+        <!-- script for portfolio section using hoverdirection -->
+        <script type="text/javascript">
+            $(function() {
+
+                $('.portfolio-item > .item-image').each( function() { $(this).hoverdir({
+                    hoverDelay : 75
+                }); } );
+
+            });
+        </script>
+
+
+        <!-- script for twitter-feed using owl carousel-->
+        <script type="text/javascript">
+            $(document).ready(function() {
+ 
+                $("#twit").owlCarousel({
+                 
+                    navigation : true, // Show next and prev buttons
+                    slideSpeed : 100,
+                    paginationSpeed : 400,
+                    navigationText : false,
+                    singleItem: true,
+                    autoPlay: true,
+                    pagination: false
+                });
+ 
+            });
+        </script>
+
+
+        <!-- script for testimonial section using owl carousel -->
+        <script type="text/javascript">
+            $(document).ready(function() {
+ 
+                $("#client-speech").owlCarousel({
+                 
+                    autoPlay: 5000, //Set AutoPlay to 3 seconds
+                    stopOnHover: true,
+                    singleItem:true
+                });
+ 
+            });
+        </script>
+
+
+    </body>
+</html>
