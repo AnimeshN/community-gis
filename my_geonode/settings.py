@@ -55,7 +55,9 @@ WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', "en")
 
-INSTALLED_APPS += ('wagtail.contrib.forms',
+INSTALLED_APPS += (
+                    'melghat_app.apps.MelghatAppConfig',
+                    'wagtail.contrib.forms',
                     'wagtail.contrib.redirects',
                     'wagtail.embeds',
                     'wagtail.sites',
