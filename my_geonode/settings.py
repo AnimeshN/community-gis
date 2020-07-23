@@ -56,23 +56,27 @@ WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', "en")
 
 INSTALLED_APPS += (
-                    'melghat_app.apps.MelghatAppConfig',
-                    'wagtail.contrib.forms',
-                    'wagtail.contrib.redirects',
-                    'wagtail.embeds',
-                    'wagtail.sites',
-                    'wagtail.users',
-                    'wagtail.snippets',
-                    'wagtail.documents',
-                    'wagtail.images',
-                    'wagtail.search',
-                    'wagtail.admin',
-                    'wagtail.core',
+    'melghat_app.apps.MelghatAppConfig',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
 
-                    'modelcluster',
-                    )
+    'rest_framework',
+    'rest_framework_gis',
+    'rest_framework.authtoken',
+
+    'modelcluster',
+)
 if PROJECT_NAME not in INSTALLED_APPS:
-    INSTALLED_APPS += (PROJECT_NAME,'dashboard','school_gis')
+    INSTALLED_APPS += (PROJECT_NAME, 'dashboard', 'school_gis', 'api')
 
 MIDDLEWARE += (
     'wagtail.core.middleware.SiteMiddleware',
@@ -91,11 +95,22 @@ STATICFILES_DIRS.append(
 # Location of locale files
 LOCALE_PATHS = (
     os.path.join(LOCAL_ROOT, 'locale'),
-    ) + LOCALE_PATHS
+) + LOCALE_PATHS
 
 TEMPLATES[0]['DIRS'].insert(0, os.path.join(LOCAL_ROOT, "templates"))
-loaders = TEMPLATES[0]['OPTIONS'].get('loaders') or ['django.template.loaders.filesystem.Loader','django.template.loaders.app_directories.Loader']
+loaders = TEMPLATES[0]['OPTIONS'].get('loaders') or [
+    'django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader']
 # loaders.insert(0, 'apptemplates.Loader')
 TEMPLATES[0]['OPTIONS']['loaders'] = loaders
 TEMPLATES[0].pop('APP_DIRS', None)
 DATABASE_ROUTERS = ['my_geonode.router.DatastoreRouter']
+
+
+REST_FRAMWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication'
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated'
+    )
+}
