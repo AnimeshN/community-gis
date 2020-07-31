@@ -1601,7 +1601,6 @@ fetch(api_url).then(
 
 								//var Hospbeds =[];
                                 function displayPoint() {
-								    let Hospbeds = {{ hospbeds|safe }};
 									let hosbed = Hospbeds.features
 								    geojson = L.geoJson(Hospbeds.features, {
 								    pointToLayer: function (feature, latlng) {
