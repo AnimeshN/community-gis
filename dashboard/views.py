@@ -114,6 +114,9 @@ def deonadi(request):
 def pwss(request):
     return render(request,'dashboard/pwss.html')
 
+def covidLive(request):
+    return render(request,'dashboard/covid_live.html')
+
 # def front(request):
 # 	return render(request,'map/front.html')
 

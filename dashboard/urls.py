@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'melghat',views.melghat),
     url(r'tdd',views.tdd),
     url(r'ahmadnagargis',views.ahmadnagargis),
+    url(r'covid_bed_live_trail',views.covidLive),
 
     
 
