@@ -72,7 +72,7 @@ INSTALLED_APPS += (
                     'modelcluster',
                     )
 if PROJECT_NAME not in INSTALLED_APPS:
-    INSTALLED_APPS += (PROJECT_NAME,'dashboard','school_gis' 'fgis_map.apps.FgisMapConfig','fgis_cms.apps.FgisCmsConfig',)
+    INSTALLED_APPS += (PROJECT_NAME,'dashboard','school_gis', 'fgis_map.apps.FgisMapConfig','fgis_cms.apps.FgisCmsConfig',)
 
 MIDDLEWARE += (
     'wagtail.core.middleware.SiteMiddleware',
