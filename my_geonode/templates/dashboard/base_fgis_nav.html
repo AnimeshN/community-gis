@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %} {% block nav %} {% load wagtailcore_tags %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="#">Ahmadnagar Facility GIS</a>
+	<button
+		class="navbar-toggler"
+		type="button"
+		data-toggle="collapse"
+		data-target="#navbarSupportedContent"
+		aria-controls="navbarSupportedContent"
+		aria-expanded="false"
+		aria-label="Toggle navigation"
+	>
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto" style="margin-left: 850px;">
+			<!-- <li class="nav-item active">
+    <a class="nav-link" href="#">Query Builder</a>
+  </li> -->
+			<li class="nav-item active">
+				<a class="nav-link" href="#"><b>Maps</b></a>
+			</li>
+
+			<li class="nav-item active">
+				<a class="nav-link" href="{% slugurl 'facility_gis'%}">Resources</a>
+			</li>
+		</ul>
+
+		<ul class="navbar-nav ml-auto"></ul>
+	</div>
+</nav>
+
+{% endblock %}
