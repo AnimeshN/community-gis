@@ -4,7 +4,7 @@
 {% block content %}
 <style>
     h6 {
-        color: blue;Checkout 
+        color: blue;
     }
     
     table,
@@ -85,6 +85,17 @@
     }
     
     #checkboxes6 label {
+        display: block;
+        text-align: left;
+        margin: 10px;
+    }
+
+    #checkboxes7 {
+        display: none;
+        /* border: 1px #dadada solid; */
+    }
+    
+    #checkboxes7 label {
         display: block;
         text-align: left;
         margin: 10px;
@@ -460,6 +471,26 @@
                             </div> -->
                         </div>
                     </div>
+
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes7()">
+                            <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; "> Census Information 2011</button>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div id="checkboxes7">
+                            <div class="checkbox" id="boundary">
+                                <label><input type="checkbox" value="{demog}" onchange="getBoundaryru(this)"><span> Demographics</span></label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="{house}" onchange="getBoundaryru(this)"><span> Household Amenities</span></label>
+                            </div>
+                           
+                        
+                        </div>
+                    </div>
+
+
+
                     <div class="multiselect">
                         <div class="selectBox" onclick="showCheckboxes2()">
                             <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; ">Tribal Villages & Towns</button>
@@ -522,7 +553,7 @@
 
                                         <div id="ur" value="ur">Nutrition
                                             <label for="three">
-                      <input type="checkbox" id="sch"  value="{}" onchange="GetSelectedfac(this)" disabled="" /> Anganwadi Data</label>
+                      <input type="checkbox" id=""  value="{awc}" onchange="GetSelectedfac(this)" /> Anganwadi Data</label>
                                             <label for="three">
                       <input type="checkbox" id="gsc" value="{}" onchange="GetSelectedfac(this)" disabled="" /> Nutrition Rehabilitation Center</label>
 
@@ -614,7 +645,7 @@
                 <div class="border">
                     <button type="button" class="btn btn-primary" id='locate'>Your Location</button>
                     <button type="button" class="btn btn-primary" id='setlocation'>Set Location</button>
-                    <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Facility</button>
+                    <button type="button" class="btn btn-primary" id='find-nearest' disabled="">Find Nearest Facility</button>
                     <div id="slider">
                         <label>Set Range</label><br>
                         <input type="range" min="1" max="20" value="1" class="slider" id="myRange" step="1">
@@ -722,6 +753,18 @@
                 }
             }
 
+            function showCheckboxes7() {
+                var checkboxes = document.getElementById("checkboxes6");
+                if (!expanded) {
+                    checkboxes7.style.display = "block";
+                    expanded = true;
+                } else {
+
+                    checkboxes7.style.display = "none";
+                    expanded = false;
+                }
+            }
+
           
 
             function getBoundary(obj) {
@@ -734,6 +777,7 @@
                     else
                         putWMS("geonode:maha_demography_with_mumbai");
                 } else {
+
                     if (boundary == "{state}")
                         removeWMS("geonode:states_in_india");
                     else if (boundary == "{district}")
@@ -833,8 +877,13 @@
                         putWMSru("geonode:india_pincodes_12june");
                     else if (boundary == "{taluka}")
                         putWMSru("geonode:maha_taluka_20may2020");
+                    else if (boundary == "{demog}")
+                        putWMSru("geonode:maha_demography_with_mumbai");
+                    else if (boundary == "{house}")
+                        putWMSru("geonode:household");
 
                 } else {
+
                     if (boundary == "{mahatown}")
                         removeWMS("geonode:TownHealth0");
                     else if (boundary == "{maharural}")
@@ -843,6 +892,10 @@
                         removeWMS("geonode:india_pincodes_12june");
                     else if (boundary == "{taluka}")
                         removeWMS("geonode:maha_taluka_20may2020");
+                    else if (boundary == "{demog}")
+                        removeWMS("geonode:maha_demography_with_mumbai");
+                    else if (boundary == "{house}")
+                        removeWMS("geonode:household");
                 };
 
 
@@ -876,9 +929,18 @@
                         putWFSFacility("iti");
                     else if (fac == '{bif}')
                         putWFSFacility("bif");
+                    else if (fac == '{awc}')
+                        putWFSFacility("awc");
 
 
                 } else {
+
+                    mymap.removeLayer(circle);
+                    oldhfbb.forEach(layer => mymap.removeLayer(layer));
+                    healthFacilityInBB = null;
+                    healthFacility2 = null;
+                    healthFacility1 = null;
+
                     if (fac === "{CHC}")
                         removeWFSfac("CHC");
 
@@ -902,6 +964,8 @@
                         removeWFSfac("DCHC");
                     else if (fac == '{DCCC}')
                         removeWFSfac("DCCC");
+                    else if (fac == '{awc}')
+                        removeWFSfac("awc");
                 };
                 
             }
@@ -1042,7 +1106,7 @@
             $setbuffer.on('click', function(e) {
                 if(oldhfbb){
                     console.log("remove buffer");
-                    //mymap.removeLayer(oldhfbb);
+                    mymap.removeLayer(circle);
                     oldhfbb.forEach(layer => mymap.removeLayer(layer));
                     //oldhfbb = null;
                     healthFacilityInBB = null;
@@ -1082,6 +1146,8 @@
                       querybufITI(currentPos);
                     if(k==='bif')
                       querybufBif(currentPos);
+                    if(k==='awc')
+                      querybufawc(currentPos);
                     if(k==='DCH' || k==='DCHC'|| k==='DCCC')
                       queryArog(currentPos);
                   })
@@ -1159,9 +1225,10 @@
                             let healthFacilityInBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                        fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -1196,12 +1263,12 @@
                 function onEachFeatureForPointBB(feature, layer) {
                         layer.bindPopup(`<div class = 'text-center'>Government School<br>
                                             Source: Census 2011<br>
-                                            Village Name: ${feature.properties.village_na}<br>
-                                            Distance Range: ${feature.properties.chc_distan}<br>
-                                            Doctors In Position :${feature.properties.chc_doc_in}<br>
-                                            Doctors Total Strength :${feature.properties.chc_doc_nu}<br>
-                                            Para Medical Staff Total Strength : ${feature.properties.chc_param_}<br>
-                                            Para Medical Staff In Position : ${feature.properties.chc_para_1}
+                                            School Name: ${feature.properties.name_of_sc}<br>
+                                            Classes Till: ${feature.properties.school_end}<br>
+                                            Taluka :${feature.properties.taluka}<br>
+                                            Village Name: ${feature.properties.village}<br>
+                                           
+                                            
                                             </div>`)
            
                 }
@@ -1219,9 +1286,10 @@
                             let healthFacilityBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                       fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -1256,14 +1324,14 @@ function querybufAsch(currentPos) {
 
                 function onEachFeatureForPointBB(feature, layer) {
                     
-                        layer.bindPopup(`<div class = 'text-center'>Aided Schools<br>
+                        layer.bindPopup(`<div class = 'text-center'>Aided School<br>
                                             Source: Census 2011<br>
-                                            Village Name: ${feature.properties.village_na}<br>
-                                            Distance Range: ${feature.properties.phc_distan}<br>
-                                            Doctors In Position :${feature.properties.phc_doc_in}<br>
-                                            Doctors Total Strength :${feature.properties.phc_doc_nu}<br>
-                                            Para Medical Staff Total Strength : ${feature.properties.phc_param_}<br>
-                                            Para Medical Staff In Position : ${feature.properties.phc_para_1}fen
+                                            School Name: ${feature.properties.school_nam}<br>
+                                            Classes: ${feature.properties.student_}<br>
+                                            Taluka :${feature.properties.taluka}<br>
+                                            Village Name: ${feature.properties.village}<br>
+                                           
+                                            
                                             </div>`)
                    
 
@@ -1282,9 +1350,10 @@ function querybufAsch(currentPos) {
                             let healthFacilityBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                        fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -1321,13 +1390,11 @@ function querybufITI(currentPos) {
                 function onEachFeatureForPointBB(feature, layer) {
                   
                         layer.bindPopup(`<div class = 'text-center'>ITI<br>
-                                            Source: Census 2011<br>
-                                            Village Name: ${feature.properties.village_na}<br>
-                                            Distance Range: ${feature.properties.phc_distan}<br>
-                                            Doctors In Position :${feature.properties.phc_doc_in}<br>
-                                            Doctors Total Strength :${feature.properties.phc_doc_nu}<br>
-                                            Para Medical Staff Total Strength : ${feature.properties.phc_param_}<br>
-                                            Para Medical Staff In Position : ${feature.properties.phc_para_1}fen
+                                            Institute Name :${feature.properties.inst_name}<br>
+                                            Taluka: ${feature.properties.taluka}<br>
+                                            Village: ${feature.properties.village_na}<br>
+                                            Institute Category:${feature.properties.category}<br>
+                                            Address:${feature.properties.address}<br>
                                             </div>`)
                   
                 }
@@ -1345,9 +1412,10 @@ function querybufITI(currentPos) {
                             let healthFacilityBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                        fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -1383,13 +1451,11 @@ function querybufBif(currentPos) {
                 function onEachFeatureForPointBB(feature, layer) {
                     
                         layer.bindPopup(`<div class = 'text-center'>Bifocals<br>
-                                            Source: Census 2011<br>
-                                            Village Name: ${feature.properties.village_na}<br>
-                                            Distance Range: ${feature.properties.phc_distan}<br>
-                                            Doctors In Position :${feature.properties.phc_doc_in}<br>
-                                            Doctors Total Strength :${feature.properties.phc_doc_nu}<br>
-                                            Para Medical Staff Total Strength : ${feature.properties.phc_param_}<br>
-                                            Para Medical Staff In Position : ${feature.properties.phc_para_1}fen
+                                           Institute Name :${feature.properties.inst_name}<br>
+                                            Taluka: ${feature.properties.taluka}<br>
+                                            Village: ${feature.properties.area_name}<br>
+                                            Institute Category:${feature.properties.inst_ctgry}<br>
+                                            Address:${feature.properties.address}<br>
                                             </div>`)
             }
                 fetch(newurl).then(
@@ -1406,9 +1472,10 @@ function querybufBif(currentPos) {
                             let healthFacilityBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                       fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -1425,6 +1492,62 @@ function querybufBif(currentPos) {
 
             }
 
+
+//awc
+function querybufawc(currentPos) {
+                let url_sc, cql_sc;
+                let keys = Object.keys(activatedHealthFacility);
+               
+                        url_sc= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:ahamadnagar_awc';
+               
+                let bbOffset = output.innerHTML / 111;
+
+                newurl = url_sc + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})`;
+                tableurl=newurl;
+                console.log("awc", newurl);
+
+                function onEachFeatureForPointBB(feature, layer) {
+                    
+                        layer.bindPopup(`<div class = 'text-center'>Anganwadi<br>
+                                            District Name :${feature.properties.district_n}<br>
+                                            Block Name  :${feature.properties.block}<br>
+                                            Village Name :${feature.properties.area_name}<br>
+                                            Anganwadi Name: ${feature.properties.awc}<br>
+                                            </div>`)
+            }
+                fetch(newurl).then(
+                    function(response) {
+                        if (response.status !== 200) {
+                            console.log('Looks like there was a problem. Status Code: ' +
+                                response.status);
+                            return;
+                        }
+
+
+                        response.json().then(function(geojsonData) {
+                            // console.log(geojsonData.features);
+                            let healthFacilityBB = L.geoJson(geojsonData.features, {
+                                pointToLayer: function(feature, latlng) {
+                                    return L.circleMarker(latlng, {
+                                       fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
+                                        fillOpacity: 0.8
+                                    });
+                                },
+                                onEachFeature: onEachFeatureForPointBB,
+                            }).addTo(mymap);
+                            oldhfbb.push(healthFacilityBB);
+                        });
+
+
+                    }).catch(function(err) {
+                    console.log('Fetch Error :-S', err);
+                });
+
+
+            }
 
 
 
@@ -1476,9 +1599,10 @@ function querybufBif(currentPos) {
                             let healthFacilityBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                        fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -1541,9 +1665,10 @@ function querybufBif(currentPos) {
                             let healthFacilityBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                        fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -1599,9 +1724,10 @@ function querybufBif(currentPos) {
                             let healthFacilityBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                        fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -1659,9 +1785,10 @@ function querybufBif(currentPos) {
                             let healthFacilityBB = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     return L.circleMarker(latlng, {
-                                        color: "yellow",
-                                        weight: 6,
-                                        opacity: .1,
+                                        fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
                                         fillOpacity: 0.8
                                     });
                                 },
@@ -2128,6 +2255,7 @@ function querybufBif(currentPos) {
                         transparent: 'true',
                         cql_filter: "district='Ahmadnagar'"
                     });
+
                 } else if (layer == "geonode:maha_taluka_20may2020") {
                     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
                         layers: layer,
@@ -2135,6 +2263,29 @@ function querybufBif(currentPos) {
                         transparent: 'true',
                         cql_filter: "distname='Ahmadnagar'"
                     });
+                 
+
+
+                }else if (layer == "geonode:household") {
+                    var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                        layers: layer,
+                        format: 'image/png',
+                        transparent: 'true',
+                        cql_filter: "district_n='Ahmadnagar'"
+                    });
+                    TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                
+
+
+                }else if (layer == "geonode:maha_demography_with_mumbai") {
+                    var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                        layers: layer,
+                        format: 'image/png',
+                        transparent: 'true',
+                        cql_filter: "district_n='ahmadnagar'"
+                    });
+                    TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                
 
 
                 } else {
@@ -2144,11 +2295,19 @@ function querybufBif(currentPos) {
                         transparent: 'true',
                         cql_filter: "district_n='Ahmadnagar'"
                     });
+                   
                 }
                 console.log(wms_layer);
                 wms_layer.addTo(mymap);
                 newLayerList.push(wms_layer);
                 console.log(wms_layer);
+
+
+                
+                if (wms_legend) {
+                    mymap.removeControl(wms_legend);
+                }
+                addWMSLegend(layer);
             }
 
 
@@ -2420,6 +2579,15 @@ function querybufBif(currentPos) {
                     fillOpacity: 0.8
                 };
 
+                var geojsonMarkerOptions9 = {
+                    radius: 7,
+                    fillColor: "#85b9ed",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                };
+
 
                 const url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
                 const url2 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
@@ -2427,7 +2595,7 @@ function querybufBif(currentPos) {
                 const url4 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:govt_schools_30april';
                 const url5 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:tot_iti_13apr2020';
                 const url6 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:inst_bifocals_4may2020';
-
+                const url7= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:ahamadnagar_awc';
 
 
                 if (facility == 'CHC')
@@ -2446,6 +2614,8 @@ function querybufBif(currentPos) {
                     newurl = url5 + `&cql_filter=district='AHMEDNAGAR'`;
                 else if (facility == 'bif')
                     newurl = url6 + `&cql_filter=district='Ahmednagar'`;
+                else if (facility == 'awc')
+                    newurl = url7;
 
                     
                 tableurl = newurl;
@@ -2535,6 +2705,15 @@ function querybufBif(currentPos) {
                             
                             
                             </div>`)
+                    } else if (facility === 'awc') {
+                        layer.bindPopup(`<div class = 'text-center'>Anganwadi<br>
+                            District Name :${feature.properties.district_n}<br>
+                            Block Name  :${feature.properties.block}<br>
+                            Village Name :${feature.properties.area_name}<br>
+                            Anganwadi Name: ${feature.properties.awc}
+                            
+                            
+                            </div>`)
                     }
 
 
@@ -2566,6 +2745,8 @@ function querybufBif(currentPos) {
                                         return L.circleMarker(latlng, geojsonMarkerOptions7);
                                     else if (facility === 'bif')
                                         return L.circleMarker(latlng, geojsonMarkerOptions8);
+                                    else if (facility === 'awc')
+                                        return L.circleMarker(latlng, geojsonMarkerOptions9);
                                 },
                                 onEachFeature: onEachFeatureForPoint,
                             }).addTo(mymap);
@@ -2690,7 +2871,7 @@ function querybufBif(currentPos) {
                         });
                     return div;
                 }
-
+                
                 attribute_table.addTo(mymap);
 
 
@@ -2725,8 +2906,7 @@ function querybufBif(currentPos) {
                 csvFile = new Blob([csv], {
                     type: "text/csv"
                 });
-
-                // Download link
+                //Download link
                 downloadLink = document.createElement("a");
 
                 // File name
@@ -2734,16 +2914,18 @@ function querybufBif(currentPos) {
 
                 // We have to create a link to the file
                 downloadLink.href = window.URL.createObjectURL(csvFile);
-
+                
                 // Make sure that the link is not displayed
-                downloadLink.style.display = "none";
-
+                downloadLink.style.display= "none";
+               
                 // Add the link to your DOM
                 document.body.appendChild(downloadLink);
-
+                
                 // Lanzamos
                 downloadLink.click();
             }
+
+
 
 
 
@@ -2805,6 +2987,25 @@ function querybufBif(currentPos) {
                                     "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
                                     "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
 
+                            }else if (feature.properties.f_ill) {
+                                insti_content = "<table class = 'popupclass' ><tr><td><b>Demographics Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                                    "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                                    "<tr><td><b>Area Type</b></td><td>" + feature.properties.tru + "</td></tr>"+
+                                    "<tr><td>Total Population</td><td>"+feature.properties.tot_p+"</td></tr>"+
+                                    "<tr><td>Total Female Population</td><td>"+feature.properties.tot_f+"</td></tr>"+
+                                    "<tr><td>Total Male Population</td><td>"+feature.properties.tot_m+"</td></tr>"+
+                                    "<tr><td>Illiterate Population</td><td>"+feature.properties.p_ill+"</tr>"+
+                                    "<tr><td>Literate: Population</td><td>"+feature.properties.p_lit+"</tr></table>";
+
+                            }else if (feature.properties.ass_car) {
+                                insti_content = "<table class = 'popupclass' ><tr><td><b>Household Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                                    "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                                    "<tr><td><b>Area Type</b></td><td>" + feature.properties.area_type + "</td></tr>"+
+                                     "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>"+ feature.properties.msdw_taput+"<b></td></tr>"+    
+                                    "<tr><td>% of Thratched Roof type</td><td><b>"+ feature.properties.mroof_gra+"<b></td></tr>"+    
+                                    "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>"+ feature.properties.plat_vent+"<b></td></tr>"+    
+                                    "<tr><td>% sof Bathroom without Roof</td><td><b>"+ feature.properties.nobathroom+"<b></td></tr></table>";
+
                             }
                             popup.setContent(insti_content);
                             popup.setLatLng(e.latlng);
@@ -2846,7 +3047,7 @@ function querybufBif(currentPos) {
 
                 legend.update = function(){
                     console.log("activated facility",activatedHealthFacility)
-                    legendValues = {"CHC":['CHC','#ff4800'],"PHC":['PHC','#0004ff'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],"iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a']}
+                    legendValues = {"CHC":['CHC','#ff4800'],"PHC":['PHC','#0004ff'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],"iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#85b9ed']}
                     labels = ['<strong>Legends</strong>'];
                         for(let fac in activatedHealthFacility) {
                             this._div.innerHTML +=
