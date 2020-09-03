@@ -4,7 +4,6 @@
     table,
     th,
     td {
-
         border-bottom: 1px solid #ddd;
         border-collapse: collapse;
         padding: 2px 3px;
@@ -167,12 +166,12 @@
         background: rgb(0, 0, 0);
         color: white;
     }
-
-    .circle{
-      background-color: red;
-      border-radius: 50%;
-    }   
-
+    
+    .circle {
+        background-color: red;
+        border-radius: 50%;
+    }
+    
     .table-legend {
         border-collapse: collapse;
         padding: 2px 3px;
@@ -983,6 +982,12 @@
                                         else if (fac == '{DCCC}')
                                             putArogya("DCCC");
                                     } else {
+                                        mymap.removeLayer(circle);
+                                        console.log("remove buffer", oldhfbb);
+                                        oldhfbb.forEach(layer => mymap.removeLayer(layer));
+                                        healthFacilityInBB = null;
+                                        healthFacility2 = null;
+                                        healthFacility1 = null;
                                         if (fac === "{CHC}")
                                             removeWFSfac("CHC");
                                         else if (fac === "{PHC}")
@@ -1006,6 +1011,11 @@
                                     if ($(clickedCheckBox).is(':checked')) {
                                         putKoboHealthFacity(value);
                                     } else {
+                                        mymap.removeLayer(circle);
+                                        oldhfbb.forEach(layer => mymap.removeLayer(layer));
+                                        healthFacilityInBB = null;
+                                        healthFacility2 = null;
+                                        healthFacility1 = null;
                                         removeKoboHealthFacity(value);
 
                                     }
@@ -1024,11 +1034,15 @@
 
                                 function removeKoboHealthFacity(facility) {
                                     mymap.removeLayer(activatedHealthFacility[facility]);
+                                    remove(facility);
+                                    legend.update();
                                 };
 
 
                                 function removeArogya(facility) {
                                     mymap.removeLayer(activatedHealthFacility[facility]);
+                                    remove(facility);
+                                    legend.update();
                                 };
 
 
@@ -1044,14 +1058,14 @@
                                 };
 
                                 function remove(facility) {
-                                      for(let fac in activatedHealthFacility){
-                                        if(fac === facility){
-                                          delete activatedHealthFacility[fac];
+                                    for (let fac in activatedHealthFacility) {
+                                        if (fac === facility) {
+                                            delete activatedHealthFacility[fac];
                                         }
-                                      }
+                                    }
 
 
-                            }
+                                }
 
 
                                 function removewards() {
@@ -1108,8 +1122,8 @@
 
                                             if (oldhfbb) {
                                                 mymap.removeLayer(oldhfbb);
-                                                oldhfbb = null;
-                                                healthFacilityInBB = null;
+                                                // oldhfbb = [];
+                                                // healthFacilityInBB = null;
                                             }
                                             marker = new L.marker(currentPos).addTo(mymap);
                                             oldMarker = marker;
@@ -1131,10 +1145,14 @@
                                 let oldhfbb = [];
                                 let healthFacility1 = null;
                                 let healthFacility2 = null;
+
                                 $setbuffer.on('click', function(e) {
+                                    console.log("Hi m a new buffer");
                                     if (oldhfbb) {
-                                        mymap.removeLayer(oldhfbb);
-                                        //oldhfbb = [];
+                                        console.log("remove buffer");
+                                        mymap.removeLayer(circle);
+                                        oldhfbb.forEach(layer => mymap.removeLayer(layer));
+                                        // oldhfbb = null;
                                         healthFacilityInBB = null;
                                         healthFacility2 = null;
                                         healthFacility1 = null;
@@ -1150,31 +1168,31 @@
                                     }
                                     circle = new L.circle(circleCenter, radius, circleOptions);
                                     circle.addTo(mymap);
-                                    console.log("active in buffer",activatedHealthFacility);
-                                    let keys = Object.keys(activatedHealthFacility); 
-                                    let k= '';
+                                    console.log("active in buffer", activatedHealthFacility);
+                                    let keys = Object.keys(activatedHealthFacility);
+                                    let k = '';
                                     keys.forEach((v, i) => {
-                                        k=v;
-                                        if(k==="Allo")                 
-                                          querybufAllo(currentPos);
-                                        if(k==='Alt')
-                                          querybufALt(currentPos);
-                                        if(k==='CHC') 
-                                          querybufCHC(currentPos); 
-                                        if(k==='PHC')
-                                          querybufPHC(currentPos);
-                                        if(k==='DCH' || k==='DCHC'|| k==='DCCC')
-                                           queryArog(currentPos);
-                                        if(k=== 'hospital' || k=== 'subcenter' || k=== 'mhu' || k=== 'phc' || k=== 'clinic' || k=== 'phu' || k=== 'ashu' || k=== 'mobmedu' || k=== 'hfwi' || k=== 'mhi' || k=== 'dc' || k=== 'phrmcy' || k=== 'optical' || k=== 'delvry' || k=== 'dropin' || k=== 'dspnsry' || k=== 'dropin'|| k=== 'othr')
-                                           querybuf(currentPos);
+                                            k = v;
+                                            if (k === "Allo")
+                                                querybufAllo(currentPos);
+                                            if (k === 'Alt')
+                                                querybufALt(currentPos);
+                                            if (k === 'CHC')
+                                                querybufCHC(currentPos);
+                                            if (k === 'PHC')
+                                                querybufPHC(currentPos);
+                                            if (k === 'DCH' || k === 'DCHC' || k === 'DCCC')
+                                                queryArog(currentPos);
+                                            if (k === 'hospital' || k === 'subcenter' || k === 'mhu' || k === 'phc' || k === 'clinic' || k === 'phu' || k === 'ashu' || k === 'mobmedu' || k === 'hfwi' || k === 'mhi' || k === 'dc' || k === 'phrmcy' || k === 'optical' || k === 'delvry' || k === 'dropin' || k === 'dspnsry' || k === 'dropin' || k === 'othr')
+                                                querybuf(currentPos);
 
-                                  })
-                                    //querybuf(currentPos);
-                                    
-                                    
+                                        })
+                                        //querybuf(currentPos);
+
+
                                 });
                                 var highlight = L.circleMarker()
-                                let indstate = document.getElementById('indstate').value;
+                                    // let indstate = document.getElementById('indstate').value;
 
 
                                 function querybuf(currentPos) {
@@ -1207,14 +1225,15 @@
                                     let keys = Object.keys(activatedHealthFacility)
                                     let query = ''
                                     keys.forEach((v, i) => {
-                                        if(v=== 'hospital' || v=== 'subcenter' || v=== 'mhu' || v=== 'phc' || v=== 'clinic' || v=== 'phu' || v=== 'ashu' || v=== 'mobmedu' || v=== 'hfwi' || v=== 'mhi' || v=== 'dc' || v=== 'phrmcy' || v=== 'optical' || v=== 'delvry' || v=== 'dropin' || v=== 'dspnsry' || v=== 'othr'){
+                                        if (v === 'hospital' || v === 'subcenter' || v === 'mhu' || v === 'phc' || v === 'clinic' || v === 'phu' || v === 'ashu' || v === 'mobmedu' || v === 'hfwi' || v === 'mhi' || v === 'dc' || v === 'phrmcy' || v === 'optical' || v === 'delvry' || v === 'dropin' || v === 'dspnsry' || v === 'othr') {
                                             query += v + ">0.0"
                                             if (i != keys.length - 1) {
-                                            query += " OR "
-                                        }}
-                                        
+                                                query += " OR "
+                                            }
+                                        }
+
                                     })
-                                    console.log(query,"querybuf")
+                                    console.log(query, "querybuf")
 
                                     let rootUrl = '{{site_url}}geoserver/geonode/ows';
                                     let bbOffset = output.innerHTML / 111;
@@ -1230,7 +1249,7 @@
                                     let parameters = L.Util.extend(options);
                                     cql_url = rootUrl + L.Util.getParamString(parameters);
                                     console.log('bound', cql_url)
-                                    
+
                                     fetch(cql_url).then(
                                         function(response) {
                                             if (response.status !== 200) {
@@ -1239,11 +1258,11 @@
                                                 return;
                                             }
                                             response.json().then(function(geojsonData) {
-                                                let healthFacilityInBB = L.geoJson(geojsonData.features, {
+                                                let healthFacilityBB = L.geoJson(geojsonData.features, {
                                                     pointToLayer: function(feature, latlng) {
                                                         return L.circleMarker(latlng, {
                                                             fillColor: "#07f2cf",
-                                                            color:"#000",
+                                                            color: "#000",
                                                             weight: 8,
                                                             opacity: .3,
                                                             fillOpacity: 0.8
@@ -1251,7 +1270,8 @@
                                                     },
                                                     onEachFeature: onEachFeatureForPointBB,
                                                 }).addTo(mymap);
-                                                oldhfbb.push(healthFacilityInBB);
+                                                oldhfbb.push(healthFacilityBB);
+                                                console.log("oldhfbb", oldhfbb);
                                             });
 
 
@@ -1263,12 +1283,12 @@
 
                                 }
 
-                            function queryArog(currentPos) {
+                                function queryArog(currentPos) {
 
-                function onEachFeatureForPointBB(feature, layer) {
-                    const unavailable = '-';
-                    const updateDate = "Dedicated COVID Facilities-Arogya";
-                    layer.bindPopup(`<table class = 'popupclass'>
+                                    function onEachFeatureForPointBB(feature, layer) {
+                                        const unavailable = '-';
+                                        const updateDate = "Dedicated COVID Facilities-Arogya";
+                                        layer.bindPopup(`<table class = 'popupclass'>
                                            <tr><td>Facility Name:</td><td> ${feature.properties.faclty_nam}</td></tr>
     
                                            <tr><td>Category:</td><td> ${feature.properties.category}</td></tr>
@@ -1287,91 +1307,93 @@
                                           <tr><td>Phone number:</td><td> ${unavailable}</td></tr>
                                           <tr><button type="button" class="btn btn-outline-dark" style="color:white;"><a style="color:white;text-decoration:none" href="https://ee.humanitarianresponse.info/x/#BLiUveaW">Click here for Correction/Feedbacks</a></button></tr>
                                           </table>`)
-                }
+                                    }
 
-                console.log("active layers",activatedHealthFacility);
-                let keys = Object.keys(activatedHealthFacility)
-                let query = ''
-                keys.forEach((v, i) => {
-                    query += "category =" + "'" + v + "'"
+                                    console.log("active layers", activatedHealthFacility);
+                                    let keys = Object.keys(activatedHealthFacility)
+                                    let query = ''
+                                    keys.forEach((v, i) => {
+                                            query += "category =" + "'" + v + "'"
 
-                    if (i != keys.length - 1) {
-                        query += " OR "
-                    }
-                })
-                // console.log(query)
+                                            if (i != keys.length - 1) {
+                                                query += " OR "
+                                            }
+                                        })
+                                        // console.log(query)
 
-                let rootUrl = '{{site_url}}geoserver/geonode/ows';
-                let bbOffset = output.innerHTML / 111;
-                let options = {
-                    service: 'WFS',
-                    version: '1.0.0',
-                    request: 'GetFeature',
-                    outputFormat: 'application/json',
-                    typeName: 'geonode:covid_dedicated_hospitals',
-                    cql_filter: `BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset}) AND (${query})`,
-                    propertyName: 'the_geom,faclty_nam,type,iso_minus_,iso_confm_,iso_suspec,o2suported,total_icu,ventilator,address,category,date'
+                                    let rootUrl = '{{site_url}}geoserver/geonode/ows';
+                                    let bbOffset = output.innerHTML / 111;
+                                    let options = {
+                                        service: 'WFS',
+                                        version: '1.0.0',
+                                        request: 'GetFeature',
+                                        outputFormat: 'application/json',
+                                        typeName: 'geonode:covid_dedicated_hospitals',
+                                        cql_filter: `BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset}) AND (${query})`,
+                                        propertyName: 'the_geom,faclty_nam,type,iso_minus_,iso_confm_,iso_suspec,o2suported,total_icu,ventilator,address,category,date'
 
-                };
-                let parameters = L.Util.extend(options);
-                cql_url = rootUrl + L.Util.getParamString(parameters);
-                console.log('bound', cql_url)
-                    
-                //tableurl=cql_url;    
-                fetch(cql_url).then(
-                    function(response) {
-                        if (response.status !== 200) {
-                            console.log('Looks like there was a problem. Status Code: ' +
-                                response.status);
-                            return;
-                        }
-                        response.json().then(function(geojsonData) {
-                            let healthFacilityInBB = L.geoJson(geojsonData.features, {
-                                pointToLayer: function(feature, latlng) {
-                                    return L.circleMarker(latlng, {
-                                        fillColor: "#07f2cf",
-                                        color:"#000",
-                                        weight: 8,
-                                        opacity: .3,
-                                        fillOpacity: 0.8
+                                    };
+                                    let parameters = L.Util.extend(options);
+                                    cql_url = rootUrl + L.Util.getParamString(parameters);
+                                    console.log('bound', cql_url)
+
+                                    //tableurl=cql_url;    
+                                    fetch(cql_url).then(
+                                        function(response) {
+                                            if (response.status !== 200) {
+                                                console.log('Looks like there was a problem. Status Code: ' +
+                                                    response.status);
+                                                return;
+                                            }
+                                            response.json().then(function(geojsonData) {
+                                                let healthFacilityInBB = L.geoJson(geojsonData.features, {
+                                                    pointToLayer: function(feature, latlng) {
+                                                        return L.circleMarker(latlng, {
+                                                            fillColor: "#07f2cf",
+                                                            color: "#000",
+                                                            weight: 8,
+                                                            opacity: .3,
+                                                            fillOpacity: 0.8
+                                                        });
+                                                    },
+                                                    onEachFeature: onEachFeatureForPointBB,
+                                                }).addTo(mymap);
+                                                //mymap.spin(false);
+                                                oldhfbb.push(healthFacilityInBB);
+                                                console.log("oldhfbb", oldhfbb);
+                                            });
+
+
+                                        }).catch(function(err) {
+                                        console.log('Fetch Error :-S', err);
                                     });
-                                },
-                                onEachFeature: onEachFeatureForPointBB,
-                            }).addTo(mymap);
-                            //mymap.spin(false);
-                            oldhfbb.push(healthFacilityInBB);
-                        });
 
-
-                    }).catch(function(err) {
-                    console.log('Fetch Error :-S', err);
-                });
-
-            }
+                                }
 
 
 
-                            
-                        function querybufCHC(currentPos) {
-                            console.log("chckeandr",activatedHealthFacility);
-                            let keys = Object.keys(activatedHealthFacility);
-                            console.log(keys)
-                           
 
-                            let query = 'chc_num>0';
-                            const url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
-
-                            let bbOffset = output.innerHTML / 111;
+                                function querybufCHC(currentPos) {
+                                    console.log("chckeandr", activatedHealthFacility);
+                                    let keys = Object.keys(activatedHealthFacility);
+                                    console.log(keys)
 
 
-                            newurl = url + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})AND(${query})`;
+                                    let query = 'chc_num>0';
+                                    const url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
 
-                            console.log("chc",query);
+                                    let bbOffset = output.innerHTML / 111;
 
-                            tableurl=newurl;
-                            function onEachFeatureForPointBB(feature, layer) {
-                            
-                                    layer.bindPopup(`<div class = 'text-center'>CHC<br>
+
+                                    newurl = url + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})AND(${query})`;
+
+                                    console.log("chc", query);
+
+                                    tableurl = newurl;
+
+                                    function onEachFeatureForPointBB(feature, layer) {
+
+                                        layer.bindPopup(`<div class = 'text-center'>CHC<br>
                                             Source: Census 2011<br>
                                             Village Name: ${feature.properties.village_na}<br>
                                             Distance Range: ${feature.properties.chc_distan}<br>
@@ -1380,64 +1402,69 @@
                                             Para Medical Staff Total Strength : ${feature.properties.chc_param_}<br>
                                             Para Medical Staff In Position : ${feature.properties.chc_para_1}
                                             </div>`)
-                            
 
 
-                            }
-                            fetch(newurl).then(
-                                function(response) {
-                                    if (response.status !== 200) {
-                                        console.log('Looks like there was a problem. Status Code: ' +
-                                            response.status);
-                                        return;
+
                                     }
+                                    fetch(newurl).then(
+                                        function(response) {
+                                            if (response.status !== 200) {
+                                                console.log('Looks like there was a problem. Status Code: ' +
+                                                    response.status);
+                                                return;
+                                            }
 
 
-                                    response.json().then(function(geojsonData) {
-                                        // console.log(geojsonData.features);
-                                        let healthFacilityBB = L.geoJson(geojsonData.features, {
-                                            pointToLayer: function(feature, latlng) {
-                                                return L.circleMarker(latlng, {
-                                                    fillColor: "#07f2cf",
-                                                   color:"#000",
-                                                    weight: 8,
-                                                    opacity: .3,
-                                                    fillOpacity: 0.8
-                                                });
-                                            },
-                                            onEachFeature: onEachFeatureForPointBB,
-                                        }).addTo(mymap);
-                                        oldhfbb.push(healthFacilityBB);
+                                            response.json().then(function(geojsonData) {
+                                                // console.log(geojsonData.features);
+                                                let healthFacilityBB = L.geoJson(geojsonData.features, {
+                                                    pointToLayer: function(feature, latlng) {
+                                                        return L.circleMarker(latlng, {
+                                                            fillColor: "#07f2cf",
+                                                            color: "#000",
+                                                            weight: 8,
+                                                            opacity: .3,
+                                                            fillOpacity: 0.8
+                                                        });
+                                                    },
+                                                    onEachFeature: onEachFeatureForPointBB,
+                                                }).addTo(mymap);
+                                                console.log("healthFacilityBB", healthFacilityBB);
+
+                                                console.log("oldhfbb", oldhfbb);
+                                                oldhfbb.push(healthFacilityBB);
+
+                                            });
+
+
+                                        }).catch(function(err) {
+                                        console.log('Fetch Error :-S', err);
                                     });
 
+                                }
 
-                                }).catch(function(err) {
-                                console.log('Fetch Error :-S', err);
-                            });
-
-                        }
-
-                        function querybufPHC(currentPos) {
-                            console.log("phckeandr",activatedHealthFacility);
-                            let keys = Object.keys(activatedHealthFacility);
-                            console.log(keys)
-                           
-
-                            let query = 'phc_num>0';
-                            const url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
-
-                            let bbOffset = output.innerHTML / 111;
+                                function querybufPHC(currentPos) {
+                                    console.log("phckeandr", activatedHealthFacility);
+                                    let keys = Object.keys(activatedHealthFacility);
+                                    console.log(keys)
 
 
-                            newurl = url + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})AND(${query})`;
+                                    let query = 'phc_num>0';
+                                    const url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
 
-                            console.log("phcphc",query);
+                                    let bbOffset = output.innerHTML / 111;
 
-                            tableurl=newurl;
-                            function onEachFeatureForPointBB(feature, layer) {
-                            
-                                   
-                                    layer.bindPopup(`<div class = 'text-center'>PHC<br>
+
+                                    newurl = url + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})AND(${query})`;
+
+                                    console.log("phcphc", query);
+
+                                    tableurl = newurl;
+
+                                    function onEachFeatureForPointBB(feature, layer) {
+
+
+                                        layer.bindPopup(`<div class = 'text-center'>PHC<br>
                                             Source: Census 2011<br>
                                             Village Name: ${feature.properties.village_na}<br>
                                             Distance Range: ${feature.properties.phc_distan}<br>
@@ -1446,58 +1473,60 @@
                                             Para Medical Staff Total Strength : ${feature.properties.phc_param_}<br>
                                             Para Medical Staff In Position : ${feature.properties.phc_para_1}fen
                                             </div>`)
-                                
 
 
-                            }
-                            fetch(newurl).then(
-                                function(response) {
-                                    if (response.status !== 200) {
-                                        console.log('Looks like there was a problem. Status Code: ' +
-                                            response.status);
-                                        return;
+
                                     }
+                                    fetch(newurl).then(
+                                        function(response) {
+                                            if (response.status !== 200) {
+                                                console.log('Looks like there was a problem. Status Code: ' +
+                                                    response.status);
+                                                return;
+                                            }
 
 
-                                    response.json().then(function(geojsonData) {
-                                        // console.log(geojsonData.features);
-                                        let healthFacilityBB = L.geoJson(geojsonData.features, {
-                                            pointToLayer: function(feature, latlng) {
-                                                return L.circleMarker(latlng, {
-                                                    fillColor: "#07f2cf",
-                                                   color:"#000",
-                                                    weight: 8,
-                                                    opacity: .3,
-                                                    fillOpacity: 0.8
-                                                });
-                                            },
-                                            onEachFeature: onEachFeatureForPointBB,
-                                        }).addTo(mymap);
-                                        oldhfbb.push(healthFacilityBB);
+                                            response.json().then(function(geojsonData) {
+                                                // console.log(geojsonData.features);
+                                                let healthFacilityBB = L.geoJson(geojsonData.features, {
+                                                    pointToLayer: function(feature, latlng) {
+                                                        return L.circleMarker(latlng, {
+                                                            fillColor: "#07f2cf",
+                                                            color: "#000",
+                                                            weight: 8,
+                                                            opacity: .3,
+                                                            fillOpacity: 0.8
+                                                        });
+                                                    },
+                                                    onEachFeature: onEachFeatureForPointBB,
+                                                }).addTo(mymap);
+                                                oldhfbb.push(healthFacilityBB);
+                                                console.log("oldhfbb", oldhfbb);
+                                            });
+
+
+                                        }).catch(function(err) {
+                                        console.log('Fetch Error :-S', err);
                                     });
 
-
-                                }).catch(function(err) {
-                                console.log('Fetch Error :-S', err);
-                            });
-
-                        }
+                                }
 
 
-                        function querybufAllo(currentPos) {
-                            let keys = Object.keys(activatedHealthFacility);
-                            let query = 'h_allo_tot>0';
-                            const url2 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
+                                function querybufAllo(currentPos) {
+                                    let keys = Object.keys(activatedHealthFacility);
+                                    let query = 'h_allo_tot>0';
+                                    const url2 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
 
 
-                            let bbOffset = output.innerHTML / 111;
+                                    let bbOffset = output.innerHTML / 111;
 
-                            newurl = url2 + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})AND(${query})`;
+                                    newurl = url2 + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})AND(${query})`;
 
-                            tableurl=newurl;
-                            function onEachFeatureForPointBB(feature, layer) {
+                                    tableurl = newurl;
 
-                                    layer.bindPopup(`<div class = 'text-center'>Allopathy Hospital<br>
+                                    function onEachFeatureForPointBB(feature, layer) {
+
+                                        layer.bindPopup(`<div class = 'text-center'>Allopathy Hospital<br>
                                         Distance Range: ${feature.properties.h_allo_dst}<br>
                                         Doctors In Position :${feature.properties.h_allo_din}<br>
                                         Doctors Total Strength :${feature.properties.h_allo_doc}<br>
@@ -1505,60 +1534,62 @@
                                         Para Medical Staff Total Strength : ${feature.properties.h_allo_pm}<br>
                                         Para Medical Staff In Position : ${feature.properties.h_allo_pin}
                                         </div>`)
-                              
 
-                            }
 
-                            fetch(newurl).then(
-                                function(response) {
-                                    if (response.status !== 200) {
-                                        console.log('Looks like there was a problem. Status Code: ' +
-                                            response.status);
-                                        return;
                                     }
 
-
-                                    response.json().then(function(geojsonData) {
-                                        // console.log(geojsonData.features);
-                                        let healthFacilityBB = L.geoJson(geojsonData.features, {
-                                            pointToLayer: function(feature, latlng) {
-                                                return L.circleMarker(latlng, {
-                                                    fillColor: "#07f2cf",
-                                                   color:"#000",
-                                                    weight: 8,
-                                                    opacity: .3,
-                                                    fillOpacity: 0.8
-                                                });
-                                            },
-                                            onEachFeature: onEachFeatureForPointBB,
-                                        }).addTo(mymap);
-                                        oldhfbb.push(healthFacilityBB);
-                                    });
+                                    fetch(newurl).then(
+                                        function(response) {
+                                            if (response.status !== 200) {
+                                                console.log('Looks like there was a problem. Status Code: ' +
+                                                    response.status);
+                                                return;
+                                            }
 
 
-                                }).catch(function(err) {
-                                console.log('Fetch Error :-S', err);
-                                //})
-                            })
-                        }
+                                            response.json().then(function(geojsonData) {
+                                                // console.log(geojsonData.features);
+                                                let healthFacilityBB = L.geoJson(geojsonData.features, {
+                                                    pointToLayer: function(feature, latlng) {
+                                                        return L.circleMarker(latlng, {
+                                                            fillColor: "#07f2cf",
+                                                            color: "#000",
+                                                            weight: 8,
+                                                            opacity: .3,
+                                                            fillOpacity: 0.8
+                                                        });
+                                                    },
+                                                    onEachFeature: onEachFeatureForPointBB,
+                                                }).addTo(mymap);
+                                                oldhfbb.push(healthFacilityBB);
+                                                console.log("oldhfbb", oldhfbb);
+                                            });
+
+
+                                        }).catch(function(err) {
+                                        console.log('Fetch Error :-S', err);
+                                        //})
+                                    })
+                                }
 
 
 
-                        function querybufALt(currentPos) {
-                            let keys = Object.keys(activatedHealthFacility);
-                            let query = 'h_alt_tot>0';
-                            const url2 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
+                                function querybufALt(currentPos) {
+                                    let keys = Object.keys(activatedHealthFacility);
+                                    let query = 'h_alt_tot>0';
+                                    const url2 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
 
 
-                            let bbOffset = output.innerHTML / 111;
+                                    let bbOffset = output.innerHTML / 111;
 
-                            newurl = url2 + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})AND(${query})`;
+                                    newurl = url2 + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})AND(${query})`;
 
-                            tableurl=newurl;
-                            function onEachFeatureForPointBB(feature, layer) {
+                                    tableurl = newurl;
 
-                                
-                                    layer.bindPopup(`<div class = 'text-center'>Alternate Hospital<br>
+                                    function onEachFeatureForPointBB(feature, layer) {
+
+
+                                        layer.bindPopup(`<div class = 'text-center'>Alternate Hospital<br>
                                         Distance Range: ${feature.properties.h_alt_dst}<br>
                                         Doctors In Position :${feature.properties.h_alt_din}<br>
                                         Doctors Total Strength :${feature.properties.h_alt_doc}<br>
@@ -1566,42 +1597,42 @@
                                         Para Medical Staff Total Strength : ${feature.properties.h_alt_pm}<br>
                                         Para Medical Staff In Position : ${feature.properties.h_alt_pin}
                                         </div>`)
-                                  
 
-                            }
 
-                            fetch(newurl).then(
-                                function(response) {
-                                    if (response.status !== 200) {
-                                        console.log('Looks like there was a problem. Status Code: ' +
-                                            response.status);
-                                        return;
                                     }
 
-
-                                    response.json().then(function(geojsonData) {
-                                        // console.log(geojsonData.features);
-                                        let healthFacilityBB = L.geoJson(geojsonData.features, {
-                                            pointToLayer: function(feature, latlng) {
-                                                return L.circleMarker(latlng, {
-                                                    fillColor: "#07f2cf",
-                                                   color:"#000",
-                                                    weight: 8,
-                                                    opacity: .3,
-                                                    fillOpacity: 0.8
-                                                });
-                                            },
-                                            onEachFeature: onEachFeatureForPointBB,
-                                        }).addTo(mymap);
-                                        oldhfbb.push(healthFacilityBB);
-                                    });
+                                    fetch(newurl).then(
+                                        function(response) {
+                                            if (response.status !== 200) {
+                                                console.log('Looks like there was a problem. Status Code: ' +
+                                                    response.status);
+                                                return;
+                                            }
 
 
-                                }).catch(function(err) {
-                                console.log('Fetch Error :-S', err);
-                                //})
-                            })
-                        }
+                                            response.json().then(function(geojsonData) {
+                                                // console.log(geojsonData.features);
+                                                let healthFacilityBB = L.geoJson(geojsonData.features, {
+                                                    pointToLayer: function(feature, latlng) {
+                                                        return L.circleMarker(latlng, {
+                                                            fillColor: "#07f2cf",
+                                                            color: "#000",
+                                                            weight: 8,
+                                                            opacity: .3,
+                                                            fillOpacity: 0.8
+                                                        });
+                                                    },
+                                                    onEachFeature: onEachFeatureForPointBB,
+                                                }).addTo(mymap);
+                                                oldhfbb.push(healthFacilityBB);
+                                            });
+
+
+                                        }).catch(function(err) {
+                                        console.log('Fetch Error :-S', err);
+                                        //})
+                                    })
+                                }
 
 
 
@@ -2208,9 +2239,9 @@
 
 
                                 let activatedHealthFacility = {} //all healthfacilities are being saved here now arogya alsi and kobo also.
-                                //let activeKoboHealthFacity = {}
+                                    //let activeKoboHealthFacity = {}
                                 let activeKoboAllIndiaHealthFacity = {}
-                                //let activearogyaFacity = {}
+                                    //let activearogyaFacity = {}
 
                                 function putKoboHealthFacitywms(facility) {
                                     //console.log(cql);
@@ -2228,7 +2259,7 @@
 
                                     wms_layer.addTo(mymap);
                                     //console.log(wms_layer);
-                                     if (wms_legend) {
+                                    if (wms_legend) {
                                         mymap.removeControl(wms_legend);
                                     }
                                     //console.log(wms_legend); 
@@ -2690,33 +2721,56 @@
 
 
 
-                                var legend = L.control({position: 'bottomright'});
-                
-                                legend.onAdd = function (mymap) {
-                                          this._div = L.DomUtil.create('div', 'info legend'),
-                                          this.update();
-                                          return this._div;
-                                  
+                                var legend = L.control({
+                                    position: 'bottomright'
+                                });
+
+                                legend.onAdd = function(mymap) {
+                                    this._div = L.DomUtil.create('div', 'info legend'),
+                                        this.update();
+                                    return this._div;
+
                                 };
 
-                                legend.update = function(){
-                                    console.log("activated facility",activatedHealthFacility)
-                                    legendValues = {"CHC":['CHC','#f5ce42'],"PHC":['PHC','#0004ff'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"hospital":['Hospital','orangered'],"mhu":['Mobile Health Unit','teal'],"subcenter":['Subcenter','#a742f5'],"phc":['Primary Health Centre','#a86a83'], "clinic":['Clinic','darkcyan'],
-                                        "phu":['Primary Health Unit','darkmagenta'],"ashu":['Ashram School Health Units','gold'], "mobmedu":['Mobile Medical Units','hotpink'],"hfwi":['Health and family welfare institute','indigo'],"mhi":['Mental Health Institute','lightseagreen'],"dc":['Diagnostic Center','maroon'],"phrmcy":['Pharmacy','midnightblue'], "optical":['Optical Shop','blue'],
-                                        "delvry":['Delivery Center','palevioletred'],"dspnsry":['Dispensary','peru'],"dropin":['Drop In Centre','black'],"othr":['Other','purple']}
+                                legend.update = function() {
+                                    console.log("activated facility", activatedHealthFacility)
+                                    legendValues = {
+                                        "CHC": ['CHC', '#f5ce42'],
+                                        "PHC": ['PHC', '#0004ff'],
+                                        "Allo": ['Allopathy Hospital', '#a8325a'],
+                                        "Alt": ['Alternate Hospital', '#143d5e'],
+                                        "DCH": ['Dedicated COVID Hospitals', '#fa4646'],
+                                        "DCHC": ['Dedicated Covid Health Center', '#a8fc0d'],
+                                        "DCCC": ['Dedicated COVID Centers', '#fc0de8'],
+                                        "hospital": ['Hospital', 'orangered'],
+                                        "mhu": ['Mobile Health Unit', 'teal'],
+                                        "subcenter": ['Subcenter', '#a742f5'],
+                                        "phc": ['Primary Health Centre', '#a86a83'],
+                                        "clinic": ['Clinic', 'darkcyan'],
+                                        "phu": ['Primary Health Unit', 'darkmagenta'],
+                                        "ashu": ['Ashram School Health Units', 'gold'],
+                                        "mobmedu": ['Mobile Medical Units', 'hotpink'],
+                                        "hfwi": ['Health and family welfare institute', 'indigo'],
+                                        "mhi": ['Mental Health Institute', 'lightseagreen'],
+                                        "dc": ['Diagnostic Center', 'maroon'],
+                                        "phrmcy": ['Pharmacy', 'midnightblue'],
+                                        "optical": ['Optical Shop', 'blue'],
+                                        "delvry": ['Delivery Center', 'palevioletred'],
+                                        "dspnsry": ['Dispensary', 'peru'],
+                                        "dropin": ['Drop In Centre', 'black'],
+                                        "othr": ['Other', 'purple']
+                                    }
                                     labels = ['<strong>Legends</strong>'];
-                                        for(let fac in activatedHealthFacility) {
-                                            this._div.innerHTML +=
-                                                labels.push(
-                                                '<i class="circle" style="background:'+ legendValues[fac][1] +';opacity:1;">&nbsp;&nbsp;&nbsp;&nbsp;</i> ' +
-                                                legendValues[fac][0]+'<br>')
+                                    for (let fac in activatedHealthFacility) {
+                                        this._div.innerHTML +=
+                                            labels.push(
+                                                '<i class="circle" style="background:' + legendValues[fac][1] + ';opacity:1;">&nbsp;&nbsp;&nbsp;&nbsp;</i> ' +
+                                                legendValues[fac][0] + '<br>')
 
 
-                                        }
-                                        this._div.innerHTML = labels.join('<br>');
+                                    }
+                                    this._div.innerHTML = labels.join('<br>');
                                 }
-
-
                             </script>
 
                             {% endblock %}
