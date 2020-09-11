@@ -1,7 +1,6 @@
 <!--code for Ahmednagar -->
 {% extends 'dashboard/base_fgis_nav.html' %}
-{% load static%} 
-{% block content %}
+{% load static%} {% block content %}
 <style>
     h6 {
         color: blue;
@@ -123,6 +122,7 @@
         background-color: #c9dbe6;
     }
     
+
     .myAttributeTable {
         background-color: rgb(255, 255, 255);
         text-align: left;
@@ -293,6 +293,13 @@
             display: inline;
         }
     }
+
+    .popupimage{
+    height: 350px;
+    width: 300px;
+    overflow:hidden;
+    }
+    
 </style>
 
 <div id="side-bar" style="background-color: rgba(255, 255, 255);">
@@ -484,6 +491,12 @@
                             <div class="checkbox">
                                 <label><input type="checkbox" value="{house}" onchange="getBoundaryru(this)"><span> Household Amenities</span></label>
                             </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="{vill}" onchange="getBoundaryru(this)"><span> Village Amenities</span></label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="{town}" onchange="getBoundaryru(this)"><span> Town Amenities</span></label>
+                            </div>
                            
                         
                         </div>
@@ -593,14 +606,18 @@
                                 <div class="overSelect"></div>
                             </div>
                             <div id="checkboxes5">
+
                                 <div class="checkbox" id="boundary">
-                                    <label><input type="checkbox" value="{}" onchange="getBoundarytrib(this)" disabled=""><span> Watershed Models</span></label>
+                                    <label><input type="checkbox" value="{jany}" onchange="GetSelectedfac(this)"><span> Jalyukti Shivar(Sample Data)</span></label>
+                                </div>
+                                <div class="checkbox" id="boundary">
+                                    <label><input type="checkbox" value="{}" onchange="getBoundarytrib(this)" disabled=""><span> Uncovered Wells</span></label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" value="{}" onchange="getBoundarytrib(this)" disabled=""><span> Wells</span></label>
+                                    <label><input type="checkbox" value="{}" onchange="getBoundarytrib(this)" disabled=""><span> Covered Wells</span></label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" value="{}" onchange="getBoundarytrib(this)" disabled=""><span> Ponds/Lakes</span></label>
+                                    <label><input type="checkbox" value="{}" onchange="getBoundarytrib(this)" disabled=""><span> Tubewell/Lakes</span></label>
                                 </div>
 
                             </div>
@@ -835,6 +852,7 @@
                 }
             }
 
+
             function putWMStrib(layer, cql) {
                 //console.log(cql);
                 var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
@@ -869,7 +887,7 @@
             function getBoundaryru(obj) {
                 let boundary = obj.value;
                 if ($(obj).is(":checked")) {
-                    if (boundary == "{mahatown}")
+                    if (boundary == "{mahatown}" || boundary == "{town}")
                         putWMSru("geonode:TownHealth0");
                     else if (boundary == "{maharural}")
                         putWMSru("geonode:maha_village_polygon_29mar");
@@ -881,10 +899,13 @@
                         putWMSru("geonode:maha_demography_with_mumbai");
                     else if (boundary == "{house}")
                         putWMSru("geonode:household");
+                    else if (boundary == "{vill}")
+                        putWMSru("geonode:ahmadnagar_villages");
+                  
 
                 } else {
 
-                    if (boundary == "{mahatown}")
+                    if (boundary == "{mahatown}" || boundary == "{town}")
                         removeWMS("geonode:TownHealth0");
                     else if (boundary == "{maharural}")
                         removeWMS("geonode:maha_village_polygon_29mar");
@@ -896,6 +917,9 @@
                         removeWMS("geonode:maha_demography_with_mumbai");
                     else if (boundary == "{house}")
                         removeWMS("geonode:household");
+                    else if (boundary == "{vill}")
+                        removeWMS("geonode:ahmadnagar_villages");
+                    
                 };
 
 
@@ -931,6 +955,8 @@
                         putWFSFacility("bif");
                     else if (fac == '{awc}')
                         putWFSFacility("awc");
+                    else if (fac == '{jany}')
+                        putWFSFacility("jany");
 
 
                 } else {
@@ -966,6 +992,8 @@
                         removeWFSfac("DCCC");
                     else if (fac == '{awc}')
                         removeWFSfac("awc");
+                    else if (fac == '{jany}')
+                        removeWFSfac("jany");
                 };
                 
             }
@@ -1148,6 +1176,8 @@
                       querybufBif(currentPos);
                     if(k==='awc')
                       querybufawc(currentPos);
+                    if(k==='jany')
+                      querybufjany(currentPos);
                     if(k==='DCH' || k==='DCHC'|| k==='DCCC')
                       queryArog(currentPos);
                   })
@@ -1457,6 +1487,63 @@ function querybufBif(currentPos) {
                                             Institute Category:${feature.properties.inst_ctgry}<br>
                                             Address:${feature.properties.address}<br>
                                             </div>`)
+            }
+                fetch(newurl).then(
+                    function(response) {
+                        if (response.status !== 200) {
+                            console.log('Looks like there was a problem. Status Code: ' +
+                                response.status);
+                            return;
+                        }
+
+
+                        response.json().then(function(geojsonData) {
+                            // console.log(geojsonData.features);
+                            let healthFacilityBB = L.geoJson(geojsonData.features, {
+                                pointToLayer: function(feature, latlng) {
+                                    return L.circleMarker(latlng, {
+                                       fillColor: "#07f2cf",
+                                       color:"#000",
+                                        weight: 8,
+                                        opacity: .3,
+                                        fillOpacity: 0.8
+                                    });
+                                },
+                                onEachFeature: onEachFeatureForPointBB,
+                            }).addTo(mymap);
+                            oldhfbb.push(healthFacilityBB);
+                        });
+
+
+                    }).catch(function(err) {
+                    console.log('Fetch Error :-S', err);
+                });
+
+
+            }
+
+
+
+//jalyukti
+function querybufjany(currentPos) {
+                let url_sc;
+                let keys = Object.keys(activatedHealthFacility);
+               
+                        url_sc = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:jalyukt_shivar_ahmad';
+                        // cql_sc = `district='Ahmednagar'`;
+               
+                let bbOffset = output.innerHTML / 111;
+
+                newurl = url_sc + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})`;
+                tableurl=newurl;
+                console.log("jalyukti", newurl);
+
+                function onEachFeatureForPointBB(feature, layer) {
+                    
+                        var str1 = "<img class = 'popupimage' src='/static/images/".concat(feature.properties.image);
+                        var str2 = str1.concat("' alt='image not found'>").concat(`Village Name:${feature.properties.village}`);
+                        console.log(str2);
+                        layer.bindPopup(str2);
             }
                 fetch(newurl).then(
                     function(response) {
@@ -2234,11 +2321,7 @@ function querybufawc(currentPos) {
 
 
             function putWMSru(layer) {
-                // var aspiD = document.getElementById('district').value;
-                // var distLayerLatLong= listDistrict[aspiD];
-                //clear_layer();
-                //console.log('kk',distLayerLatLong);
-                //let district= distLayerLatLong[0];
+               
                 if (layer == "geonode:TownHealth0") {
                     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
                         layers: layer,
@@ -2246,6 +2329,7 @@ function querybufawc(currentPos) {
                         transparent: 'true',
                         cql_filter: "district_n='AHMADNAGAR'"
                     });
+                    TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                     //console.log(district);
 
                 } else if (layer == "geonode:india_pincodes_12june") {
@@ -2288,6 +2372,17 @@ function querybufawc(currentPos) {
                 
 
 
+                }else if (layer == "geonode:ahmadnagar_villages") {
+                    var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                        layers: layer,
+                        format: 'image/png',
+                        transparent: 'true',
+                        
+                    });
+                    TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                
+
+
                 } else {
                     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
                         layers: layer,
@@ -2295,6 +2390,7 @@ function querybufawc(currentPos) {
                         transparent: 'true',
                         cql_filter: "district_n='Ahmadnagar'"
                     });
+                     TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                    
                 }
                 console.log(wms_layer);
@@ -2588,6 +2684,14 @@ function querybufawc(currentPos) {
                     fillOpacity: 0.8
                 };
 
+                var geojsonMarkerOptions10 = {
+                    radius: 7,
+                    fillColor: "#42b6f5",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                };
 
                 const url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
                 const url2 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
@@ -2596,6 +2700,7 @@ function querybufawc(currentPos) {
                 const url5 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:tot_iti_13apr2020';
                 const url6 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:inst_bifocals_4may2020';
                 const url7= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:ahamadnagar_awc';
+                const url8= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:jalyukt_shivar_ahmad';
 
 
                 if (facility == 'CHC')
@@ -2616,6 +2721,8 @@ function querybufawc(currentPos) {
                     newurl = url6 + `&cql_filter=district='Ahmednagar'`;
                 else if (facility == 'awc')
                     newurl = url7;
+                else if (facility == 'jany')
+                    newurl = url8;
 
                     
                 tableurl = newurl;
@@ -2714,6 +2821,13 @@ function querybufawc(currentPos) {
                             
                             
                             </div>`)
+                    }else if (facility === 'jany') {
+
+                        var str1 = "<img class = 'popupimage' src='/static/images/".concat(feature.properties.image);
+                        var str2 = str1.concat("' alt='image not found'>").concat(`Village Name:${feature.properties.village}`);
+                        console.log(str2);
+                        layer.bindPopup(str2);
+                         
                     }
 
 
@@ -2747,6 +2861,8 @@ function querybufawc(currentPos) {
                                         return L.circleMarker(latlng, geojsonMarkerOptions8);
                                     else if (facility === 'awc')
                                         return L.circleMarker(latlng, geojsonMarkerOptions9);
+                                    else if (facility === 'jany')
+                                        return L.circleMarker(latlng, geojsonMarkerOptions10);
                                 },
                                 onEachFeature: onEachFeatureForPoint,
                             }).addTo(mymap);
@@ -2796,6 +2912,7 @@ function querybufawc(currentPos) {
 
 
             $("#displaytable").click(function() {
+                console.log("attributetableactive",activatedHealthFacility);
                 // var name_and_icons = fetch_layer_name();
                 // if(typeof name_and_icons[1] === 'undefined'){
                 //     mymap.messagebox.show('Please select facility.');
@@ -2854,7 +2971,7 @@ function querybufawc(currentPos) {
                                             tabCell.innerHTML = propsJSON[i][col[j]];
                                         }
                                     }
-
+                                    console.log("tableact",table);
 
                                     div.appendChild(table);
 
@@ -3006,7 +3123,25 @@ function querybufawc(currentPos) {
                                     "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>"+ feature.properties.plat_vent+"<b></td></tr>"+    
                                     "<tr><td>% sof Bathroom without Roof</td><td><b>"+ feature.properties.nobathroom+"<b></td></tr></table>";
 
+                            }else if (feature.properties.town_name) {
+                                insti_content = "<table class = 'popupclass' ><tr><td><b>Town Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                                    "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>" +
+                                     "<tr><td>Total Population of Town</td><td><b>"+ feature.properties.tot_pop+"<b></td></tr>"+    
+                                    "<tr><td>Total Scheduled Castes Population of Town</td><td><b>"+ feature.properties.tot_sc_pop+"<b></td></tr>"+    
+                                    "<tr><td>Total Scheduled Tribes Population of Town</td><td><b>"+ feature.properties.tot_st_pop+"<b></td></tr>"+    
+                                    "<tr><td>Density (Census 2011)</td><td><b>"+ feature.properties.density_20+"<b></td></tr></table>";
+
+                            }else if (feature.properties.village_na) {
+                                insti_content = "<table class = 'popupclass' ><tr><td><b>Village Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                                    "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
+                                    "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.taluka_nam + "</td></tr>"+
+                                     "<tr><td>Total Population</td><td><b>"+ feature.properties.tot_popu+"<b></td></tr>"+    
+                                    "<tr><td>Total Household</td><td><b>"+ feature.properties.tot_hh+"<b></td></tr>"+    
+                                    "<tr><td>Number of Govt Pre-Primary School</td><td><b>"+ feature.properties.govt_pre_1+"<b></td></tr>"+
+                                    "<tr><td>Number of Govt Primary School</td><td><b>"+ feature.properties.govt_pri_1+"<b></td></tr></table>";
+
                             }
+
                             popup.setContent(insti_content);
                             popup.setLatLng(e.latlng);
                             mymap.openPopup(popup);
@@ -3047,7 +3182,7 @@ function querybufawc(currentPos) {
 
                 legend.update = function(){
                     console.log("activated facility",activatedHealthFacility)
-                    legendValues = {"CHC":['CHC','#ff4800'],"PHC":['PHC','#0004ff'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],"iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#85b9ed']}
+                    legendValues = {"CHC":['CHC','#ff4800'],"PHC":['PHC','#0004ff'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],"iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#85b9ed'],"jany":['Jalyukti Shivar','#42b6f5']}
                     labels = ['<strong>Legends</strong>'];
                         for(let fac in activatedHealthFacility) {
                             this._div.innerHTML +=
