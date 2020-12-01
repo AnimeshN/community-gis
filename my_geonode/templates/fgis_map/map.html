@@ -99,6 +99,17 @@
         text-align: left;
         margin: 10px;
     }
+
+    #checkboxes8 {
+        display: none;
+        /* border: 1px #dadada solid; */
+    }
+    
+    #checkboxes8 label {
+        display: block;
+        text-align: left;
+        margin: 40px;
+    }
     
     .circle{
       background-color: red;
@@ -112,6 +123,7 @@
         border-collapse: collapse;
         padding: 2px 3px;
         text-align: center;
+
     }
     
     th {
@@ -267,7 +279,7 @@
         justify-content: center;
         text-align: center;
         width: 1px;
-        background: #D3D3D3;
+        background: #d3d3d3;
         height: 10px;
         line-height: 40px;
         margin: 0 0 20px 0;
@@ -399,58 +411,31 @@
         </div>
      </table>   
     </div> -->
-        <div class="tooltips" title="Please select the District">
-            <!-- <select class='form-control' id="district" name="district">
-            <option value="All" selected>Select Maharashtra District</option> -->
-            <!-- <optgroup label="Vidarbh(East)"> -->
-            <!--  <option value="Akola">Akola</option>
-                <option value="Amravati">Amrawati</option>
-                 <option value="Buldana">Buldana</option>
-                <option value="Yavatmal">Yavatmal</option>
-                <option value="Washim">Washim</option>
-                <option value="Aurangabad">Aurangabad</option>
-                <option value="Beed">Beed</option>
-                <option value="Jalna">Jalna</option>
-                <option value="Osmanabad">Osmanabad</option>
-                <option value="Nanded">Nanded</option>
-                <option value="Latur">Latur</option>
-                <option value="Parbhani">Parbhani</option>
-                <option value="Hingoli">Hingoli</option>
-                <option value="Mumbai City">Mumbai City</option>
-                <option value="mumbai_suburb">Mumbai Suburban</option>
-                <option value="Thane">Thane</option>
-                <option value="Palghar">Palghar</option>
-                <option value="Raigad">Raigad</option>
-                <option value="Ratnagiri">Ratnagiri</option>
-                <option value="Sindhudurg">Sindhudurg</option>
-           
-  
-                <option value="Bhandara">Bhandara</option>
-                <option value="Gadchiroli">Gadchiroli</option>
-                <option value="Chandrapur">Chandrapur</option>
-                <option value="Gondia">Gondia</option>
-                <option value="Nagpur">Nagpur</option>
-                <option value="Wardha">Wardha</option> -->
+        
 
 
-            <!-- <option value="Ahmadnagar">Ahmadnagar</option> -->
-            <!-- <option value="Dhule">Dhule</option>
-                <option value="Jalgaon">Jalgaon</option>
-                <option value="Nandurbar">Nandurbar</option>
-                <option value="Nashik">Nashik</option>
-           
-  
-          
-                <option value="Kolhapur">Kolhapur</option>
-                <option value="Pune">Pune</option>
-                <option value="Sangli">Sangli</option>
-                <option value="Satara">Satara</option>
-                <option value="Solapur">Solapur</option> -->
+                    <div class="" style="width: 110%;">
+                        <div class="selectBox" onclick="showCheckboxes8()">
+                            <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; "> Select District/Taluka</button>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div id="checkboxes8">
+                            
+                            <div id="boundary">
+                                <h6>District</h6>
+                                <input type="radio" name="aradio" value="ahm" class="group1" /> Ahmadnagar
+                                <hr>
+                                <h6>Taluka</h6>              
+                                <input type="radio" name="aradio" value="ako"  class="group1" /> Akole <br>
+                                <input type="radio" name="aradio" value="par"  class="group1" /> Parner
+                            </div>
+                           
+                        
+                        </div>
+                    </div>
 
-            <!-- </select>  -->
-        </div>
-        <div class="text-center border">
-
+        <div id="myfac" class="text-center border">
+            <h6>Visualize Following Facilities</h6>
 
             <form id="projectList" style="width: 100%">
 
@@ -679,10 +664,10 @@
                     </div>
                 </div>
 
-                <div class="border row">
+                <!-- <div class="border row">
                     <input type="text" style="margin-left:34px;" placeholder="Enter facility Name" disabled="" class="form-control col-9" id="usr">
                     <button type="button" class="btn btn-primary col" onclick="searchFacilities()" disabled="">Search Facility</button>
-                </div>
+                </div> -->
 
 
         </div>
@@ -696,6 +681,42 @@
 
 
         <script>
+
+            function updateDiv()
+            { 
+            $( "#myfac" ).load(window.location.href + " #here" );
+            }
+            
+                    
+            $("input[name='aradio']").on("change", function () {
+
+                //updateDiv();
+                 removeWMSarea();
+                // clearpoint_layer();
+                // clear_layer();
+                // mymap.removeLayer(activearogyaFacity);
+                // mymap.removeLayer(LayerList);
+                // mymap.removeLayer(pointLayerList);
+                // mymap.removeLayer(newLayerList);
+                // mymap.removeLayer(faciLayerList);
+                // mymap.removeLayer(tribLayerList);
+                // mymap.removeLayer(areaLayerList);
+                // mymap.removeLayer(activeKoboHealthFacity);
+                // mymap.removeLayer(activatedHealthFacility);
+                
+                console.log(this.value);
+                if(this.value=="ahm")
+                    putWMSarea("geonode:ahmadnagar_villages","ahm");
+            
+                else if (this.value == "ako")
+                    putWMSarea("geonode:ahmadnagar_villages","ako");
+                    
+                else if (this.value == "par")
+                    putWMSarea("geonode:ahmadnagar_villages","par");  
+            });
+
+
+
             var expanded = false;
 
             function showCheckboxes() {
@@ -771,13 +792,25 @@
             }
 
             function showCheckboxes7() {
-                var checkboxes = document.getElementById("checkboxes6");
+                var checkboxes = document.getElementById("checkboxes7");
                 if (!expanded) {
                     checkboxes7.style.display = "block";
                     expanded = true;
                 } else {
 
                     checkboxes7.style.display = "none";
+                    expanded = false;
+                }
+            }
+
+            function showCheckboxes8() {
+                var checkboxes = document.getElementById("checkboxes8");
+                if (!expanded) {
+                    checkboxes8.style.display = "block";
+                    expanded = true;
+                } else {
+
+                    checkboxes8.style.display = "none";
                     expanded = false;
                 }
             }
@@ -901,6 +934,7 @@
                         putWMSru("geonode:household");
                     else if (boundary == "{vill}")
                         putWMSru("geonode:ahmadnagar_villages");
+                       
                   
 
                 } else {
@@ -918,7 +952,8 @@
                     else if (boundary == "{house}")
                         removeWMS("geonode:household");
                     else if (boundary == "{vill}")
-                        removeWMS("geonode:ahmadnagar_villages");
+                       removeWMS("geonode:ahmadnagar_villages");
+                    
                     
                 };
 
@@ -1110,7 +1145,7 @@
             // FIND NEAREST BUTTON
             $findNearest.on('click', function(e) {
                 queryFeatures(currentPos, 1);
-            });
+            }); 
 
 
             // SET BUFFER
@@ -1276,7 +1311,30 @@
             }
 
 
-            function querybufGsc(currentPos) {
+
+/*
+
+                    } else if (facility === 'iti') {
+                        layer.bindPopup(`<table class =''><tr><td>ITI</td></tr>
+                            <tr><td>District Name:</td><td>${feature.properties.district}</td></tr>
+                            <tr><td>Block Name:</td><td>${feature.properties.taluka}</td></tr>
+                            <tr><td>Village Name:</td><td>${feature.properties.village}</td></tr>
+                            <tr><td>School Name:</td><td>${feature.properties.name_of_sc}</td></tr>
+                            </table>`)
+                    } else if (facility === 'bif') {
+                        layer.bindPopup()
+                    } else if (facility === 'awc') {
+                        layer.bindPopup(`<table class =''><tr><td>Anganwadi</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district_n}</td></tr>
+                            <tr><td>Block Name  :</td><td>${feature.properties.block}</td></tr>
+                            <tr><td>Village Name :</td><td>${feature.properties.area_name}</td></tr>
+                            <tr><td>Anganwadi Name:</td><td>${feature.properties.awc}</td></tr>
+                            </table>`)
+
+
+
+
+  */          function querybufGsc(currentPos) {
                 let url_sc, cql_sc;
                 let keys = Object.keys(activatedHealthFacility);
                 
@@ -1291,15 +1349,12 @@
                 console.log("schools", newurl);
 
                 function onEachFeatureForPointBB(feature, layer) {
-                        layer.bindPopup(`<div class = 'text-center'>Government School<br>
-                                            Source: Census 2011<br>
-                                            School Name: ${feature.properties.name_of_sc}<br>
-                                            Classes Till: ${feature.properties.school_end}<br>
-                                            Taluka :${feature.properties.taluka}<br>
-                                            Village Name: ${feature.properties.village}<br>
-                                           
-                                            
-                                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Government Schools</td></tr>
+                            <tr><td>District Name:</td><td>${feature.properties.district}</td></tr>
+                            <tr><td>Block Name:</td><td>${feature.properties.taluka}</td></tr>
+                            <tr><td>Village Name:</td><td>${feature.properties.village}</td></tr>
+                            <tr><td>School Name:</td><td> ${feature.properties.name_of_sc}</td></tr>
+                            </table>`)
            
                 }
                 fetch(newurl).then(
@@ -1354,15 +1409,12 @@ function querybufAsch(currentPos) {
 
                 function onEachFeatureForPointBB(feature, layer) {
                     
-                        layer.bindPopup(`<div class = 'text-center'>Aided School<br>
-                                            Source: Census 2011<br>
-                                            School Name: ${feature.properties.school_nam}<br>
-                                            Classes: ${feature.properties.student_}<br>
-                                            Taluka :${feature.properties.taluka}<br>
-                                            Village Name: ${feature.properties.village}<br>
-                                           
-                                            
-                                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Aided Schools</td></tr>
+                            <tr><td>District Name:</td><td>${feature.properties.distname}</td></tr>
+                            <tr><td>Block Name:</td><td>${feature.properties.block_name}</td></tr>
+                            <tr><td>Village Name:</td><td>${feature.properties.village_na}</td></tr>
+                            <tr><td>School Name:</td><td>${feature.properties.school_nam}</td></tr>
+                            </table>`)
                    
 
                 }
@@ -1419,13 +1471,12 @@ function querybufITI(currentPos) {
 
                 function onEachFeatureForPointBB(feature, layer) {
                   
-                        layer.bindPopup(`<div class = 'text-center'>ITI<br>
-                                            Institute Name :${feature.properties.inst_name}<br>
-                                            Taluka: ${feature.properties.taluka}<br>
-                                            Village: ${feature.properties.village_na}<br>
-                                            Institute Category:${feature.properties.category}<br>
-                                            Address:${feature.properties.address}<br>
-                                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>ITI</td></tr>
+                            <tr><td>District Name:</td><td>${feature.properties.district}</td></tr>
+                            <tr><td>Block Name:</td><td>${feature.properties.taluka}</td></tr>
+                            <tr><td>Village Name:</td><td>${feature.properties.village}</td></tr>
+                            <tr><td>School Name:</td><td>${feature.properties.name_of_sc}</td></tr>
+                            </table>`)
                   
                 }
                 fetch(newurl).then(
@@ -1480,13 +1531,12 @@ function querybufBif(currentPos) {
 
                 function onEachFeatureForPointBB(feature, layer) {
                     
-                        layer.bindPopup(`<div class = 'text-center'>Bifocals<br>
-                                           Institute Name :${feature.properties.inst_name}<br>
-                                            Taluka: ${feature.properties.taluka}<br>
-                                            Village: ${feature.properties.area_name}<br>
-                                            Institute Category:${feature.properties.inst_ctgry}<br>
-                                            Address:${feature.properties.address}<br>
-                                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Bifocals</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district}</td></tr>
+                            <tr><td>Block Name  :</td><td>${feature.properties.taluka}</td></tr>
+                            <tr><td>Village Name :</td><td>${feature.properties.village}</td></tr>
+                            <tr><td>School Name:</td><td> ${feature.properties.name_of_sc}</td></tr>
+                            </table>`)
             }
                 fetch(newurl).then(
                     function(response) {
@@ -1595,12 +1645,12 @@ function querybufawc(currentPos) {
 
                 function onEachFeatureForPointBB(feature, layer) {
                     
-                        layer.bindPopup(`<div class = 'text-center'>Anganwadi<br>
-                                            District Name :${feature.properties.district_n}<br>
-                                            Block Name  :${feature.properties.block}<br>
-                                            Village Name :${feature.properties.area_name}<br>
-                                            Anganwadi Name: ${feature.properties.awc}<br>
-                                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Anganwadi</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district_n}</td></tr>
+                            <tr><td>Block Name  :</td><td>${feature.properties.block}</td></tr>
+                            <tr><td>Village Name :</td><td>${feature.properties.area_name}</td></tr>
+                            <tr><td>Anganwadi Name:</td><td>${feature.properties.awc}</td></tr>
+                            </table>`)
             }
                 fetch(newurl).then(
                     function(response) {
@@ -1659,15 +1709,16 @@ function querybufawc(currentPos) {
                 tableurl=newurl;
                 function onEachFeatureForPointBB(feature, layer) {
                 
-                        layer.bindPopup(`<div class = 'text-center'>CHC<br>
-                                Source: Census 2011<br>
-                                Village Name: ${feature.properties.village_na}<br>
-                                Distance Range: ${feature.properties.chc_distan}<br>
-                                Doctors In Position :${feature.properties.chc_doc_in}<br>
-                                Doctors Total Strength :${feature.properties.chc_doc_nu}<br>
-                                Para Medical Staff Total Strength : ${feature.properties.chc_param_}<br>
-                                Para Medical Staff In Position : ${feature.properties.chc_para_1}
-                                </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>CHC</td><td>Source: Census 2011</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district_n}</td></tr>
+                            <tr><td>Taluka Name :</td><td>${feature.properties.taluka_nam}</td></tr>
+                            <tr><td>Village Name:</td><td> ${feature.properties.village_na}</td></tr>
+                            <tr><td>Distance Range:</td><td> ${feature.properties.chc_distan}</td></tr>
+                            <tr><td>Doctors In Position :</td><td>${feature.properties.chc_doc_in}</td></tr>
+                            <tr><td>Doctors Total Strength :</td><td>${feature.properties.chc_doc_nu}</td></tr>
+                            <tr><td>Para Medical Staff Total Strength :</td><td> ${feature.properties.chc_param_}</td></tr>
+                            <tr><td>Para Medical Staff In Position :</td><td> ${feature.properties.chc_para_1}</td></tr>
+                            </table>`)
                 
 
 
@@ -1725,15 +1776,16 @@ function querybufawc(currentPos) {
                 function onEachFeatureForPointBB(feature, layer) {
                 
                        
-                        layer.bindPopup(`<div class = 'text-center'>PHC<br>
-                                Source: Census 2011<br>
-                                Village Name: ${feature.properties.village_na}<br>
-                                Distance Range: ${feature.properties.phc_distan}<br>
-                                Doctors In Position :${feature.properties.phc_doc_in}<br>
-                                Doctors Total Strength :${feature.properties.phc_doc_nu}<br>
-                                Para Medical Staff Total Strength : ${feature.properties.phc_param_}<br>
-                                Para Medical Staff In Position : ${feature.properties.phc_para_1}fen
-                                </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>PHC</td><td>Source: Census 2011</td></tr>
+                                <tr><td>District Name:</td><td>${feature.properties.district_n}</td></tr>
+                                <tr><td>Taluka Name:</td><td>${feature.properties.taluka_nam}</td></tr> 
+                                <tr><td>Village Name:</td><td>${feature.properties.village_na}</td></tr>
+                                <tr><td>Distance Range:</td><td>${feature.properties.phc_distan}</td></tr>
+                                <tr><td>Doctors In Position:</td><td>${feature.properties.phc_doc_in}</td></tr>
+                                <tr><td>Doctors Total Strength:</td><td>${feature.properties.phc_doc_nu}</td></tr>
+                                <tr><td>Para Medical Staff Total Strength:</td><td>${feature.properties.phc_param_}</td></tr>
+                                <tr><td>Para Medical Staff In Position:</td><td>${feature.properties.phc_para_1}</td></tr>
+                                </table>`)
                     
 
 
@@ -1785,17 +1837,20 @@ function querybufawc(currentPos) {
                 tableurl=newurl;
                 function onEachFeatureForPointBB(feature, layer) {
 
-                        layer.bindPopup(`<div class = 'text-center'>Allopathy Hospital<br>
-                            Distance Range: ${feature.properties.h_allo_dst}<br>
-                            Doctors In Position :${feature.properties.h_allo_din}<br>
-                            Doctors Total Strength :${feature.properties.h_allo_doc}<br>
-                            Total Beds :${feature.properties.h_allo_bed}<br>
-                            Para Medical Staff Total Strength : ${feature.properties.h_allo_pm}<br>
-                            Para Medical Staff In Position : ${feature.properties.h_allo_pin}
-                            </div>`)
+                        layer.bindPopup(`<table class = 'text-center'>Allopathy Hospital<br>
+                           <tr><td>Distance Range:</td><td> ${feature.properties.h_allo_dst}</td></tr>
+                           <tr><td>Doctors In Position:</td><td>${feature.properties.h_allo_din}</td></tr>
+                           <tr><td>Doctors Total Strength:</td><td>${feature.properties.h_allo_doc}</td></tr>
+                           <tr><td>Total Beds:</td><td>${feature.properties.h_allo_bed}</td></tr>
+                           <tr><td>Para Medical Staff Total Strength:</td><td>${feature.properties.h_allo_pm}</td></tr>
+                           <tr><td>Para Medical Staff In Position:</td><td>${feature.properties.h_allo_pin}</td></tr>
+                            </table>`)
                   
 
                 }
+                
+
+
 
                 fetch(newurl).then(
                     function(response) {
@@ -1846,14 +1901,16 @@ function querybufawc(currentPos) {
                 function onEachFeatureForPointBB(feature, layer) {
 
                     
-                        layer.bindPopup(`<div class = 'text-center'>Alternate Hospital<br>
-                            Distance Range: ${feature.properties.h_alt_dst}<br>
-                            Doctors In Position :${feature.properties.h_alt_din}<br>
-                            Doctors Total Strength :${feature.properties.h_alt_doc}<br>
-                            Total Beds :${feature.properties.h_alt_bed}<br>
-                            Para Medical Staff Total Strength : ${feature.properties.h_alt_pm}<br>
-                            Para Medical Staff In Position : ${feature.properties.h_alt_pin}
-                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Alternate Hospital<td><td>Source:Census 2011</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district_n}</td></tr>
+                            <tr><td>Taluka Name :</td><td>${feature.properties.taluka_nam}</td></tr>
+                            <tr><td>Distance Range:</td><td> ${feature.properties.h_alt_dst}</td></tr>
+                            <tr><td>Doctors In Position :</td><td>${feature.properties.h_alt_din}</td></tr>
+                            <tr><td>Doctors Total Strength :</td><td>${feature.properties.h_alt_doc}</td></tr>
+                            <tr><td>Total Beds :</td><td>${feature.properties.h_alt_bed}</td></tr>
+                            <tr><td>Para Medical Staff Total Strength :</td><td> ${feature.properties.h_alt_pm}</td></tr>
+                            <tr><td>Para Medical Staff In Position :</td><td> ${feature.properties.h_alt_pin}</td></tr>
+                            </table>`)
                       
 
                 }
@@ -2180,6 +2237,8 @@ function querybufawc(currentPos) {
             };
 
             var wms_legend;
+            var myselectedarea;
+
             var info = L.control();
             var attribute_table = L.control({
                 position: 'bottomright'
@@ -2187,25 +2246,27 @@ function querybufawc(currentPos) {
             var LayerList = [];
             var pointLayerList = [];
             var newLayerList = [];
+            var activeKoboHealthFacity = [];
             var faciLayerList = [];
             var tribLayerList = [];
+            var areaLayerList=[];
             var TRIBLAYER, insti_content;
             let tableurl;
             var searchControl;
             
 
 
-            // $('#district').on('click',function(){
-            //     // document.getElementById("orange").selected = "true";
-            //     clear_layer();
-            //     clearpoint_layer();
+            $('#district').on('click',function(){
+                // document.getElementById("orange").selected = "true";
+                clear_layer();
+                clearpoint_layer();
 
-            //     let district = document.getElementById('district').value;
+                let district = document.getElementById('district').value;
 
             putWMSLayer();
 
 
-            // })
+            })
 
 
             // $('#indstate').on('click',function(){
@@ -2258,10 +2319,10 @@ function querybufawc(currentPos) {
 
             //this is for putting districts in drop down menu
             function putWMSLayer() {
-                // var aspiD = document.getElementById("district").value;
+                var aspiD = document.getElementById("district").value;
                 // var distLayerLatLong = listDistrict[aspiD];
-                //clear_layer();
-                //console.log('kk',distLayerLatLong);
+                clear_layer();
+                // console.log('kk',distLayerLatLong);
                 var wms_layer = L.tileLayer.wms(
                     "https://makerghat.urbansciences.in/geoserver/wms", {
                         layers: "geonode:maharashtra_districts",
@@ -2315,50 +2376,153 @@ function querybufawc(currentPos) {
                     format: 'image/png',
                     transparent: 'true',
                 });
+                
                 wms_layer.addTo(mymap);
                 newLayerList.push(wms_layer);
             }
 
+            function putWMSarea(layer,area) {
+
+                    
+               if(area=="ahm"){
+                var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                    layers: layer,
+                    format: 'image/png',
+                    transparent: 'true',
+                });
+                mymap.setView([19.0948, 74.7480],9);
+                myselectedarea="Ahmadnagar";
+                console.log(myselectedarea);
+               }
+                
+                else if(area=="ako"){
+                    var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                    layers: layer,
+                    cql_filter: "taluka_nam='Akola'",
+                    format: 'image/png',
+                    transparent: 'true',
+                });
+                mymap.setView([19.5406, 74.0054-0.3],10);
+                myselectedarea="Akola";
+                console.log(myselectedarea);
+
+                }
+
+                else{
+                    var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                    layers: layer,
+                    cql_filter: "taluka_nam='Parner'",
+                    format: 'image/png',
+                    transparent: 'true',
+                });
+                mymap.setView([19.0001, 74.4394-0.3],10);
+                myselectedarea="Parner";
+                console.log(myselectedarea);
+
+
+                }
+
+                wms_layer.addTo(mymap);
+                areaLayerList.push(wms_layer);
+
+            }
+
 
             function putWMSru(layer) {
-               
+                var myarea=myselectedarea;
                 if (layer == "geonode:TownHealth0") {
-                    var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                    if(myarea == "Ahmadnagar"){
+
+                        var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
                         layers: layer,
                         format: 'image/png',
                         transparent: 'true',
-                        cql_filter: "district_n='AHMADNAGAR'"
+                        cql_filter:"district_n='AHMADNAGAR'"
                     });
                     TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                     //console.log(district);
+                    }else if(myarea == "Akola"){
+                        console.log(myselectedarea);    
+                        var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                        layers: layer,
+                        format: 'image/png',
+                        transparent: 'true',
+                        cql_filter:"taluka_nam='AKOLA'"
+                    });
+                    TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                    //console.log(district);
+                    }else if(myarea == "Parner"){
+                        console.log(myselectedarea);    
+                        var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                        layers: layer,
+                        format: 'image/png',
+                        transparent: 'true',
+                        cql_filter:"taluka_nam='PARNER'"
+                    });
+                    TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                    //console.log(district);
+                    }
 
                 } else if (layer == "geonode:india_pincodes_12june") {
+                    if(myarea == "Ahmadnagar"){
                     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
                         layers: layer,
                         format: 'image/png',
                         transparent: 'true',
                         cql_filter: "district='Ahmadnagar'"
                     });
-
+                    } 
                 } else if (layer == "geonode:maha_taluka_20may2020") {
+                    //if(myarea=="Ahmadnagar"){
                     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
                         layers: layer,
                         format: 'image/png',
                         transparent: 'true',
                         cql_filter: "distname='Ahmadnagar'"
-                    });
-                 
+                     });
+                    // }else if(myarea=="Akola"){
+                    //     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                    //     layers: layer,
+                    //     format: 'image/png',
+                    //     transparent: 'true',
+                    //     cql_filter: "taluka_nam='Akole'"
+                    // }); 
+                    // }else if(myarea=="Parner"){
+                    //     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                    //     layers: layer,
+                    //     format: 'image/png',
+                    //     transparent: 'true',
+                    //     cql_filter: "taluka_nam='Parner'"
+                    // }); 
+                    // }
 
 
-                }else if (layer == "geonode:household") {
+                }else if(layer == "geonode:household") {
+                    // if(myarea=="Ahmadnagar"){
                     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
                         layers: layer,
                         format: 'image/png',
                         transparent: 'true',
                         cql_filter: "district_n='Ahmadnagar'"
                     });
+                    // }else if(myarea=="Akola"){
+                    //     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                    //     layers: layer,
+                    //     format: 'image/png',
+                    //     transparent: 'true',
+                    //     cql_filter: "taluka='Akole'"
+                    // });   
+                    // }else if(myarea=="Parner"){
+                    //     var wms_layer = L.tileLayer.wms('https://makerghat.urbansciences.in/geoserver/wms', {
+                    //     layers: layer,
+                    //     format: 'image/png',
+                    //     transparent: 'true',
+                    //     cql_filter: "taluka='Parner'"
+                    // });   
+                    //}    
+
                     TRIBLAYER = "https://makerghat.urbansciences.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
-                
+                    
 
 
                 }else if (layer == "geonode:maha_demography_with_mumbai") {
@@ -2466,6 +2630,7 @@ function querybufawc(currentPos) {
             }
 
             function removeWMS(unchecked_layer) {
+                console.log(unchecked_layer);
                 newLayerList.forEach((layer, index) => {
                     if (layer.options.layers === unchecked_layer) {
                         mymap.removeLayer(layer);
@@ -2473,6 +2638,17 @@ function querybufawc(currentPos) {
                     }
                 });
             }
+
+            function removeWMSarea() {
+               
+                areaLayerList.forEach((layer, index) => {
+                    // if (layer.options.layers === unchecked_layer) {
+                        mymap.removeLayer(layer);
+                        areaLayerList.splice(index, 1);
+                    // }
+                });
+            }
+
 
             function style(feature) {
                 return {
@@ -2729,98 +2905,84 @@ function querybufawc(currentPos) {
 
                 function onEachFeatureForPoint(feature, layer) {
                     if (facility === 'CHC') {
-                        layer.bindPopup(`<div class = 'text-center'>CHC<br>
-                                Source: Census 2011<br>
-                                District Name :${feature.properties.district_n}<br>
-                                Taluka Name :${feature.properties.taluka_nam}<br>
-                                Village Name: ${feature.properties.village_na}<br>
-                                Distance Range: ${feature.properties.chc_distan}<br>
-                                Doctors In Position :${feature.properties.chc_doc_in}<br>
-                                Doctors Total Strength :${feature.properties.chc_doc_nu}<br>
-                                Para Medical Staff Total Strength : ${feature.properties.chc_param_}<br>
-                                Para Medical Staff In Position : ${feature.properties.chc_para_1}
-                                </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>CHC</td><td>Source: Census 2011</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district_n}</td></tr>
+                            <tr><td>Taluka Name :</td><td>${feature.properties.taluka_nam}</td></tr>
+                            <tr><td>Village Name:</td><td> ${feature.properties.village_na}</td></tr>
+                            <tr><td>Distance Range:</td><td> ${feature.properties.chc_distan}</td></tr>
+                            <tr><td>Doctors In Position :</td><td>${feature.properties.chc_doc_in}</td></tr>
+                            <tr><td>Doctors Total Strength :</td><td>${feature.properties.chc_doc_nu}</td></tr>
+                            <tr><td>Para Medical Staff Total Strength :</td><td> ${feature.properties.chc_param_}</td></tr>
+                            <tr><td>Para Medical Staff In Position :</td><td> ${feature.properties.chc_para_1}</td></tr>
+                            </table>`)
                     }
                     if (facility === 'PHC') {
-                        layer.bindPopup(`<div class = 'text-center'>PHC<br>
-                                Source: Census 2011<br>
-                                District Name :${feature.properties.district_n}<br>
-                                Taluka Name :${feature.properties.taluka_nam}<br>
-                                Village Name: ${feature.properties.village_na}<br>
-                                Distance Range: ${feature.properties.phc_distan}<br>
-                                Doctors In Position :${feature.properties.phc_doc_in}<br>
-                                Doctors Total Strength :${feature.properties.phc_doc_nu}<br>
-                                Para Medical Staff Total Strength : ${feature.properties.phc_param_}<br>
-                                Para Medical Staff In Position : ${feature.properties.phc_para_1}fen
-                                </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>PHC</td><td>Source: Census 2011</td></tr>
+                                <tr><td>District Name:</td><td>${feature.properties.district_n}</td></tr>
+                                <tr><td>Taluka Name:</td><td>${feature.properties.taluka_nam}</td></tr> 
+                                <tr><td>Village Name:</td><td>${feature.properties.village_na}</td></tr>
+                                <tr><td>Distance Range:</td><td>${feature.properties.phc_distan}</td></tr>
+                                <tr><td>Doctors In Position:</td><td>${feature.properties.phc_doc_in}</td></tr>
+                                <tr><td>Doctors Total Strength:</td><td>${feature.properties.phc_doc_nu}</td></tr>
+                                <tr><td>Para Medical Staff Total Strength:</td><td>${feature.properties.phc_param_}</td></tr>
+                                <tr><td>Para Medical Staff In Position:</td><td>${feature.properties.phc_para_1}</td></tr>
+                                </table>`)
                     }
                     if (facility === 'Allo') {
-                        layer.bindPopup(`<div class = 'text-center'>Allopathy Hospital<br>
-                            District Name :${feature.properties.district_n}<br>
-                            Taluka Name :${feature.properties.taluka_nam}<br>
-                            Distance Range: ${feature.properties.h_allo_dst}<br>
-                            Doctors In Position :${feature.properties.h_allo_din}<br>
-                            Doctors Total Strength :${feature.properties.h_allo_doc}<br>
-                            Total Beds :${feature.properties.h_allo_bed}<br>
-                            Para Medical Staff Total Strength : ${feature.properties.h_allo_pm}<br>
-                            Para Medical Staff In Position : ${feature.properties.h_allo_pin}
-                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Allopathy Hospital<td><td>Source:Census 2011</td></tr>
+                           <tr><td>Distance Range:</td><td> ${feature.properties.h_allo_dst}</td></tr>
+                           <tr><td>Doctors In Position:</td><td>${feature.properties.h_allo_din}</td></tr>
+                           <tr><td>Doctors Total Strength:</td><td>${feature.properties.h_allo_doc}</td></tr>
+                           <tr><td>Total Beds:</td><td>${feature.properties.h_allo_bed}</td></tr>
+                           <tr><td>Para Medical Staff Total Strength:</td><td>${feature.properties.h_allo_pm}</td></tr>
+                           <tr><td>Para Medical Staff In Position:</td><td>${feature.properties.h_allo_pin}</td></tr>
+                            </table>`)
                     } else if (facility === 'Alt') {
-                        layer.bindPopup(`<div class = 'text-center'>Alternate Hospital<br>
-                            District Name :${feature.properties.district_n}<br>
-                            Taluka Name :${feature.properties.taluka_nam}<br>
-                            Distance Range: ${feature.properties.h_alt_dst}<br>
-                            Doctors In Position :${feature.properties.h_alt_din}<br>
-                            Doctors Total Strength :${feature.properties.h_alt_doc}<br>
-                            Total Beds :${feature.properties.h_alt_bed}<br>
-                            Para Medical Staff Total Strength : ${feature.properties.h_alt_pm}<br>
-                            Para Medical Staff In Position : ${feature.properties.h_alt_pin}
-                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Alternate Hospital<td><td>Source:Census 2011</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district_n}</td></tr>
+                            <tr><td>Taluka Name :</td><td>${feature.properties.taluka_nam}</td></tr>
+                            <tr><td>Distance Range:</td><td> ${feature.properties.h_alt_dst}</td></tr>
+                            <tr><td>Doctors In Position :</td><td>${feature.properties.h_alt_din}</td></tr>
+                            <tr><td>Doctors Total Strength :</td><td>${feature.properties.h_alt_doc}</td></tr>
+                            <tr><td>Total Beds :</td><td>${feature.properties.h_alt_bed}</td></tr>
+                            <tr><td>Para Medical Staff Total Strength :</td><td> ${feature.properties.h_alt_pm}</td></tr>
+                            <tr><td>Para Medical Staff In Position :</td><td> ${feature.properties.h_alt_pin}</td></tr>
+                            </table>`)
                     } else if (facility === 'ASch') {
-                        layer.bindPopup(`<div class = 'text-center'>Aided Schools<br>
-                            District Name :${feature.properties.distname}<br>
-                            Block Name  :${feature.properties.block_name}<br>
-                            Village Name :${feature.properties.village_na}<br>
-                            School Name: ${feature.properties.school_nam}
-                            
-                            
-                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Aided Schools</td></tr>
+                            <tr><td>District Name:</td><td>${feature.properties.distname}</td></tr>
+                            <tr><td>Block Name:</td><td>${feature.properties.block_name}</td></tr>
+                            <tr><td>Village Name:</td><td>${feature.properties.village_na}</td></tr>
+                            <tr><td>School Name:</td><td>${feature.properties.school_nam}</td></tr>
+                            </table>`)
                     } else if (facility === 'Gsc') {
-                        layer.bindPopup(`<div class = 'text-center'>Government Schools<br>
-                            District Name :${feature.properties.district}<br>
-                            Block Name  :${feature.properties.taluka}<br>
-                            Village Name :${feature.properties.village}<br>
-                            School Name: ${feature.properties.name_of_sc}
-                            
-                            
-                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Government Schools</td></tr>
+                            <tr><td>District Name:</td><td>${feature.properties.district}</td></tr>
+                            <tr><td>Block Name:</td><td>${feature.properties.taluka}</td></tr>
+                            <tr><td>Village Name:</td><td>${feature.properties.village}</td></tr>
+                            <tr><td>School Name:</td><td> ${feature.properties.name_of_sc}</td></tr>
+                            </table>`)
                     } else if (facility === 'iti') {
-                        layer.bindPopup(`<div class = 'text-center'>ITI<br>
-                            District Name :${feature.properties.district}<br>
-                            Block Name  :${feature.properties.taluka}<br>
-                            Village Name :${feature.properties.village}<br>
-                            School Name: ${feature.properties.name_of_sc}
-                            
-                            
-                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>ITI</td></tr>
+                            <tr><td>District Name:</td><td>${feature.properties.district}</td></tr>
+                            <tr><td>Block Name:</td><td>${feature.properties.taluka}</td></tr>
+                            <tr><td>Village Name:</td><td>${feature.properties.village}</td></tr>
+                            <tr><td>School Name:</td><td>${feature.properties.name_of_sc}</td></tr>
+                            </table>`)
                     } else if (facility === 'bif') {
-                        layer.bindPopup(`<div class = 'text-center'>Bifocals<br>
-                            District Name :${feature.properties.district}<br>
-                            Block Name  :${feature.properties.taluka}<br>
-                            Village Name :${feature.properties.village}<br>
-                            School Name: ${feature.properties.name_of_sc}
-                            
-                            
-                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Bifocals</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district}</td></tr>
+                            <tr><td>Block Name  :</td><td>${feature.properties.taluka}</td></tr>
+                            <tr><td>Village Name :</td><td>${feature.properties.village}</td></tr>
+                            <tr><td>School Name:</td><td> ${feature.properties.name_of_sc}</td></tr>
+                            </table>`)
                     } else if (facility === 'awc') {
-                        layer.bindPopup(`<div class = 'text-center'>Anganwadi<br>
-                            District Name :${feature.properties.district_n}<br>
-                            Block Name  :${feature.properties.block}<br>
-                            Village Name :${feature.properties.area_name}<br>
-                            Anganwadi Name: ${feature.properties.awc}
-                            
-                            
-                            </div>`)
+                        layer.bindPopup(`<table class =''><tr><td>Anganwadi</td></tr>
+                            <tr><td>District Name :</td><td>${feature.properties.district_n}</td></tr>
+                            <tr><td>Block Name  :</td><td>${feature.properties.block}</td></tr>
+                            <tr><td>Village Name :</td><td>${feature.properties.area_name}</td></tr>
+                            <tr><td>Anganwadi Name:</td><td>${feature.properties.awc}</td></tr>
+                            </table>`)
                     }else if (facility === 'jany') {
 
                         var str1 = "<img class = 'popupimage' src='/static/images/".concat(feature.properties.image);
