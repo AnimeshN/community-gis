@@ -2805,7 +2805,7 @@ function querybufnrc(currentPos) {
 
                 var geojsonMarkerOptions = {
                     radius: 6,
-                    fillColor: "#ff4800",
+                    fillColor: "#f5cd2f",
                     color: "#000",
                     weight: 1,
                     opacity: 1,
@@ -2814,7 +2814,7 @@ function querybufnrc(currentPos) {
 
                 var geojsonMarkerOptions2 = {
                     radius: 4,
-                    fillColor: "#0004ff",
+                    fillColor: "#09544e",
                     color: "#000",
                     weight: 1,
                     opacity: 1,
@@ -2878,7 +2878,7 @@ function querybufnrc(currentPos) {
 
                 var geojsonMarkerOptions9 = {
                     radius: 7,
-                    fillColor: "#85b9ed",
+                    fillColor: "#ca8fe3",
                     color: "#000",
                     weight: 1,
                     opacity: 1,
@@ -2895,7 +2895,7 @@ function querybufnrc(currentPos) {
                 };
 
                 var geojsonMarkerOptions11 = {
-                    radius: 7,
+                    radius: 9,
                     fillColor: "#42f557",
                     color: "#000",
                     weight: 1,
@@ -3060,6 +3060,7 @@ function querybufnrc(currentPos) {
 
 
                 }
+                mymap.spin(true,{lines: 9, length: 2, width: 20, scale: 60,radius: 70, color: "grey"});
                 fetch(newurl).then(
                     function(response) {
                         if (response.status !== 200) {
@@ -3098,6 +3099,7 @@ function querybufnrc(currentPos) {
                                 },
                                 onEachFeature: onEachFeatureForPoint,
                             }).addTo(mymap);
+                            mymap.spin(false);
                             legend.addTo(mymap);
                             activatedHealthFacility[facility] = healthFacility;
                             legend.update();
@@ -3414,8 +3416,8 @@ function querybufnrc(currentPos) {
 
                 legend.update = function(){
                     console.log("activated facility",activatedHealthFacility)
-                    legendValues = {"CHC":['CHC','#ff4800'],"PHC":['PHC','#0004ff'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],
-                        "iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#85b9ed'],"jany":['Jalyukti Shivar','#42b6f5'],"nrc":['Nutrition Rehabilitation Center','#42f557'],"sam":['SAM Children Households','red']}
+                    legendValues = {"CHC":['CHC','#f5cd2f'],"PHC":['PHC','#09544e'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],
+                        "iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#ca8fe3'],"jany":['Jalyukti Shivar','#42b6f5'],"nrc":['Nutrition Rehabilitation Center','#42f557'],"sam":['SAM Children Households','red']}
                     labels = ['<strong>Legends</strong>'];
                         for(let fac in activatedHealthFacility) {
                             this._div.innerHTML +=
