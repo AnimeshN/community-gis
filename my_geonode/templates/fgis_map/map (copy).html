@@ -1,4 +1,4 @@
-<!--code for Ahmednagar fgis -->
+<!--code for Ahmednagar -->
 {% extends 'dashboard/base_fgis_nav.html' %}
 {% load static%} {% block content %}
 <style>
@@ -325,7 +325,74 @@
         </div>
 
     </div>
+    <!-- <div class="border">
+        <table>
+        <tr><h6>Indian Admin Boundaries</h6></tr>
+        <div class="text-center">
+            <div class="checkbox" id="boundary">
+              <tr><tb>  <label><input type="checkbox" value="{state}" onchange="getBoundary(this)"></tb><tb><span> State </span></label></tb> </tr>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="{district}" onchange="getBoundary(this)"><span> District </span></label>
+              </div>
+             
+        </div>
+     </table>   
+    </div> -->
+    <!-- 
+    <div class="tooltips" title="Please select the State">
+        <select class='form-control' id="indstate" name="indstate">
+            <option value="All">Select State</option>
+            <optgroup label="States"> 
+              <option value="Maharashtra" onclick="mymap.setView(new L.LatLng(19.7515,75.7139),7);"; >Maharashtra</option>
+
+                <option value="" disabled>Andhra Pradesh</option>
+                <option value="" disabled>Arunachal Pradesh</option>
+                 <option value="" disabled>Assam </option>
+                <option value="" disabled>Bihar</option>
+                <option value="" disabled>Chhattisgarh</option>
+                <option value="" disabled>Goa</option>
+                <option value="" disabled>Gujarat</option>
+                <option value="" disabled>Haryana</option>
+                <option value="" disabled>Himachal Pradesh</option>
+                <option value="" disabled>Jharkhan</option>
+                <option value="" disabled>Karnataka</option>
+                <option value="" disabled>Kerala</option>
+                <option value="" disabled>Madhya Pradesh</option>
+              
+                <option value="" disabled>Manipur</option>
+                <option value="" disabled>Meghalya</option>
+                <option value="" disabled>Mizoram</option>
+                <option value="" disabled>Nagaland</option>
+           
+  
+                <option value="" disabled>Odisha</option>
+                <option value="" disabled>Punjab</option>
+                <option value="" disabled>Rajasthan</option>
+                <option value="" disabled>Sikkim</option>
+                <option value="" disabled>Tamil Nadu</option>
+                <option value="" disabled>Telangana</option>
+           
+  
+                <option value="" disabled>Tripura</option>
+                <option value="" disabled>Uttar Pradesh</option>
+                <option value="" disabled>Uttrakhand</option>
+                <option value="" disabled>West Bengal</option>
+            <optgroup label="Union Territories"> 
+
+                <option value="" disabled>Andaman and Nicobar Islands</option>
+                <option value="" disabled>Chandigarh</option>
+                <option value="" disabled>Dadra and Nagar Haveli and Daman and Diu</option>
+                <option value="" disabled>National Capital Territory of Delhi</option>
+                <option value="" disabled>Jammu & Kashmir</option>
+                <option value="" disabled>Ladakh</option>
+                <option value="" disabled>Lakshadweep</option>
+                <option value="" disabled>Puducherry</option>
+           
     
+          </select> 
+     </div>   -->
+
     <div id="side-bar" style="background-color: rgba(255, 255, 255);">
         <!-- side-bar container -->
         <!-- <div class="border">
@@ -344,11 +411,8 @@
         </div>
      </table>   
     </div> -->
-                    <!--images being loaded from db---> 
-                    <!-- <div class="border">
-                         <button type="button" class="btn btn-primary" id='image'>Add Uploaded Images</button>
-                    
-                    </div>  -->
+        
+
 
                     <div class="" style="width: 110%;">
                         <div class="selectBox" onclick="showCheckboxes8()">
@@ -487,12 +551,10 @@
 
                                         <div id="ur" value="ur">Nutrition
                                             <label for="three">
-                      <input type="checkbox" id=""  value="{awc}" onchange="GetSelectedfac(this)" buffer(this);/> Anganwadi Data</label>
+                      <input type="checkbox" id=""  value="{awc}" onchange="GetSelectedfac(this)" /> Anganwadi Data</label>
                                             <label for="three">
-                      <input type="checkbox" id="" value="{nrc}" onchange="GetSelectedfac(this)" buffer(this);/> Nutrition Rehabilitation Center</label>
-                                            <label for="three">
-                        <input type="checkbox" id="" value="{sam}" onchange="GetSelectedfac(this)" buffer(this); /> SAM Children Household</label>
-    
+                      <input type="checkbox" id="gsc" value="{}" onchange="GetSelectedfac(this)" disabled="" /> Nutrition Rehabilitation Center</label>
+
                                         </div>
                                         <hr>
 
@@ -624,8 +686,8 @@
             { 
             $( "#myfac" ).load(window.location.href + " #here" );
             }
-           
-
+            
+                    
             $("input[name='aradio']").on("change", function () {
 
                 //updateDiv();
@@ -930,10 +992,6 @@
                         putWFSFacility("awc");
                     else if (fac == '{jany}')
                         putWFSFacility("jany");
-                    else if (fac == '{nrc}')
-                        putWFSFacility("nrc");
-                    else if (fac == '{sam}')
-                        putWFSFacility("sam");        
 
 
                 } else {
@@ -971,10 +1029,6 @@
                         removeWFSfac("awc");
                     else if (fac == '{jany}')
                         removeWFSfac("jany");
-                    else if (fac == '{nrc}')
-                        removeWFSfac("nrc");
-                    else if (fac == '{sam}')
-                        removeWFSfac("sam");    
                 };
                 
             }
@@ -1039,7 +1093,6 @@
                 $locate = $('#locate'),
                 $body = $('body'),
                 $findNearest = $('#find-nearest'),
-                $image = $('#image'),
                 $setlocation = $('#setlocation')
             $setbuffer = $('#setbuffer')
 
@@ -1069,25 +1122,6 @@
                 $body.removeClass('loaded');
                 navigator.geolocation.getCurrentPosition(success, error);
             });
-
-             
-            $image.on('click', function(e) {
-
-
-                var arr = ['{{lat}}', '{{long}}']
-                console.log(arr);
-                var newmarker = L.marker(arr).addTo(mymap);
-                icon_url = '{{ media_url}}{{img}}'
-                console.log(icon_url);
-                var str1 ="<img src=" + icon_url + "/> " 
-                var str2 = str1.concat(`Village Name:${feature.properties.village}`);
-                        console.log(str2);
-                        layer.bindPopup(str2);
-                newmarker.bindPopup("<img src=" + icon_url + "/> ").openPopup();
-
-            }); 
-
-
 
             // SET LOCATION BUTTON
             $setlocation.on('click', function(e) {
@@ -1179,11 +1213,8 @@
                       querybufawc(currentPos);
                     if(k==='jany')
                       querybufjany(currentPos);
-                    if(k==='nrc')
-                      querybufnrc(currentPos);  
                     if(k==='DCH' || k==='DCHC'|| k==='DCCC')
                       queryArog(currentPos);
-
                   })
              
                   
@@ -1619,59 +1650,6 @@ function querybufawc(currentPos) {
                             <tr><td>Block Name  :</td><td>${feature.properties.block}</td></tr>
                             <tr><td>Village Name :</td><td>${feature.properties.area_name}</td></tr>
                             <tr><td>Anganwadi Name:</td><td>${feature.properties.awc}</td></tr>
-                            </table>`)
-            }
-                fetch(newurl).then(
-                    function(response) {
-                        if (response.status !== 200) {
-                            console.log('Looks like there was a problem. Status Code: ' +
-                                response.status);
-                            return;
-                        }
-
-
-                        response.json().then(function(geojsonData) {
-                            // console.log(geojsonData.features);
-                            let healthFacilityBB = L.geoJson(geojsonData.features, {
-                                pointToLayer: function(feature, latlng) {
-                                    return L.circleMarker(latlng, {
-                                       fillColor: "#07f2cf",
-                                       color:"#000",
-                                        weight: 8,
-                                        opacity: .3,
-                                        fillOpacity: 0.8
-                                    });
-                                },
-                                onEachFeature: onEachFeatureForPointBB,
-                            }).addTo(mymap);
-                            oldhfbb.push(healthFacilityBB);
-                        });
-
-
-                    }).catch(function(err) {
-                    console.log('Fetch Error :-S', err);
-                });
-
-
-            }
-
-//buffer for nrc
-function querybufnrc(currentPos) {
-                let url_sc, cql_sc;
-                let keys = Object.keys(activatedHealthFacility);
-               
-                url_sc= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:nrc_ahmadngr_dummy';
-               
-                let bbOffset = output.innerHTML / 111;
-
-                newurl = url_sc + `&cql_filter=BBOX(the_geom,${currentPos[1]-bbOffset},${currentPos[0]-bbOffset},${currentPos[1]+bbOffset},${currentPos[0]+bbOffset})`;
-                tableurl=newurl;
-                console.log("awc", newurl);
-
-                function onEachFeatureForPointBB(feature, layer) {
-                    
-                        layer.bindPopup(`<table class =''><tr><td>Nutrition Rehabilitation Center</td></tr>
-                            
                             </table>`)
             }
                 fetch(newurl).then(
@@ -2339,9 +2317,6 @@ function querybufnrc(currentPos) {
             }
 
 
-            
-
-
             //this is for putting districts in drop down menu
             function putWMSLayer() {
                 var aspiD = document.getElementById("district").value;
@@ -2894,25 +2869,6 @@ function querybufnrc(currentPos) {
                     fillOpacity: 0.8
                 };
 
-                var geojsonMarkerOptions11 = {
-                    radius: 7,
-                    fillColor: "#42f557",
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                };
-
-                var geojsonMarkerOptions12 = {
-                    radius: 10,
-                    fillColor: "red",
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                };
-
-
                 const url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
                 const url2 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
                 const url3 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:aided_schools_30april';
@@ -2921,11 +2877,6 @@ function querybufnrc(currentPos) {
                 const url6 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:inst_bifocals_4may2020';
                 const url7= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:ahamadnagar_awc';
                 const url8= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:jalyukt_shivar_ahmad';
-                const url9= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:nrc_ahmadngr_dummy';
-                const url10= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:sam_ahmadngr_dummy';
-
-                
-                
 
 
                 if (facility == 'CHC')
@@ -2948,10 +2899,7 @@ function querybufnrc(currentPos) {
                     newurl = url7;
                 else if (facility == 'jany')
                     newurl = url8;
-                else if (facility == 'nrc')
-                    newurl = url9;
-                else if (facility == 'sam')
-                    newurl = url10;    
+
                     
                 tableurl = newurl;
 
@@ -3042,20 +2990,6 @@ function querybufnrc(currentPos) {
                         console.log(str2);
                         layer.bindPopup(str2);
                          
-                    }else if (facility === 'sam') {
-                        		
-                        layer.bindPopup(`<table class =''><tr><td>SAM Children</td></tr>
-                            <tr><td>Gender:</td><td>${feature.properties.Gender}</td></tr>
-                            <tr><td>January Age(months):</td><td>${feature.properties.Jan_Age}</td></tr>
-                            <tr><td>January Height(cm):</td><td>${feature.properties.jan_Height}</td></tr>
-                            <tr><td>January Weight(kg):</td><td> ${feature.properties.jan_Weight}</td></tr>
-                            <tr><td>February Age(months):</td><td>${feature.properties.feb_Age}</td></tr>
-                            <tr><td>February Height(cm):</td><td>${feature.properties.feb_Height}</td></tr>
-                            <tr><td>February Weight(kg):</td><td> ${feature.properties.feb_Weight}</td></tr>
-                            <tr><td>March Age(months):</td><td>${feature.properties.mar_Age}</td></tr>
-                            <tr><td>March Height(cm):</td><td>${feature.properties.mar_Height}</td></tr>
-                            <tr><td>March Weight(kg):</td><td> ${feature.properties.mar_Weight}</td></tr>
-                            </table>`)
                     }
 
 
@@ -3091,10 +3025,6 @@ function querybufnrc(currentPos) {
                                         return L.circleMarker(latlng, geojsonMarkerOptions9);
                                     else if (facility === 'jany')
                                         return L.circleMarker(latlng, geojsonMarkerOptions10);
-                                    else if (facility === 'nrc')
-                                        return L.circleMarker(latlng, geojsonMarkerOptions11);
-                                    else if (facility === 'sam')
-                                        return L.circleMarker(latlng, geojsonMarkerOptions12);        
                                 },
                                 onEachFeature: onEachFeatureForPoint,
                             }).addTo(mymap);
@@ -3414,8 +3344,7 @@ function querybufnrc(currentPos) {
 
                 legend.update = function(){
                     console.log("activated facility",activatedHealthFacility)
-                    legendValues = {"CHC":['CHC','#ff4800'],"PHC":['PHC','#0004ff'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],
-                        "iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#85b9ed'],"jany":['Jalyukti Shivar','#42b6f5'],"nrc":['Nutrition Rehabilitation Center','#42f557'],"sam":['SAM Children Households','red']}
+                    legendValues = {"CHC":['CHC','#ff4800'],"PHC":['PHC','#0004ff'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],"iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#85b9ed'],"jany":['Jalyukti Shivar','#42b6f5']}
                     labels = ['<strong>Legends</strong>'];
                         for(let fac in activatedHealthFacility) {
                             this._div.innerHTML +=
