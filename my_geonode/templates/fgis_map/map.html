@@ -1,4 +1,4 @@
-<!--code for Ahmednagar fgis -->
+<!--code for Ahmednagar -->
 {% extends 'dashboard/base_fgis_nav.html' %}
 {% load static%} {% block content %}
 <style>
@@ -227,6 +227,10 @@
         font-weight: bold;
     }
     
+    .baby{
+        width:30px;
+        height:30px;
+    }
     .select {
         background-color: rgb(116, 109, 109);
         width: 40%;
@@ -491,7 +495,7 @@
                                             <label for="three">
                       <input type="checkbox" id="" value="{nrc}" onchange="GetSelectedfac(this)" buffer(this);/> Nutrition Rehabilitation Center</label>
                                             <label for="three">
-                        <input type="checkbox" id="" value="{sam}" onchange="GetSelectedfac(this)" buffer(this); /> SAM Children Household</label>
+                        <input type="checkbox" id="" value="{sam}" onchange="GetSelectedfac(this)" buffer(this); /> Individual Child Tracking</label>
     
                                         </div>
                                         <hr>
@@ -1200,9 +1204,8 @@
                     const updateDate = "Dedicated COVID Facilities-Arogya";
                     layer.bindPopup(`<table class = 'popupclass'>
                                            <tr><td>Facility Name:</td><td> ${feature.properties.faclty_nam}</td></tr>
-    
-                                           <tr><td>Category:</td><td> ${feature.properties.category}</td></tr>
-                                            <tr><td>Facility Type:</td><td> ${feature.properties.type}</td></tr>
+                                          <tr><td>Category:</td><td> ${feature.properties.category}</td></tr>
+                                          <tr><td>Facility Type:</td><td> ${feature.properties.type}</td></tr>
                                           <tr><td>Total Isolation beds(excluding ICU beds)</td><td> ${feature.properties.iso_minus_}</td></tr>
                                           <tr><td>Isolation beds of Confirmed Cases:</td><td> ${feature.properties.iso_confm_}</td></tr>
                                           <tr><td>Isolation beds for Suspected Cases:</td><td> ${feature.properties.iso_suspec}</td></tr>
@@ -2427,7 +2430,7 @@ function querybufnrc(currentPos) {
                     format: 'image/png',
                     transparent: 'true',
                 });
-                mymap.setView([19.5406, 74.0054-0.3],10);
+                mymap.setView([19.5406, 74.0054-0.3],11);
                 myselectedarea="Akola";
                 console.log(myselectedarea);
 
@@ -2725,6 +2728,7 @@ function querybufnrc(currentPos) {
                 
             }
             
+            
             function putKoboHealthFacity(facility) {
                 const base_url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_hospitals_28apr';
                 const url = base_url + '&propertyName=the_geom,facltyname,facltytyp,address'
@@ -2912,6 +2916,25 @@ function querybufnrc(currentPos) {
                     fillOpacity: 0.8
                 };
 
+            var girlIcon = L.icon({
+            iconUrl: "{% static 'images/girl.png' %}",
+            iconSize:     [50, 60], // size of the icon
+            //shadowSize:   [50, 64], // size of the shadow
+            iconAnchor:   [25,10], // point of the icon which will correspond to marker's location
+            // shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+        });
+
+        var boyIcon = L.icon({
+            iconUrl: "{% static 'images/boy.png' %}",
+            iconSize:     [50, 60], // size of the icon
+            //shadowSize:   [50, 64], // size of the shadow
+            iconAnchor:   [25,10], // point of the icon which will correspond to marker's location
+            // shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+        });
+
+
 
                 const url = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
                 const url2 = 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
@@ -2922,7 +2945,7 @@ function querybufnrc(currentPos) {
                 const url7= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:ahamadnagar_awc';
                 const url8= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:jalyukt_shivar_ahmad';
                 const url9= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:nrc_ahmadngr_dummy';
-                const url10= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:sam_ahmadngr_dummy';
+                const url10= 'https://makerghat.urbansciences.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:nutrition_dummy_loc';
 
                 
                 
@@ -2951,7 +2974,12 @@ function querybufnrc(currentPos) {
                 else if (facility == 'nrc')
                     newurl = url9;
                 else if (facility == 'sam')
-                    newurl = url10;    
+                 {
+                    
+                    newurl = url10;
+                    //newurl = url10 + `&cql_filter=gender='Boy'`;
+                 }   
+                    
                     
                 tableurl = newurl;
 
@@ -3044,17 +3072,10 @@ function querybufnrc(currentPos) {
                          
                     }else if (facility === 'sam') {
                         		
-                        layer.bindPopup(`<table class =''><tr><td>SAM Children</td></tr>
-                            <tr><td>Gender:</td><td>${feature.properties.Gender}</td></tr>
-                            <tr><td>January Age(months):</td><td>${feature.properties.Jan_Age}</td></tr>
-                            <tr><td>January Height(cm):</td><td>${feature.properties.jan_Height}</td></tr>
-                            <tr><td>January Weight(kg):</td><td> ${feature.properties.jan_Weight}</td></tr>
-                            <tr><td>February Age(months):</td><td>${feature.properties.feb_Age}</td></tr>
-                            <tr><td>February Height(cm):</td><td>${feature.properties.feb_Height}</td></tr>
-                            <tr><td>February Weight(kg):</td><td> ${feature.properties.feb_Weight}</td></tr>
-                            <tr><td>March Age(months):</td><td>${feature.properties.mar_Age}</td></tr>
-                            <tr><td>March Height(cm):</td><td>${feature.properties.mar_Height}</td></tr>
-                            <tr><td>March Weight(kg):</td><td> ${feature.properties.mar_Weight}</td></tr>
+                        layer.bindPopup(`<table class =''><tr><td>Child ID</td><td>${feature.properties.child_id}</td></tr>
+                            <tr><td>Anganwadi ID</td><td>${feature.properties.awc_id}</td></tr>
+                            <tr><td>Gender:</td><td>${feature.properties.gender}</td></tr>
+                            <tr><button type="button" class="btn btn-outline-dark" style="color:white;"><a style="color:white;text-decoration:none" target="_blank" href="https://childnutritiontracker.web.app/?child_id=${feature.properties.child_id}">Detailed Nutrition Tracking</a></button></tr>
                             </table>`)
                     }
 
@@ -3069,7 +3090,7 @@ function querybufnrc(currentPos) {
                             return;
                         }
                         response.json().then(function(geojsonData) {
-                            //console.log("yeh raha",geojsonData.features);
+                           
                             healthFacility = L.geoJson(geojsonData.features, {
                                 pointToLayer: function(feature, latlng) {
                                     if (facility === 'CHC')
@@ -3094,8 +3115,16 @@ function querybufnrc(currentPos) {
                                         return L.circleMarker(latlng, geojsonMarkerOptions10);
                                     else if (facility === 'nrc')
                                         return L.circleMarker(latlng, geojsonMarkerOptions11);
-                                    else if (facility === 'sam')
-                                        return L.circleMarker(latlng, geojsonMarkerOptions12);        
+                                    else if (facility === 'sam'){
+                                        if(feature.properties.gender=="Girl"){
+                                            return L.marker(latlng, {icon:girlIcon});
+                                        }
+                                        if(feature.properties.gender=="Boy"){
+                                            return L.marker(latlng, {icon:boyIcon});
+                                        }
+                                        
+                                       
+                                    }      
                                 },
                                 onEachFeature: onEachFeatureForPoint,
                             }).addTo(mymap);
@@ -3417,16 +3446,25 @@ function querybufnrc(currentPos) {
                 legend.update = function(){
                     console.log("activated facility",activatedHealthFacility)
                     legendValues = {"CHC":['CHC','#f5cd2f'],"PHC":['PHC','#09544e'],"Allo":['Allopathy Hospital','#a8325a'],"Alt":['Alternate Hospital','#143d5e'],"DCH":['Dedicated COVID Hospitals','#fa4646'],"DCHC":['Dedicated Covid Health Center','#a8fc0d'],"DCCC":['Dedicated COVID Centers','#fc0de8'],"ASch":['Aided Schools','#825187'],"Gsc":['Government Schools','#00fa70'],
-                        "iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#ca8fe3'],"jany":['Jalyukti Shivar','#42b6f5'],"nrc":['Nutrition Rehabilitation Center','#42f557'],"sam":['SAM Children Households','red']}
+                        "iti":['ITI','#f0cd07'],"bif":['Bifocals','#db0f1a'], "awc":['Anganwadi','#ca8fe3'],"jany":['Jalyukti Shivar','#42b6f5'],"nrc":['Nutrition Rehabilitation Center','#42f557'],
+                        "sam":['Individual Child Tracking','{% static "images/boy.png" %}','{% static "images/girl.png" %}']}
                     labels = ['<strong>Legends</strong>'];
                         for(let fac in activatedHealthFacility) {
+                            if(fac=="sam"){
+                                this._div.innerHTML +=
+                                labels.push(
+                                '<img class="baby" src="'+ legendValues[fac][1] +'"></img>' +
+                                '<img class="baby" src="'+ legendValues[fac][2] +'">&nbsp;</img>' +
+                                legendValues[fac][0]+'<br>')
+                            }
+                            else{
                             this._div.innerHTML +=
                                 labels.push(
                                 '<i class="circle" style="background:'+ legendValues[fac][1] +';opacity:1;">&nbsp;&nbsp;&nbsp;&nbsp;</i> ' +
                                 legendValues[fac][0]+'<br>')
 
 
-                        }
+                        }}
                           this._div.innerHTML = labels.join('<br>');
                 }
 
