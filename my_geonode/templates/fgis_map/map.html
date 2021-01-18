@@ -13,6 +13,8 @@
         border-collapse: collapse;
         padding: 2px 3px;
         text-align: center;
+        background-color:white;
+        color: black;
     }
     
     th {
@@ -295,8 +297,8 @@
     }
     
     .select.highlight {
-        background: rgb(0, 0, 0);
-        color: white;
+        background:white;;
+        color: black;
     }
     
     .mobileShow {
@@ -3072,10 +3074,11 @@ function querybufnrc(currentPos) {
                          
                     }else if (facility === 'sam') {
                         		
-                        layer.bindPopup(`<table class =''><tr><td>Child ID</td><td>${feature.properties.child_id}</td></tr>
-                            <tr><td>Anganwadi ID</td><td>${feature.properties.awc_id}</td></tr>
+                        layer.bindPopup(`<table class =''><tr><td colspan="2">Child Information</td></tr>
+                            <tr><td>Child ID:</td><td>${feature.properties.child_id}</td></tr>
+                            <tr><td>Anganwadi ID:</td><td>${feature.properties.awc_id}</td></tr>
                             <tr><td>Gender:</td><td>${feature.properties.gender}</td></tr>
-                            <tr><button type="button" class="btn btn-outline-dark" style="color:white;"><a style="color:white;text-decoration:none" target="_blank" href="https://childnutritiontracker.web.app/?child_id=${feature.properties.child_id}">Detailed Nutrition Tracking</a></button></tr>
+                            <tr><td>For Detailed Nutrition Tracking:</td><td><a style="color:blue;text-decoration:none" target="_blank" href="https://childnutritiontracker.web.app/?child_id=${feature.properties.child_id}">Click here</a></td></tr>
                             </table>`)
                     }
 
